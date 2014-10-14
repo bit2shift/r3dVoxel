@@ -9,5 +9,5 @@ private:
 
 public:
 	static Array< Ref<Monitor> > getMonitors();
-	static Monitor* getPrimary();
+	static Ref<Monitor> getPrimary();
 };
