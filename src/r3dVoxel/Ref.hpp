@@ -1,20 +1,21 @@
+/*
+ * A wrapper class for IBaseClass objects
+ */
 final_tmpl(T, Ref)
 {
 private:
 	T* m_ptr;
 
 public:
-	Ref()
-	{
-		this->m_ptr = new T();
-	}
+	Ref(T* ptr) : m_ptr(ptr) {}
 
 	~Ref()
 	{
-		delete this->m_ptr;
+		if(this->m_ptr)
+			this->m_ptr->Release();
 	}
 
-	operator T*()
+	T* operator->()
 	{
 		return this->m_ptr;
 	}

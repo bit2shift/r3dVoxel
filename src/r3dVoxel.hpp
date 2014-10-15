@@ -12,5 +12,6 @@ namespace r3dVoxel
 #include "r3dVoxel/IBaseClass.hpp"
 
 /* Derived classes */
+#include "r3dVoxel/IMonitor.hpp"
 //TODO them
 };

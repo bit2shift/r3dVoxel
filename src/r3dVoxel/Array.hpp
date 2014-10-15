@@ -1,3 +1,6 @@
+/*
+ * Wrapped array with fixed length
+ */
 final_tmpl(T, Array)
 {
 private:
