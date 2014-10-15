@@ -1,5 +1,3 @@
-using namespace r3dVoxel;
-
 final_tmpl(T, Ref)
 {
 private:
