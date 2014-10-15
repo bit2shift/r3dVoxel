@@ -1,13 +1,11 @@
-using namespace r3dVoxel;
-
 final_tmpl(T, Array)
 {
 private:
-	un32 m_count;
+	r3dVoxel::un32 m_count;
 	T* m_array;
 
 public:
-	Array(un32 count)
+	Array(r3dVoxel::un32 count)
 	{
 		this->m_count = count;
 		this->m_array = new T[count];
@@ -19,13 +17,13 @@ public:
 		delete[] this->m_array;
 	}
 
-	un32 length()
+	r3dVoxel::un32 length()
 	{
 		return this->m_count;
 	}
 
 	/* Throws index if out of bounds */
-	T& operator[](un32 index)
+	T& operator[](r3dVoxel::un32 index)
 	{
 		if(index >= this->m_count)
 			throw index;
