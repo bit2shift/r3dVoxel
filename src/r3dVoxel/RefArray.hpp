@@ -1,25 +1,24 @@
 /*
- * Wrapped array for basic types
+ * Wrapped array for IClass objects
  */
 
 using namespace r3dVoxel;
 
 /* FINAL */
-template<typename T>
-class Array : virtual Final
+class RefArray : virtual Final
 {
 private:
 	un32 m_count;
-	T* m_array;
+	Ref* m_array;
 
 public:
-	Array(un32 count)
+	RefArray(un32 count)
 	{
 		this->m_count = count;
-		this->m_array = new T[count];
+		this->m_array = new Ref[count];
 	}
 
-	~Array()
+	~RefArray()
 	{
 		this->m_count = 0;
 		delete[] this->m_array;
@@ -31,7 +30,7 @@ public:
 	}
 
 	/* Throws index if out of bounds */
-	T& operator[](un32 index)
+	Ref& operator[](un32 index)
 	{
 		if(index >= this->m_count)
 			throw index;

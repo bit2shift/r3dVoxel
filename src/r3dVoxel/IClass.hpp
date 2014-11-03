@@ -2,10 +2,11 @@
  * Base class for all interfaces
  * Core of the API
  */
-class IBaseClass
+
+class IClass
 {
 protected:
-	virtual ~IBaseClass(){}
+	virtual ~IClass(){};
 
 public:
 	virtual void Release() = 0;

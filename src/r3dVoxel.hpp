@@ -3,13 +3,16 @@
 namespace r3dVoxel
 {
 /* Basic stuff */
-#include "r3dVoxel/BasicTypes.hpp"
-#include "r3dVoxel/Macros.hpp"
+#include "r3dVoxel/Defines.hpp"
 #include "r3dVoxel/Array.hpp"
-#include "r3dVoxel/Ref.hpp"
 
 /* OOP base class */
-#include "r3dVoxel/IBaseClass.hpp"
+#include "r3dVoxel/IClass.hpp"
+#include "r3dVoxel/Ref.hpp"
+#include "r3dVoxel/RefArray.hpp"
+
+/* Math stuff */
+#include "r3dVoxel/math/Vector.hpp"
 
 /* Derived classes */
 #include "r3dVoxel/IMonitor.hpp"

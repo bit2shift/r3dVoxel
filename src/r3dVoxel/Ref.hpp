@@ -1,13 +1,18 @@
 /*
- * A wrapper class for IBaseClass objects
+ * A wrapper class for IClass objects
  */
-final_tmpl(T, Ref)
+
+using namespace r3dVoxel;
+
+/* FINAL */
+class Ref : virtual Final
 {
 private:
-	T* m_ptr;
+	IClass* m_ptr;
 
 public:
-	Ref(T* ptr) : m_ptr(ptr) {}
+	Ref() : m_ptr(0) {}
+	Ref(IClass* ptr) : m_ptr(ptr) {}
 
 	~Ref()
 	{
@@ -15,7 +20,7 @@ public:
 			this->m_ptr->Release();
 	}
 
-	T* operator->()
+	IClass* operator->()
 	{
 		return this->m_ptr;
 	}
