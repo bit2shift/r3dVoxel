@@ -10,10 +10,10 @@ class IMonitor : public IClass
 {
 public:
 	/* Position on the virtual screen*/
-	virtual int getPosition() = 0;
+	virtual ivec2 getPosition() = 0;
 
 	/* Physical size, in millimeters*/
-	virtual int getPhysicalSize() = 0;
+	virtual ivec2 getPhysicalSize() = 0;
 
 	/* Name, encoded as UTF-8 */
 	virtual const char* getName() = 0;
