@@ -3,16 +3,15 @@
 
 int main(int argv, char **argc)
 {
-	r3dVoxel::math::vec4 xx = {1, 0, 0, 1};
-	r3dVoxel::math::vec4 yy = {0, 1, 0, 0};
+	r3dVoxel::math::vec4 xx = {4, 0, 0, 4};
+	r3dVoxel::math::vec4 yy = {0, 4, 0, 4};
 
-	r3dVoxel::math::vec4 zz = r3dVoxel::math::cross(xx, yy);
-	float d = r3dVoxel::math::dot(xx, xx);
+	r3dVoxel::math::vec4 zz = r3dVoxel::math::norm(r3dVoxel::math::cross(xx, yy));
 	printf("%g\n", zz[0]);
 	printf("%g\n", zz[1]);
 	printf("%g\n", zz[2]);
 	printf("%g\n", zz[3]);
 
-	printf("d = %g\n", d);
+	printf("d = %g\n", r3dVoxel::math::dot(zz, zz));
 	return 0;
 }

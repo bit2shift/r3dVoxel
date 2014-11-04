@@ -48,3 +48,8 @@ float dot(vec4 a, vec4 b)
 	c += __builtin_shuffle(c, m2); //x+z y+w z+x w+y
 	return c[0];
 }
+
+vec4 norm(vec4 v)
+{
+	return (v / __builtin_sqrtf(dot(v, v)));
+}
