@@ -2,17 +2,15 @@
  * A wrapper class for IClass objects
  */
 
-using namespace r3dVoxel;
-
 /* FINAL */
-class Ref : virtual Final
+class Ref : virtual r3dVoxel::Final
 {
 private:
-	IClass* m_ptr;
+	r3dVoxel::IClass* m_ptr;
 
 public:
 	Ref() : m_ptr(0) {}
-	Ref(IClass* ptr) : m_ptr(ptr) {}
+	Ref(r3dVoxel::IClass* ptr) : m_ptr(ptr) {}
 
 	~Ref()
 	{
@@ -20,7 +18,7 @@ public:
 			this->m_ptr->Release();
 	}
 
-	IClass* operator->()
+	r3dVoxel::IClass* operator->()
 	{
 		return this->m_ptr;
 	}

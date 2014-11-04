@@ -2,18 +2,16 @@
  * Wrapped array for basic types
  */
 
-using namespace r3dVoxel;
-
 /* FINAL */
 template<typename T>
-class Array : virtual Final
+class Array : virtual r3dVoxel::Final
 {
 private:
-	un32 m_count;
+	unsigned m_count;
 	T* m_array;
 
 public:
-	Array(un32 count)
+	Array(unsigned count)
 	{
 		this->m_count = count;
 		this->m_array = new T[count];
@@ -25,13 +23,13 @@ public:
 		delete[] this->m_array;
 	}
 
-	un32 length()
+	unsigned length()
 	{
 		return this->m_count;
 	}
 
 	/* Throws index if out of bounds */
-	T& operator[](un32 index)
+	T& operator[](unsigned index)
 	{
 		if(index >= this->m_count)
 			throw index;

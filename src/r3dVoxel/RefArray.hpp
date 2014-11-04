@@ -2,20 +2,18 @@
  * Wrapped array for IClass objects
  */
 
-using namespace r3dVoxel;
-
 /* FINAL */
-class RefArray : virtual Final
+class RefArray : virtual r3dVoxel::Final
 {
 private:
-	un32 m_count;
-	Ref* m_array;
+	unsigned m_count;
+	r3dVoxel::Ref* m_array;
 
 public:
-	RefArray(un32 count)
+	RefArray(unsigned count)
 	{
 		this->m_count = count;
-		this->m_array = new Ref[count];
+		this->m_array = new r3dVoxel::Ref[count];
 	}
 
 	~RefArray()
@@ -24,13 +22,13 @@ public:
 		delete[] this->m_array;
 	}
 
-	un32 length()
+	unsigned length()
 	{
 		return this->m_count;
 	}
 
 	/* Throws index if out of bounds */
-	Ref& operator[](un32 index)
+	r3dVoxel::Ref& operator[](unsigned index)
 	{
 		if(index >= this->m_count)
 			throw index;

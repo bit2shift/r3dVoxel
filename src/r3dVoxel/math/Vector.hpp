@@ -8,15 +8,19 @@
  */
 
 /* Vector attribute */
-#define vec(n)    __attribute__((vector_size(n)))
+#define vtsz(n)    __attribute__((vector_size(n)))
 
-/* Integer vectors */
-typedef int ivec2 vec(8);
-typedef int ivec4 vec(16);
+/* Signed Integer vectors */
+typedef int ivec2 vtsz(8);
+typedef int ivec4 vtsz(16);
+
+/* Unsigned Integer vectors */
+typedef unsigned uvec2 vtsz(8);
+typedef unsigned uvec4 vtsz(16);
 
 /* Float vectors */
-typedef float vec2 vec(8);
-typedef float vec4 vec(16);
+typedef float vec2 vtsz(8);
+typedef float vec4 vtsz(16);
 
 vec4 cross(vec4 a, vec4 b)
 {
