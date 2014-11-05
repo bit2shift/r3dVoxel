@@ -20,6 +20,7 @@ namespace r3dVoxel
 
 	/* Derived classes */
 	#include "r3dVoxel/IMonitor.hpp"
+	#include "r3dVoxel/IView.hpp"
 	#include "r3dVoxel/IGameEngine.hpp"
 
 	//TODO more interfaces

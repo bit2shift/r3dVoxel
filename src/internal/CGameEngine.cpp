@@ -1,10 +1,14 @@
 #include "internal.hpp"
 
+//TODO createView()
+
 class CGameEngine : public r3dVoxel::IGameEngine
 {
 public:
 	void Release()
 	{
+		//XXX game engine shutdown area
+
 		glfwTerminate();
 		delete this;
 	}

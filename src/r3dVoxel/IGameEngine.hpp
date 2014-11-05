@@ -17,5 +17,10 @@ public:
 	virtual r3dVoxel::IMonitor* getPrimaryMonitor() = 0;
 
 
+	////////////////////////
+	//// WINDOW SECTION ////
+	////////////////////////
+	virtual r3dVoxel::IView* createView() = 0;
+
 	//TODO add relevant methods
 };
