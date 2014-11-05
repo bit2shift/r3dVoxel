@@ -15,9 +15,14 @@ namespace r3dVoxel
 	namespace math
 	{
 		#include "r3dVoxel/math/Vector.hpp"
+		//TODO more math stuff
 	};
 
 	/* Derived classes */
 	#include "r3dVoxel/IMonitor.hpp"
-	//TODO them
+	#include "r3dVoxel/IGameEngine.hpp"
+
+	//TODO more interfaces
 };
+
+R3VAPI r3dVoxel::IGameEngine* r3vInitialize();
