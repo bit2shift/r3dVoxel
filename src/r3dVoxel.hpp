@@ -5,11 +5,7 @@ namespace r3dVoxel
 	/* Basic stuff */
 	#include "r3dVoxel/Definitions.hpp"
 	#include "r3dVoxel/Array.hpp"
-
-	/* OOP base stuff */
-	#include "r3dVoxel/IClass.hpp"
-	#include "r3dVoxel/Ref.hpp"
-	#include "r3dVoxel/RefArray.hpp"
+	#include "r3dVoxel/SVideoMode.hpp"
 
 	/* Math stuff */
 	namespace math
@@ -17,6 +13,11 @@ namespace r3dVoxel
 		#include "r3dVoxel/math/Vector.hpp"
 		//TODO more math stuff
 	};
+
+	/* OOP base stuff */
+	#include "r3dVoxel/IClass.hpp"
+	#include "r3dVoxel/Ref.hpp"
+	#include "r3dVoxel/RefArray.hpp"
 
 	/* Derived classes */
 	#include "r3dVoxel/IMonitor.hpp"
