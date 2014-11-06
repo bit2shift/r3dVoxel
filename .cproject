@@ -141,7 +141,7 @@
 								<option defaultValue="true" id="gnu.cpp.link.mingw.so.release.option.shared.1118229412" name="Shared (-shared)" superClass="gnu.cpp.link.mingw.so.release.option.shared" value="true" valueType="boolean"/>
 								<option id="gnu.cpp.link.option.paths.1235756428" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths"/>
 								<option id="gnu.cpp.link.option.libs.811358498" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs"/>
-								<option id="gnu.cpp.link.option.flags.1280744992" superClass="gnu.cpp.link.option.flags" value="-static-libgcc -static-libstdc++" valueType="string"/>
+								<option id="gnu.cpp.link.option.flags.1280744992" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-static-libgcc -static-libstdc++" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1247987131" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
