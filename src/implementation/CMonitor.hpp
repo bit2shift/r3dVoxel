@@ -69,7 +69,7 @@ public:
 	{
 		//get available video modes
 		int count = 0;
-		GLFWvidmode* pvm = glfwGetVideoModes(m_monitor, &count);
+		const GLFWvidmode* pvm = glfwGetVideoModes(m_monitor, &count);
 
 		//deallocate old array, if existed
 		if(m_modes)

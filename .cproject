@@ -47,11 +47,7 @@
 								<option id="gnu.c.compiler.mingw.so.debug.option.debugging.level.1548681871" name="Debug Level" superClass="gnu.c.compiler.mingw.so.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.warnings.extrawarn.1701402151" name="Extra warnings (-Wextra)" superClass="gnu.c.compiler.option.warnings.extrawarn" value="false" valueType="boolean"/>
 								<option id="gnu.c.compiler.option.warnings.wconversion.1822191914" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.c.compiler.option.warnings.wconversion" value="false" valueType="boolean"/>
-								<option id="gnu.c.compiler.option.include.paths.1074406004" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="c:/mingw/lib/gcc/mingw32/4.8.1/include/c++"/>
-									<listOptionValue builtIn="false" value="c:/mingw/lib/gcc/mingw32/4.8.1/include/c++/mingw32"/>
-									<listOptionValue builtIn="false" value="c:/mingw/lib/gcc/mingw32/4.8.1/include/c++/backward"/>
-								</option>
+								<option id="gnu.c.compiler.option.include.paths.1074406004" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath"/>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1989347057" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols"/>
 								<option id="gnu.c.compiler.option.preprocessor.undef.symbol.717965838" name="Undefined symbols (-U)" superClass="gnu.c.compiler.option.preprocessor.undef.symbol"/>
 								<option id="gnu.c.compiler.option.misc.other.1753071551" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0" valueType="string"/>
@@ -125,11 +121,7 @@
 							<tool command="gcc" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.tool.gnu.c.compiler.mingw.so.release.350912465" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.mingw.so.release">
 								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.mingw.so.release.option.optimization.level.975987946" name="Optimization Level" superClass="gnu.c.compiler.mingw.so.release.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.mingw.so.release.option.debugging.level.1233050499" name="Debug Level" superClass="gnu.c.compiler.mingw.so.release.option.debugging.level" value="gnu.c.debugging.level.none" valueType="enumerated"/>
-								<option id="gnu.c.compiler.option.include.paths.512302681" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="c:/mingw/lib/gcc/mingw32/4.8.1/include/c++"/>
-									<listOptionValue builtIn="false" value="c:/mingw/lib/gcc/mingw32/4.8.1/include/c++/mingw32"/>
-									<listOptionValue builtIn="false" value="c:/mingw/lib/gcc/mingw32/4.8.1/include/c++/backward"/>
-								</option>
+								<option id="gnu.c.compiler.option.include.paths.512302681" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath"/>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.862465648" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols"/>
 								<option id="gnu.c.compiler.option.preprocessor.undef.symbol.295940000" name="Undefined symbols (-U)" superClass="gnu.c.compiler.option.preprocessor.undef.symbol"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.694451777" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
