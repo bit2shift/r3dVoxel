@@ -1,7 +1,6 @@
 /*
  * The most important interface of r3dVoxel
  */
-
 class IGameEngine : public r3dVoxel::IClass
 {
 public:

@@ -1,8 +1,6 @@
 /*
  * A wrapper class for IClass objects
  */
-
-/* FINAL */
 class Ref : virtual r3dVoxel::Final
 {
 private:
@@ -14,12 +12,12 @@ public:
 
 	~Ref()
 	{
-		if(this->m_ptr)
-			this->m_ptr->Release();
+		if(m_ptr)
+			m_ptr->Release();
 	}
 
 	r3dVoxel::IClass* operator->()
 	{
-		return this->m_ptr;
+		return m_ptr;
 	}
 };

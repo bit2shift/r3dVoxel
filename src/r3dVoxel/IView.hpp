@@ -1,7 +1,3 @@
-/*
- * Defines a rendering window, with its own OpenGL context
- */
-
 //TODO position callback: glfwSetWindowPosCallback()
 //TODO size callback: glfwSetWindowSizeCallback()
 //TODO close callback: glfwSetWindowCloseCallback()
@@ -16,6 +12,9 @@
 //TODO keyboard callback: glfwSetKeyCallback()
 //TODO keyboard char callback: glfwSetCharCallback()
 
+/*
+ * Defines a rendering window, with its own OpenGL context
+ */
 class IView : public r3dVoxel::IClass
 {
 public:
