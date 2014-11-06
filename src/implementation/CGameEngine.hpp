@@ -72,7 +72,7 @@ public:
 
 R3VAPI r3dVoxel::IGameEngine* r3vInitialize()
 {
-	//Return NULL if engine already initialized
+	//Return current instance if engine is already initialized
 	if(THE_GAME_ENGINE)
 		return THE_GAME_ENGINE;
 
