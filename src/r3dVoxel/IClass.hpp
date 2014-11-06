@@ -2,12 +2,18 @@
  * Base class for all interfaces
  * Core of the API
  */
-
 class IClass
 {
 protected:
-	virtual ~IClass(){};
+	/* Override the dtor in subclasses when freeing resources */
+	virtual ~IClass(){}
 
 public:
-	virtual void Release() = 0;
+	////////////////////////////////
+	////  OVERRIDE IS FORBIDDEN ////
+	//// THERE CAN ONLY BE ONLY ////
+	//// ONE IMPLEMENTATION OF  ////
+	////  THIS GLORIOUS METHOD  ////
+	////////////////////////////////
+	virtual void Release();
 };
