@@ -21,4 +21,5 @@ r3dVoxel::IGameEngine* THE_GAME_ENGINE = 0;
 
 //Implementation headers
 #include "CMonitor.hpp"
+#include "CView.hpp"
 #include "CGameEngine.hpp"
