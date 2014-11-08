@@ -40,11 +40,11 @@ public:
 	}
 
 	/* CDT doesn't like the subscript on vector types */
-	r3dVoxel::math::ivec2 getPhysicalSize()
+	r3dVoxel::math::uvec2 getPhysicalSize()
 	{
 		r3dVoxel::math::ivec2 size;
 		glfwGetMonitorPhysicalSize(m_monitor, &size[0], &size[1]);
-		return size;
+		return (r3dVoxel::math::uvec2)size;
 	}
 
 	const char* getName()
@@ -52,10 +52,6 @@ public:
 		return glfwGetMonitorName(m_monitor);
 	}
 
-	/*
-	 * GLFW takes care of freeing this struct,
-	 * so we just cast it to our type.
-	 */
 	const r3dVoxel::SVideoMode getVideoMode()
 	{
 		r3dVoxel::SVideoMode vm = {0};

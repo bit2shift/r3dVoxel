@@ -11,7 +11,7 @@ public:
 	 * Physical size, in millimeters
 	 * MIGHT NOT BE ACCURATE
 	 */
-	virtual r3dVoxel::math::ivec2 getPhysicalSize() = 0;
+	virtual r3dVoxel::math::uvec2 getPhysicalSize() = 0;
 
 	/*
 	 * Name, encoded as UTF-8
