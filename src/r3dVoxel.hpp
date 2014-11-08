@@ -4,7 +4,7 @@ namespace r3dVoxel
 {
 	/* Basic stuff */
 	#include "r3dVoxel/Definitions.hpp"
-	#include "r3dVoxel/Array.hpp"
+	#include "r3dVoxel/Array.hpp"        //XXX unfit for crossing the dll-gap
 	#include "r3dVoxel/SVideoMode.hpp"
 
 	/* Math stuff */

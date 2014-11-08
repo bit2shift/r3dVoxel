@@ -25,12 +25,9 @@ public:
 		return m_count;
 	}
 
-	/* Throws index if out of bounds */
+	/* Loop back if out of bounds */
 	r3dVoxel::Ref& operator[](unsigned index)
 	{
-		if(index >= m_count)
-			throw index;
-		else
-			return m_array[index];
+		return m_array[index % m_count];
 	}
 };

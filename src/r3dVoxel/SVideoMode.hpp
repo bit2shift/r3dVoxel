@@ -1,7 +1,7 @@
 /*
  * Defines a monitor's video mode
  * Example:
- *   SVideoMode vm = {1, 800, 600, {8, 8, 8}, 59};
+ *   SVideoMode vm = {1, 800, 600, 8, 8, 8, 59};
  */
 struct SVideoMode
 {
