@@ -17,3 +17,6 @@ public:
 	////////////////////////////////
 	virtual void release();
 };
+
+/* A known null pointer variable */
+const IClass* null = 0;
