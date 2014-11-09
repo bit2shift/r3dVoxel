@@ -8,12 +8,18 @@ public:
 	//// MONITOR SECTION ////
 	/////////////////////////
 
-	/* Returns a NULL-terminated array of connected monitors */
-	/* The array is persistent and is updated when changes occur */
-	virtual r3dVoxel::IMonitor** getMonitors() = 0;
+	/* Returns an array of connected monitors */
+	virtual r3dVoxel::IArray* getAllMonitors() = 0;
 
 	/* Returns the primary monitor */
 	virtual r3dVoxel::IMonitor* getPrimaryMonitor() = 0;
+
+	/*
+	 * Returns true if the monitor configuration has been changed
+	 * Clears an internal flag when called
+	 * Use this to poll for changes in connected monitors
+	 */
+	virtual bool monitorsHaveChanged() = 0;
 
 
 	////////////////////////

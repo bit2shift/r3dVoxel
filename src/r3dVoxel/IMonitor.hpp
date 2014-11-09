@@ -24,16 +24,13 @@ public:
 	 * Currently set video mode
 	 * Depends if this monitor has a fullscreen window and
 	 *   whether or not it's focused.
-	 * Note: SVideoMode::valid defines its validity
+	 * Note: zeroed SVideoMode on failure
 	 */
-	virtual const r3dVoxel::SVideoMode getVideoMode() = 0;
+	virtual r3dVoxel::SVideoMode getVideoMode() = 0;
 
 	/*
 	 * Supported video modes
-	 * Returns: array, NULL if it fails
-	 * Note: The array length is (count + 1), with count as
-	 *   the number of video modes.
-	 * Note: The last element has SVideoMode::valid = 0
+	 * Returns array of SVideoMode, NULL if it fails
 	 */
-	virtual const r3dVoxel::SVideoMode* getAllVideoModes() = 0;
+	virtual r3dVoxel::IArray* getAllVideoModes() = 0;
 };
