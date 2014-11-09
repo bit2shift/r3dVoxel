@@ -15,5 +15,5 @@ public:
 	//// ONE IMPLEMENTATION OF  ////
 	////  THIS GLORIOUS METHOD  ////
 	////////////////////////////////
-	virtual void Release();
+	virtual void release();
 };

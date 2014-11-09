@@ -11,7 +11,7 @@
 //////////////////////////////////////////
 //// MOST IMPORTANT PIECE OF OOP CODE ////
 //////////////////////////////////////////
-void r3dVoxel::IClass::Release()
+void r3dVoxel::IClass::release()
 {
 	delete this;
 }

@@ -13,7 +13,7 @@ public:
 	~Ref()
 	{
 		if(m_ptr)
-			m_ptr->Release();
+			m_ptr->release();
 	}
 
 	r3dVoxel::IClass* operator->()
