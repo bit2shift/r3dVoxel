@@ -20,6 +20,7 @@ void r3dVoxel::IClass::release()
 r3dVoxel::IGameEngine* THE_GAME_ENGINE = 0;
 
 //Implementation headers
+#include "CArray.hpp"
 #include "CMonitor.hpp"
 #include "CView.hpp"
 #include "CGameEngine.hpp"
