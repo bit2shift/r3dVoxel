@@ -5,7 +5,7 @@
 class IClass
 {
 protected:
-	/* Override the dtor in subclasses when freeing resources */
+	/* Override the destructor in subclasses when freeing resources */
 	virtual ~IClass(){}
 
 public:
@@ -17,6 +17,3 @@ public:
 	////////////////////////////////
 	virtual void release();
 };
-
-/* A known null pointer variable */
-const IClass* null = 0;

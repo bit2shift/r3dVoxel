@@ -1,6 +1,6 @@
 /*
  * Vector types
- * ivec3/vec3 are redundant, they fit inside ivec4/vec4
+ * vec3/ivec3/uvec3 are redundant, they fit inside vec4/ivec4/uvec4
  *
  * Note:
  * - "point"  -> (w != 0)
@@ -10,6 +10,10 @@
 /* Vector attribute */
 #define vtsz(n)    __attribute__((vector_size(n)))
 
+/* Float vectors */
+typedef float vec2 vtsz(8);
+typedef float vec4 vtsz(16);
+
 /* Signed Integer vectors */
 typedef int ivec2 vtsz(8);
 typedef int ivec4 vtsz(16);
@@ -17,10 +21,6 @@ typedef int ivec4 vtsz(16);
 /* Unsigned Integer vectors */
 typedef unsigned uvec2 vtsz(8);
 typedef unsigned uvec4 vtsz(16);
-
-/* Float vectors */
-typedef float vec2 vtsz(8);
-typedef float vec4 vtsz(16);
 
 vec4 cross(vec4 a, vec4 b)
 {
