@@ -35,14 +35,14 @@ public:
 	//// Interface methods ////
 	///////////////////////////
 
-	r3dVoxel::IArray* getAllMonitors()
+	r3dVoxel::IClassArray<r3dVoxel::IMonitor>* getAllMonitors()
 	{
 		//get connected monitors
 		int count = 0;
 		GLFWmonitor** pmon = glfwGetMonitors(&count);
 
 		//allocate new array, NULL if it fails
-		r3dVoxel::IArray* monitors = r3vNewArray(r3dVoxel::ArrayTypes::ICLASS, count);
+		r3dVoxel::IClassArray<r3dVoxel::IMonitor>* monitors = r3vNewClassArray<r3dVoxel::IMonitor>(count);
 		if(monitors)
 		{
 			while(count--)
@@ -76,7 +76,7 @@ public:
  */
 void r3vMonitorCallback(GLFWmonitor* monitor, int event)
 {
-	((CGameEngine*)THE_GAME_ENGINE)->setTrigger();
+	static_cast<CGameEngine*>(THE_GAME_ENGINE)->setTrigger();
 }
 
 R3VAPI r3dVoxel::IGameEngine* r3vInitialize()

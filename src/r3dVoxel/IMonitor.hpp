@@ -11,7 +11,7 @@ public:
 	 * Physical size, in millimeters
 	 * MIGHT NOT BE ACCURATE
 	 */
-	virtual r3dVoxel::math::uvec2 getPhysicalSize() = 0;
+	virtual r3dVoxel::math::ivec2 getPhysicalSize() = 0;
 
 	/*
 	 * Name, encoded as UTF-8
@@ -30,7 +30,9 @@ public:
 
 	/*
 	 * Supported video modes
-	 * Returns array of SVideoMode, NULL if it fails
+	 * Returns IBasicArray of SVideoMode
+	 * Can be NULL if it fails
+	 * Modifying its contents is discouraged
 	 */
-	virtual r3dVoxel::IArray* getAllVideoModes() = 0;
+	virtual r3dVoxel::IBasicArray<r3dVoxel::SVideoMode>* getAllVideoModes() = 0;
 };

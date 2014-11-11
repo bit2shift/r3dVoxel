@@ -8,8 +8,12 @@ public:
 	//// MONITOR SECTION ////
 	/////////////////////////
 
-	/* Returns an array of connected monitors */
-	virtual r3dVoxel::IArray* getAllMonitors() = 0;
+	/*
+	 * Returns IClassArray of connected monitors
+	 * Can be NULL if it fails
+	 * Modifying its contents is discouraged
+	 */
+	virtual r3dVoxel::IClassArray<r3dVoxel::IMonitor>* getAllMonitors() = 0;
 
 	/* Returns the primary monitor */
 	virtual r3dVoxel::IMonitor* getPrimaryMonitor() = 0;
@@ -25,6 +29,7 @@ public:
 	////////////////////////
 	//// WINDOW SECTION ////
 	////////////////////////
+
 	virtual r3dVoxel::IView* createView() = 0;
 
 	//TODO add relevant methods

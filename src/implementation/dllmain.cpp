@@ -5,8 +5,6 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <cstdio>
-#include <new>
 
 //////////////////////////////////////////
 //// MOST IMPORTANT PIECE OF OOP CODE ////
@@ -20,7 +18,8 @@ void r3dVoxel::IClass::release()
 r3dVoxel::IGameEngine* THE_GAME_ENGINE = 0;
 
 //Implementation headers
-#include "CArray.hpp"
+#include "CBasicArray.hpp"
+#include "CClassArray.hpp"
 #include "CMonitor.hpp"
 #include "CView.hpp"
 #include "CGameEngine.hpp"
