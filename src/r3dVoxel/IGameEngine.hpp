@@ -30,7 +30,7 @@ public:
 	//// WINDOW SECTION ////
 	////////////////////////
 
-	virtual r3dVoxel::IView* createView() = 0;
+	virtual r3dVoxel::IView* createView(/* TODO add parameters */) = 0;
 
 	//TODO add relevant methods
 };

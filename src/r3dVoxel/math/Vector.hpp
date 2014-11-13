@@ -29,10 +29,14 @@ vec4 cross(vec4 a, vec4 b)
 	//cz = ax*by - ay*bx
 	//cw = aw*bw - aw*bw == 0
 
+	/* shuffle masks */
 	ivec4 m1 = {1, 2, 0, 3};
 	ivec4 m2 = {2, 0, 1, 3};
+
+	/* shuffle party */
 	vec4 c1 = __builtin_shuffle(a, m1) * __builtin_shuffle(b, m2);
 	vec4 c2 = __builtin_shuffle(a, m2) * __builtin_shuffle(b, m1);
+
 	return (c1 - c2);
 }
 
@@ -41,15 +45,21 @@ float dot(vec4 a, vec4 b)
 	//d = ax*bx + ay*by + az*bz + aw*bw
 	//aw == bw == 0
 
+	/* shuffle masks */
 	ivec4 m1 = {1, 0, 3, 2};
 	ivec4 m2 = {2, 3, 0, 1};
+
+	/* first step */
 	vec4 c = (a * b);
-	c += __builtin_shuffle(c, m1); //x+y y+x z+w w+z
-	c += __builtin_shuffle(c, m2); //x+z y+w z+x w+y
-	return c[0];
+
+	/* horizontal addition, the shuffle way */
+	c += __builtin_shuffle(c, m1); // x+y     | y+x     | z+w     | w+z     |
+	c += __builtin_shuffle(c, m2); // x+y+z+w | y+x+w+z | z+w+x+y | w+z+y+x |
+	return c[0]; //c has the same value all over it
 }
 
 vec4 norm(vec4 v)
 {
+	/* I like built-in functions */
 	return (v / __builtin_sqrtf(dot(v, v)));
 }

@@ -76,6 +76,7 @@ public:
  */
 void r3vMonitorCallback(GLFWmonitor* monitor, int event)
 {
+	/* We **know** it's an object of CGameEngine */
 	static_cast<CGameEngine*>(THE_GAME_ENGINE)->setTrigger();
 }
 

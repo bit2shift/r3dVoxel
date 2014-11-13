@@ -5,8 +5,8 @@
  */
 struct SVideoMode
 {
-	short width;     //screen width in pixels
-	short height;    //screen height in pixels
+	short width;   //screen width in pixels
+	short height;  //screen height in pixels
 	char red;      //red channel bit depth
 	char green;    //green channel bit depth
 	char blue;     //blue channel bit depth
