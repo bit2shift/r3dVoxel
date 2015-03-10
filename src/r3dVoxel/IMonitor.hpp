@@ -30,9 +30,8 @@ public:
 
 	/*
 	 * Supported video modes
-	 * Returns IBasicArray of SVideoMode
-	 * Can be NULL if it fails
+	 * Returns array of SVideoMode or NULL on failure
 	 * Modifying its contents is discouraged
 	 */
-	virtual r3dVoxel::IBasicArray<r3dVoxel::SVideoMode>* getAllVideoModes() = 0;
+	virtual r3dVoxel::IByteArray* getAllVideoModes() = 0;
 };

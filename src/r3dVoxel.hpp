@@ -18,7 +18,7 @@ namespace r3dVoxel
 	#include "r3dVoxel/Ref.hpp"
 
 	/* Derived classes */
-	#include "r3dVoxel/IBasicArray.hpp"
+	#include "r3dVoxel/IByteArray.hpp"
 	#include "r3dVoxel/IClassArray.hpp"
 	#include "r3dVoxel/IMonitor.hpp"
 	#include "r3dVoxel/IView.hpp"
@@ -27,22 +27,15 @@ namespace r3dVoxel
 	//TODO more interfaces
 }
 
-//////////////////////////////////////////////////////////////
-////   BIG WARNING ABOUT THE FOLLOWING ARRAY FACTORIES    ////
-//////////////////////////////////////////////////////////////
-//// For each user-defined type, a template instantiation ////
-////  needs to be declared on dllmain.cpp, otherwise the  ////
-////   linker will complain about undefined references.   ////
-//////////////////////////////////////////////////////////////
+/*
+ * Initialize game engine
+ */
+r3dVoxel::IGameEngine* r3vInitialize() R3VAPI;
 
 /*
- * Factory for arrays of all basic types (scalars/pod)
- * Class types may cause unspecified behavior
- * If T is a pointer type, memory pointed by the elements is
- * the CALLER'S responsibility to clean after releasing the array
+ * Factory for the byte array.
  */
-template<typename T>
-r3dVoxel::IBasicArray<T>* r3vNewBasicArray(unsigned length) R3VAPI;
+r3dVoxel::IByteArray* r3vNewByteArray(unsigned length) R3VAPI;
 
 /*
  * Factory for arrays of IClass objects
@@ -51,5 +44,56 @@ r3dVoxel::IBasicArray<T>* r3vNewBasicArray(unsigned length) R3VAPI;
 template<typename T>
 r3dVoxel::IClassArray<T>* r3vNewClassArray(unsigned length) R3VAPI;
 
-/* Initialize game engine */
-r3dVoxel::IGameEngine* r3vInitialize() R3VAPI;
+/*
+ * Wrapper template for r3dVoxel::IByteArray
+ * DO NOT USE THIS FOR ARRAYS OF DERIVED CLASSES OF r3dVoxel::IClass
+ */
+template<typename T>
+class r3vArrayHelper
+{
+	r3dVoxel::IByteArray* m_array;
+
+public:
+	/* Allocate array for "num" elements */
+	r3vArrayHelper(unsigned num)
+	{
+		m_array = r3vNewByteArray(num * sizeof(T));
+	}
+
+	/* Creates helper instance with existing array */
+	r3vArrayHelper(r3dVoxel::IByteArray* array)
+	{
+		m_array = array;
+	}
+
+	/* Does nothing, use operator~ to deallocate */
+	virtual ~r3vArrayHelper() {}
+
+	/* Returns the pointer to the interoperable array */
+	r3dVoxel::IByteArray* pointer()
+	{
+		return m_array;
+	}
+
+	/* Returns the number of elements in the array */
+	unsigned length()
+	{
+		return (m_array->length() / sizeof(T));
+	}
+
+	/* Accesses an element in the array */
+	T& operator[](unsigned index)
+	{
+		return static_cast<T*>(m_array->pointer())[index % length()];
+	}
+
+	/* Calls T::~T() for each element in the array */
+	void operator~()
+	{
+		unsigned count = length();
+		while(count--)
+			(*this)[count].~T();
+
+		m_array->release();
+	}
+};

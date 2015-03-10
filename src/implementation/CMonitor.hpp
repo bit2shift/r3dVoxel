@@ -54,20 +54,23 @@ public:
 		return vm;
 	}
 
-	r3dVoxel::IBasicArray<r3dVoxel::SVideoMode>* getAllVideoModes()
+	r3dVoxel::IByteArray* getAllVideoModes()
 	{
 		//get available video modes
 		int count = 0;
 		const GLFWvidmode* pvm = glfwGetVideoModes(m_monitor, &count);
+		if(!pvm)
+			return 0;
 
-		//allocate new array, NULL if it fails
-		r3dVoxel::IBasicArray<r3dVoxel::SVideoMode>* modes = r3vNewBasicArray<r3dVoxel::SVideoMode>(count);
-		if(modes)
+		//allocate new array
+		r3vArrayHelper<r3dVoxel::SVideoMode> modes(count);
+		if(modes.pointer())
 		{
 			while(count--)
-				copyVideoMode(modes->at(count), pvm[count]);
+				copyVideoMode(modes[count], pvm[count]);
 		}
 
-		return modes;
+		//can return NULL
+		return modes.pointer();
 	}
 };
