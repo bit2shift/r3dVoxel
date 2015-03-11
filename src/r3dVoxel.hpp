@@ -47,44 +47,31 @@ r3dVoxel::IClassArray<T>* r3vNewClassArray(unsigned length) R3VAPI;
 /*
  * Wrapper template for r3dVoxel::IByteArray
  * DO NOT USE THIS FOR ARRAYS OF DERIVED CLASSES OF r3dVoxel::IClass
+ * r3dVoxel::IClass and its derivatives are INTERFACES!
+ * As such, they use r3dVoxel::IClass::release() for deallocation.
  */
 template<typename T>
 class r3vArrayHelper
 {
-	r3dVoxel::IByteArray* m_array;
-
 public:
+	r3dVoxel::IByteArray* array;
+
 	/* Allocate array for "num" elements */
-	r3vArrayHelper(unsigned num)
-	{
-		m_array = r3vNewByteArray(num * sizeof(T));
-	}
+	r3vArrayHelper(unsigned num) : array(r3vNewByteArray(num * sizeof(T))) {}
 
 	/* Creates helper instance with existing array */
-	r3vArrayHelper(r3dVoxel::IByteArray* array)
-	{
-		m_array = array;
-	}
-
-	/* Does nothing, use operator~ to deallocate */
-	virtual ~r3vArrayHelper() {}
-
-	/* Returns the pointer to the interoperable array */
-	r3dVoxel::IByteArray* pointer()
-	{
-		return m_array;
-	}
+	r3vArrayHelper(r3dVoxel::IByteArray* ptr) : array(ptr) {}
 
 	/* Returns the number of elements in the array */
 	unsigned length()
 	{
-		return (m_array->length() / sizeof(T));
+		return (array->length() / sizeof(T));
 	}
 
-	/* Accesses an element in the array */
+	/* Accesses an element in the array, beware of array bounds */
 	T& operator[](unsigned index)
 	{
-		return static_cast<T*>(m_array->pointer())[index % length()];
+		return static_cast<T*>(array->pointer())[index];
 	}
 
 	/* Calls T::~T() for each element in the array */
@@ -94,6 +81,6 @@ public:
 		while(count--)
 			(*this)[count].~T();
 
-		m_array->release();
+		array->release();
 	}
 };

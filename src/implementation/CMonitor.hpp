@@ -64,13 +64,13 @@ public:
 
 		//allocate new array
 		r3vArrayHelper<r3dVoxel::SVideoMode> modes(count);
-		if(modes.pointer())
+		if(modes.array)
 		{
 			while(count--)
 				copyVideoMode(modes[count], pvm[count]);
 		}
 
 		//can return NULL
-		return modes.pointer();
+		return modes.array;
 	}
 };
