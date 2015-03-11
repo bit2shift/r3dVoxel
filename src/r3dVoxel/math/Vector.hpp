@@ -1,28 +1,31 @@
 /*
  * Vector types
- * vec3/ivec3/uvec3 are redundant, they fit inside vec4/ivec4/uvec4
  *
  * Note:
  * - "point"  -> (w != 0)
  * - "vector" -> (w == 0)
  */
+template<typename T>
+struct vec
+{
+	T x, y, z, w;
 
-/* Vector attribute */
-#define vtsz(n)    __attribute__((vector_size(n)))
+	typedef T simd __attribute((vector_size(16)));
+	operator T*(){return reinterpret_cast<T*>(this);}
+	operator simd&(){return *reinterpret_cast<simd*>(this);}
+};
 
-/* Float vectors */
-typedef float vec2 vtsz(8);
-typedef float vec4 vtsz(16);
+/* predefined vector wrappers */
+typedef vec<float>    fvec_t;
+typedef vec<int>      ivec_t;
+typedef vec<unsigned> uvec_t;
 
-/* Signed Integer vectors */
-typedef int ivec2 vtsz(8);
-typedef int ivec4 vtsz(16);
+/* predefined vectors */
+typedef fvec_t::simd  fvec;
+typedef ivec_t::simd  ivec;
+typedef uvec_t::simd  uvec;
 
-/* Unsigned Integer vectors */
-typedef unsigned uvec2 vtsz(8);
-typedef unsigned uvec4 vtsz(16);
-
-vec4 cross(vec4 a, vec4 b)
+fvec cross(fvec a, fvec b)
 {
 	//cx = ay*bz - az*by
 	//cy = az*bx - ax*bz
@@ -30,27 +33,27 @@ vec4 cross(vec4 a, vec4 b)
 	//cw = aw*bw - aw*bw == 0
 
 	/* shuffle masks */
-	ivec4 m1 = {1, 2, 0, 3};
-	ivec4 m2 = {2, 0, 1, 3};
+	ivec m1 = {1, 2, 0, 3};
+	ivec m2 = {2, 0, 1, 3};
 
 	/* shuffle party */
-	vec4 c1 = __builtin_shuffle(a, m1) * __builtin_shuffle(b, m2);
-	vec4 c2 = __builtin_shuffle(a, m2) * __builtin_shuffle(b, m1);
+	fvec c1 = __builtin_shuffle(a, m1) * __builtin_shuffle(b, m2);
+	fvec c2 = __builtin_shuffle(a, m2) * __builtin_shuffle(b, m1);
 
 	return (c1 - c2);
 }
 
-float dot(vec4 a, vec4 b)
+float dot(fvec a, fvec b)
 {
 	//d = ax*bx + ay*by + az*bz + aw*bw
 	//aw == bw == 0
 
 	/* shuffle masks */
-	ivec4 m1 = {1, 0, 3, 2};
-	ivec4 m2 = {2, 3, 0, 1};
+	ivec m1 = {1, 0, 3, 2};
+	ivec m2 = {2, 3, 0, 1};
 
 	/* first step */
-	vec4 c = (a * b);
+	fvec c = (a * b);
 
 	/* horizontal addition, the shuffle way */
 	c += __builtin_shuffle(c, m1); // x+y     | y+x     | z+w     | w+z     |
@@ -58,7 +61,7 @@ float dot(vec4 a, vec4 b)
 	return c[0]; //c has the same value all over it
 }
 
-vec4 norm(vec4 v)
+fvec norm(fvec v)
 {
 	/* I like built-in functions */
 	return (v / __builtin_sqrtf(dot(v, v)));

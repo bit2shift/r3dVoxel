@@ -8,12 +8,12 @@ class CMonitor : public r3dVoxel::IMonitor
 private:
 	static void copyVideoMode(r3dVoxel::SVideoMode& vm, const GLFWvidmode& mode)
 	{
-		vm.width   = mode.width;
-		vm.height  = mode.height;
-		vm.red     = mode.redBits;
-		vm.green   = mode.greenBits;
-		vm.blue    = mode.blueBits;
-		vm.refresh = mode.refreshRate;
+		vm.width   = short(mode.width);
+		vm.height  = short(mode.height);
+		vm.red     = char(mode.redBits);
+		vm.green   = char(mode.greenBits);
+		vm.blue    = char(mode.blueBits);
+		vm.refresh = char(mode.refreshRate);
 	}
 
 public:
@@ -23,19 +23,19 @@ public:
 	//// Interface methods ////
 	///////////////////////////
 
-	r3dVoxel::math::ivec2 getPosition()
+	r3dVoxel::math::ivec getPosition()
 	{
 		int x, y;
 		glfwGetMonitorPos(m_monitor, &x, &y);
-		r3dVoxel::math::ivec2 pos = {x, y};
+		r3dVoxel::math::ivec pos = {x, y, 0, 0};
 		return pos;
 	}
 
-	r3dVoxel::math::ivec2 getPhysicalSize()
+	r3dVoxel::math::ivec getPhysicalSize()
 	{
 		int width, height;
 		glfwGetMonitorPhysicalSize(m_monitor, &width, &height);
-		r3dVoxel::math::ivec2 size = {width, height};
+		r3dVoxel::math::ivec size = {width, height, 0, 0};
 		return size;
 	}
 

@@ -5,13 +5,13 @@ class IMonitor : public r3dVoxel::IClass
 {
 public:
 	/* Position on the virtual screen */
-	virtual r3dVoxel::math::ivec2 getPosition() = 0;
+	virtual r3dVoxel::math::ivec getPosition() = 0;
 
 	/*
 	 * Physical size, in millimeters
 	 * MIGHT NOT BE ACCURATE
 	 */
-	virtual r3dVoxel::math::ivec2 getPhysicalSize() = 0;
+	virtual r3dVoxel::math::ivec getPhysicalSize() = 0;
 
 	/*
 	 * Name, encoded as UTF-8
