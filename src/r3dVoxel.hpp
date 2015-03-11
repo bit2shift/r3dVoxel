@@ -51,7 +51,7 @@ r3dVoxel::IClassArray<T>* r3vNewClassArray(unsigned length) R3VAPI;
  * As such, they use r3dVoxel::IClass::release() for deallocation.
  */
 template<typename T>
-class r3vArrayHelper
+class r3vArrayHelper : virtual r3dVoxel::Final
 {
 public:
 	r3dVoxel::IByteArray* array;
