@@ -1,7 +1,6 @@
 /*
  * An array for IClass objects
  */
-template<typename T>
 class IClassArray : public r3dVoxel::IClass
 {
 public:
@@ -12,5 +11,5 @@ public:
 	 * Returns an element of this array
 	 * Note: returns array[index % length]
 	 */
-	virtual T*& at(unsigned index) = 0;
+	virtual r3dVoxel::IClass*& at(unsigned index) = 0;
 };

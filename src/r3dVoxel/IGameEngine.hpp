@@ -9,11 +9,11 @@ public:
 	/////////////////////////
 
 	/*
-	 * Returns IClassArray of connected monitors
-	 * Can be NULL if it fails
+	 * Query connected monitors
+	 * Returns array of IMonitor or NULL on failure
 	 * Modifying its contents is discouraged
 	 */
-	virtual r3dVoxel::IClassArray<r3dVoxel::IMonitor>* getAllMonitors() = 0;
+	virtual r3dVoxel::IClassArray* getAllMonitors() = 0;
 
 	/* Returns the primary monitor */
 	virtual r3dVoxel::IMonitor* getPrimaryMonitor() = 0;

@@ -35,14 +35,16 @@ public:
 	//// Interface methods ////
 	///////////////////////////
 
-	r3dVoxel::IClassArray<r3dVoxel::IMonitor>* getAllMonitors()
+	r3dVoxel::IClassArray* getAllMonitors()
 	{
 		//get connected monitors
 		int count = 0;
 		GLFWmonitor** pmon = glfwGetMonitors(&count);
+		if(!pmon)
+			return 0;
 
 		//allocate new array, NULL if it fails
-		r3dVoxel::IClassArray<r3dVoxel::IMonitor>* monitors = r3vNewClassArray<r3dVoxel::IMonitor>(count);
+		r3dVoxel::IClassArray* monitors = r3vNewClassArray(count);
 		if(monitors)
 		{
 			while(count--)

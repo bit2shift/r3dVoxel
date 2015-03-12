@@ -23,5 +23,3 @@ r3dVoxel::IGameEngine* THE_GAME_ENGINE = 0;
 #include "CMonitor.hpp"
 #include "CView.hpp"
 #include "CGameEngine.hpp"
-
-#define ClassArrayTemplate(T)    template r3dVoxel::IClassArray<T>* r3vNewClassArray<T>(unsigned)

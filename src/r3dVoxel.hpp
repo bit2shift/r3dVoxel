@@ -30,19 +30,18 @@ namespace r3dVoxel
 /*
  * Initialize game engine
  */
-r3dVoxel::IGameEngine* r3vInitialize() R3VAPI;
+R3VAPI r3dVoxel::IGameEngine* r3vInitialize();
 
 /*
  * Factory for the byte array.
  */
-r3dVoxel::IByteArray* r3vNewByteArray(unsigned length) R3VAPI;
+R3VAPI r3dVoxel::IByteArray* r3vNewByteArray(unsigned length);
 
 /*
  * Factory for arrays of IClass objects
- * This array calls IClass::release() for each element on release
+ * This array calls r3dVoxel::IClass::release() for each element on release
  */
-template<typename T>
-r3dVoxel::IClassArray<T>* r3vNewClassArray(unsigned length) R3VAPI;
+R3VAPI r3dVoxel::IClassArray* r3vNewClassArray(unsigned length);
 
 /*
  * Wrapper template for r3dVoxel::IByteArray

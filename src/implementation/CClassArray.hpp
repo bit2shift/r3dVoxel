@@ -1,16 +1,15 @@
 /*
  * IClassArray implementation
  */
-template<typename T>
-class CClassArray : public r3dVoxel::IClassArray<T>
+class CClassArray : public r3dVoxel::IClassArray
 {
 	unsigned m_length;
-	T** m_array;
+	r3dVoxel::IClass** m_array;
 
 public:
 	CClassArray(unsigned length) : m_length(length)
 	{
-		m_array = new T*[m_length]();
+		m_array = new r3dVoxel::IClass*[m_length]();
 	}
 
 	~CClassArray()
@@ -31,18 +30,17 @@ public:
 		return m_length;
 	}
 
-	T*& at(unsigned index)
+	r3dVoxel::IClass*& at(unsigned index)
 	{
 		return m_array[index % m_length];
 	}
 };
 
-template<typename T>
-r3dVoxel::IClassArray<T>* r3vNewClassArray(unsigned length)
+r3dVoxel::IClassArray* r3vNewClassArray(unsigned length)
 {
 	try
 	{
-		return new CClassArray<T>(length);
+		return new CClassArray(length);
 	}
 	catch(...){}
 	return 0;

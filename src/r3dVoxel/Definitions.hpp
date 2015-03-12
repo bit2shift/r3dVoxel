@@ -3,9 +3,9 @@
  */
 
 #ifdef R3V_EXPORT
-#define R3VAPI    __stdcall __declspec(dllexport)
+#define R3VAPI    extern "C" __declspec(dllexport)
 #else
-#define R3VAPI    __stdcall __declspec(dllimport)
+#define R3VAPI    extern "C" __declspec(dllimport)
 #endif
 
 /*
