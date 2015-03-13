@@ -48,6 +48,9 @@ R3VAPI r3dVoxel::IClassArray* r3vNewClassArray(unsigned length);
  * DO NOT USE THIS FOR ARRAYS OF DERIVED CLASSES OF r3dVoxel::IClass
  * r3dVoxel::IClass and its derivatives are INTERFACES!
  * As such, they use r3dVoxel::IClass::release() for deallocation.
+ *
+ * Regular classes can be safely used, with some caution in mind.
+ * DO NOT USE VIRTUAL CLASSES, SEGMENTATION FAULT WILL OCCUR ON DEALLOCATION!
  */
 template<typename T>
 class r3vArrayHelper : virtual r3dVoxel::Final
@@ -61,25 +64,24 @@ public:
 	/* Creates helper instance with existing array */
 	r3vArrayHelper(r3dVoxel::IByteArray* ptr) : array(ptr) {}
 
+	/* Calls T::~T() for each element in the array */
+	void release()
+	{
+		for(unsigned i = 0; i < array->length(); i += sizeof(T))
+			static_cast<T*>(array->at(i))->~T();
+
+		array->release();
+	}
+
 	/* Returns the number of elements in the array */
 	unsigned length()
 	{
 		return (array->length() / sizeof(T));
 	}
 
-	/* Accesses an element in the array, beware of array bounds */
+	/* Accesses an element in the array */
 	T& operator[](unsigned index)
 	{
-		return static_cast<T*>(array->pointer())[index];
-	}
-
-	/* Calls T::~T() for each element in the array */
-	void operator~()
-	{
-		unsigned count = length();
-		while(count--)
-			(*this)[count].~T();
-
-		array->release();
+		return *static_cast<T*>(array->at(index * sizeof(T)));
 	}
 };

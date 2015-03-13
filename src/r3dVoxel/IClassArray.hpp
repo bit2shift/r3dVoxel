@@ -10,6 +10,7 @@ public:
 	/*
 	 * Returns an element of this array
 	 * Note: returns array[index % length]
+	 * Hint: IMonitor* mon = static_cast<IMonitor*>(arr->at(i));
 	 */
 	virtual r3dVoxel::IClass*& at(unsigned index) = 0;
 };

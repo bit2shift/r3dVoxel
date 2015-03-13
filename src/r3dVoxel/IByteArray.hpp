@@ -7,6 +7,9 @@ public:
 	/* Returns the length of this array */
 	virtual unsigned length() = 0;
 
-	/* Returns a pointer to the beginning of the array */
-	virtual void* pointer() = 0;
+	/*
+	 * Returns pointer to byte in this array
+	 * Note: returns &array[index % length]
+	 */
+	virtual void* at(unsigned index) = 0;
 };

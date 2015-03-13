@@ -26,16 +26,12 @@ public:
 		return m_length;
 	}
 
-	void* pointer()
+	void* at(unsigned index)
 	{
-		return m_array;
+		return &m_array[index % m_length];
 	}
 };
 
-/*
- * Factory implementation
- * Returns NULL on ctor failure
- */
 r3dVoxel::IByteArray* r3vNewByteArray(unsigned length)
 {
 	try
