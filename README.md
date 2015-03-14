@@ -10,3 +10,7 @@ A voxel game engine. Uses shader-based ray tracing
 - *Implement the client-server protocol (with packets for a custom usage)*
 - *Figure out how to use OpenAL?*
 - *__Considering other possible milestones__, make something useful with the engine*
+
+
+####Contributing
+- Read [CLA](CONTRIBUTING.md)
