@@ -29,6 +29,7 @@ namespace r3dVoxel
 
 /*
  * Initialize game engine
+ * Consecutive calls will return the same instance.
  */
 R3VAPI r3dVoxel::IGameEngine* r3vInitialize();
 
@@ -56,16 +57,17 @@ template<typename T>
 class r3vArrayHelper : virtual r3dVoxel::Final
 {
 public:
-	r3dVoxel::IByteArray* array;
+	typedef typename r3dVoxel::Const<T, r3dVoxel::IByteArray>::type ByteArray;
+	ByteArray* array;
 
 	/* Allocate array for "num" elements */
-	r3vArrayHelper(unsigned num) : array(r3vNewByteArray(num * sizeof(T))) {}
+	r3vArrayHelper(const unsigned num) : array(r3vNewByteArray(num * sizeof(T))) {}
 
 	/* Creates helper instance with existing array */
-	r3vArrayHelper(r3dVoxel::IByteArray* ptr) : array(ptr) {}
+	r3vArrayHelper(ByteArray* ptr) : array(ptr) {}
 
 	/* Calls T::~T() for each element in the array */
-	void release()
+	void release() const
 	{
 		for(unsigned i = 0; i < array->length(); i += sizeof(T))
 			static_cast<T*>(array->at(i))->~T();
@@ -74,13 +76,19 @@ public:
 	}
 
 	/* Returns the number of elements in the array */
-	unsigned length()
+	unsigned length() const
 	{
 		return (array->length() / sizeof(T));
 	}
 
 	/* Accesses an element in the array */
 	T& operator[](unsigned index)
+	{
+		return *static_cast<T*>(array->at(index * sizeof(T)));
+	}
+
+	/* Accesses a const element in the array */
+	const T operator[](unsigned index) const
 	{
 		return *static_cast<T*>(array->at(index * sizeof(T)));
 	}

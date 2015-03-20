@@ -25,12 +25,12 @@ public:
 	//// Interface methods ////
 	///////////////////////////
 
-	unsigned length()
+	unsigned length() const
 	{
 		return m_length;
 	}
 
-	r3dVoxel::IClass*& at(unsigned index)
+	r3dVoxel::IClass*& at(unsigned index) const
 	{
 		return m_array[index % m_length];
 	}

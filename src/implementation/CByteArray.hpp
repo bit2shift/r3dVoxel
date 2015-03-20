@@ -21,12 +21,12 @@ public:
 	//// Interface methods ////
 	///////////////////////////
 
-	unsigned length()
+	unsigned length() const
 	{
 		return m_length;
 	}
 
-	void* at(unsigned index)
+	void* at(unsigned index) const
 	{
 		return &m_array[index % m_length];
 	}
