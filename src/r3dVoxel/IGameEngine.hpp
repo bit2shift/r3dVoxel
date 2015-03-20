@@ -11,19 +11,11 @@ public:
 	/*
 	 * Query connected monitors
 	 * Returns array of IMonitor or NULL on failure
-	 * Modifying its contents is discouraged
 	 */
-	virtual r3dVoxel::IClassArray* getAllMonitors() = 0;
+	virtual const r3dVoxel::IByteArray* getAllMonitors() = 0;
 
-	/* Returns the primary monitor */
-	virtual r3dVoxel::IMonitor* getPrimaryMonitor() = 0;
-
-	/*
-	 * Returns true if the monitor configuration has been changed
-	 * Clears an internal flag when called
-	 * Use this to poll for changes in connected monitors
-	 */
-	virtual bool monitorsHaveChanged() = 0;
+	/* Returns the primary monitor or NULL on failure */
+	virtual const r3dVoxel::IMonitor* getPrimaryMonitor() = 0;
 
 
 	////////////////////////

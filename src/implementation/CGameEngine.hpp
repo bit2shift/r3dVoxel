@@ -3,67 +3,75 @@
  */
 class CGameEngine : public r3dVoxel::IGameEngine
 {
-	bool m_monitorTrigger;
+	typedef std::map<GLFWmonitor*, CMonitor> mon;
+	mon m_monitors;
+
+	static void monitor_callback(GLFWmonitor* monitor, int status)
+	{
+		CGameEngine* engine = static_cast<CGameEngine*>(r3vInitialize());
+		if(engine)
+		{
+			switch(status)
+			{
+			case GLFW_CONNECTED:
+				engine->m_monitors[monitor] = CMonitor(monitor);
+				break;
+
+			case GLFW_DISCONNECTED:
+				engine->m_monitors.erase(monitor);
+				break;
+			}
+		}
+	}
 
 public:
-	CGameEngine(GLFWmonitorfun callback) : m_monitorTrigger(false)
+	CGameEngine()
 	{
-		//set singleton
-		THE_GAME_ENGINE = this;
-
 		//init GLFW
 		if(!glfwInit())
 			throw 0;
 
 		//set monitor callback
-		glfwSetMonitorCallback(callback);
+		glfwSetMonitorCallback(monitor_callback);
+
+		//get all monitors into our map
+		int count = 0;
+		GLFWmonitor** pmon = glfwGetMonitors(&count);
+		for(int i = 0; i < count; i++)
+			m_monitors[pmon[i]] = CMonitor(pmon[i]);
 	}
 
 	~CGameEngine()
 	{
-		//unset monitor callback and stop GLFW
-		glfwSetMonitorCallback(0);
 		glfwTerminate();
-
-		//unset singleton
-		THE_GAME_ENGINE = 0;
 	}
-
-	void setTrigger(){m_monitorTrigger = true;}
 
 	///////////////////////////
 	//// Interface methods ////
 	///////////////////////////
 
-	r3dVoxel::IClassArray* getAllMonitors()
+	const r3dVoxel::IByteArray* getAllMonitors()
 	{
-		//get connected monitors
-		int count = 0;
-		GLFWmonitor** pmon = glfwGetMonitors(&count);
-		if(!pmon)
-			return 0;
-
-		//allocate new array, NULL if it fails
-		r3dVoxel::IClassArray* monitors = r3vNewClassArray(count);
-		if(monitors)
+		//this is an exceptional use case
+		r3vArrayHelper<r3dVoxel::IMonitor*> pmon(m_monitors.size());
+		if(pmon.array)
 		{
-			while(count--)
-				monitors->at(count) = new CMonitor(pmon[count]);
+			int i = 0;
+			for(mon::iterator m = m_monitors.begin(); m != m_monitors.end(); m++)
+				pmon[i++] = &m->second;
 		}
 
-		return monitors;
+		//can return NULL
+		return pmon.array;
 	}
 
-	r3dVoxel::IMonitor* getPrimaryMonitor()
+	const r3dVoxel::IMonitor* getPrimaryMonitor()
 	{
-		return new CMonitor(glfwGetPrimaryMonitor());
-	}
-
-	bool monitorsHaveChanged()
-	{
-		bool flag = m_monitorTrigger;
-		m_monitorTrigger = false;
-		return flag;
+		GLFWmonitor* pmon = glfwGetPrimaryMonitor();
+		if(pmon && m_monitors.count(pmon))
+			return &m_monitors[pmon];
+		else
+			return 0;
 	}
 
 	r3dVoxel::IView* createView()
@@ -73,25 +81,23 @@ public:
 	}
 };
 
-/*
- * GLFW callback used to notify about monitor events
- */
-void r3vMonitorCallback(GLFWmonitor* monitor, int event)
-{
-	/* We **know** it's an object of CGameEngine */
-	static_cast<CGameEngine*>(THE_GAME_ENGINE)->setTrigger();
-}
-
 R3VAPI r3dVoxel::IGameEngine* r3vInitialize()
 {
-	//Return current instance if engine is already initialized
-	if(THE_GAME_ENGINE)
-		return THE_GAME_ENGINE;
+	static CGameEngine* instance = 0;
 
-	try
+	if(!instance)
 	{
-		return new CGameEngine(r3vMonitorCallback);
+		try
+		{
+			instance = new CGameEngine();
+		}
+		catch(...)
+		{
+			//sanity check
+			if(instance)
+				throw "Should have remained 0";
+		}
 	}
-	catch(...){}
-	return 0;
+
+	return instance;
 }

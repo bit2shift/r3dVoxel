@@ -1,21 +1,22 @@
 #define R3V_EXPORT
 #include "../r3dVoxel.hpp"
 
+//OpenGL-related includes
 #define GLEW_MX
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+//C++ includes
+#include <map>
+
 //////////////////////////////////////////
 //// MOST IMPORTANT PIECE OF OOP CODE ////
 //////////////////////////////////////////
-void r3dVoxel::IClass::release()
+void r3dVoxel::IClass::release() const
 {
 	delete this;
 }
-
-//Singleton, of sorts
-r3dVoxel::IGameEngine* THE_GAME_ENGINE = 0;
 
 //Implementation headers
 #include "CByteArray.hpp"
