@@ -1,5 +1,8 @@
+#ifndef R3V_EXPORT
+
 /*
  * A wrapper class for IClass objects
+ * Only gets compiled on import
  */
 class Ref : virtual r3dVoxel::Final
 {
@@ -21,3 +24,5 @@ public:
 		return m_ptr;
 	}
 };
+
+#endif
