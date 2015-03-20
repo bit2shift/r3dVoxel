@@ -5,20 +5,20 @@ class IMonitor : public r3dVoxel::IClass
 {
 public:
 	/* Position on the virtual screen */
-	virtual r3dVoxel::math::ivec getPosition() = 0;
+	virtual r3dVoxel::math::ivec getPosition() const = 0;
 
 	/*
 	 * Physical size, in millimeters
 	 * MIGHT NOT BE ACCURATE
 	 */
-	virtual r3dVoxel::math::ivec getPhysicalSize() = 0;
+	virtual r3dVoxel::math::ivec getPhysicalSize() const = 0;
 
 	/*
 	 * Name, encoded as UTF-8
 	 * The returned string is managed internally
 	 * DO NOT FREE IT
 	 */
-	virtual const char* getName() = 0;
+	virtual const char* getName() const = 0;
 
 	/*
 	 * Currently set video mode
@@ -26,12 +26,12 @@ public:
 	 *   whether or not it's focused.
 	 * Note: zeroed SVideoMode on failure
 	 */
-	virtual r3dVoxel::SVideoMode getVideoMode() = 0;
+	virtual r3dVoxel::SVideoMode getVideoMode() const = 0;
 
 	/*
 	 * Supported video modes
 	 * Returns array of SVideoMode or NULL on failure
 	 * Modifying its contents is discouraged
 	 */
-	virtual r3dVoxel::IByteArray* getAllVideoModes() = 0;
+	virtual r3dVoxel::IByteArray* getAllVideoModes() const = 0;
 };

@@ -17,13 +17,14 @@ private:
 	}
 
 public:
+	CMonitor() : m_monitor(0) {}
 	CMonitor(GLFWmonitor* mon) : m_monitor(mon) {}
 
 	///////////////////////////
 	//// Interface methods ////
 	///////////////////////////
 
-	r3dVoxel::math::ivec getPosition()
+	r3dVoxel::math::ivec getPosition() const
 	{
 		int x, y;
 		glfwGetMonitorPos(m_monitor, &x, &y);
@@ -31,7 +32,7 @@ public:
 		return pos;
 	}
 
-	r3dVoxel::math::ivec getPhysicalSize()
+	r3dVoxel::math::ivec getPhysicalSize() const
 	{
 		int width, height;
 		glfwGetMonitorPhysicalSize(m_monitor, &width, &height);
@@ -39,12 +40,12 @@ public:
 		return size;
 	}
 
-	const char* getName()
+	const char* getName() const
 	{
 		return glfwGetMonitorName(m_monitor);
 	}
 
-	r3dVoxel::SVideoMode getVideoMode()
+	r3dVoxel::SVideoMode getVideoMode() const
 	{
 		r3dVoxel::SVideoMode vm = {0};
 		const GLFWvidmode* mode = glfwGetVideoMode(m_monitor);
@@ -54,7 +55,7 @@ public:
 		return vm;
 	}
 
-	r3dVoxel::IByteArray* getAllVideoModes()
+	r3dVoxel::IByteArray* getAllVideoModes() const
 	{
 		//get available video modes
 		int count = 0;
