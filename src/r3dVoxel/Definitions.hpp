@@ -17,3 +17,12 @@ class Final
 protected:
 	Final(){}
 };
+
+/*
+ * Copies the "const" modifier from type A to type B
+ */
+template<typename A, typename B> struct Const               { typedef       B  type; };
+template<typename A, typename B> struct Const<const A,  B>  { typedef const B  type; };
+template<typename A, typename B> struct Const<const A,  B*> { typedef const B* type; };
+template<typename A, typename B> struct Const<const A*, B>  { typedef const B  type; };
+template<typename A, typename B> struct Const<const A*, B*> { typedef const B* type; };
