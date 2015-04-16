@@ -1,5 +1,8 @@
 #pragma once
 
+//TODO override 'new', 'new (std::nothrow)' and 'delete'
+//TODO change terminate handler to release allocated memory
+
 namespace r3dVoxel
 {
 	/* Basic stuff */
@@ -43,6 +46,14 @@ R3VAPI r3dVoxel::IByteArray* r3vNewByteArray(unsigned length);
  * This array calls r3dVoxel::IClass::release() for each element on release
  */
 R3VAPI r3dVoxel::IClassArray* r3vNewClassArray(unsigned length);
+
+/*
+ * Memory management functions
+ * Used by overridden operators 'new' and 'delete'
+ */
+R3VAPI void* r3vMalloc(unsigned size);
+R3VAPI void r3vFree(void* pointer);
+R3VAPI long long r3vGetMemoryUsage();
 
 /*
  * Wrapper template for r3dVoxel::IByteArray

@@ -1,3 +1,6 @@
+/* forward declaration */
+static r3dVoxel::IGameEngine* init(bool);
+
 /*
  * IGameEngine implementation
  */
@@ -44,6 +47,7 @@ public:
 	~CGameEngine()
 	{
 		glfwTerminate();
+		init(true);
 	}
 
 	///////////////////////////
@@ -83,9 +87,20 @@ public:
 
 R3VAPI r3dVoxel::IGameEngine* r3vInitialize()
 {
+	return init(false);
+}
+
+/*
+ * Initialization and singleton helper
+ * internal function
+ */
+static r3dVoxel::IGameEngine* init(bool reset)
+{
 	static CGameEngine* instance = 0;
 
-	if(!instance)
+	if(reset)
+		instance = 0;
+	else if(!instance)
 	{
 		try
 		{

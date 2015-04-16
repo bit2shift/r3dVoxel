@@ -7,8 +7,14 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+//C includes
+#include <stdlib.h>
+
 //C++ includes
 #include <map>
+
+//Memory management system
+#include "MemMgr.hpp"
 
 //////////////////////////////////////////
 //// MOST IMPORTANT PIECE OF OOP CODE ////
