@@ -1,8 +1,49 @@
 #pragma once
+#include <algorithm>        //std::copy
+#include <cstdint>          //std::int8_t, std::uint8_t, ...
+#include <initializer_list> //ditto
+#include <new>              //std::size_t, std::bad_alloc, std::nothrow_t
+#include <stdexcept>        //std::out_of_range
 
-//TODO override 'new', 'new (std::nothrow)' and 'delete'
-//TODO change terminate handler to release allocated memory
+#ifdef R3V_EXPORT
+#define R3VAPI    extern "C" [[gnu::dllexport]]
+#else
+#define R3VAPI    extern "C" [[gnu::dllimport]]
+#endif
 
+/*
+ * Memory management functions
+ * Used by overridden operators 'new' and 'delete'
+ */
+R3VAPI void* r3vMalloc(std::size_t size);
+R3VAPI void r3vFree(void* pointer);
+R3VAPI std::size_t r3vGetMemoryUsage();
+
+/*
+ * Overridden memory operators
+ * These 4 operators are used by the other variants
+ */
+void* operator new(std::size_t size)
+{
+	void* ptr = r3vMalloc(size);
+	if(ptr)
+		return ptr;
+	else
+		throw std::bad_alloc();
+}
+
+void* operator new(std::size_t size, const std::nothrow_t&) noexcept
+{ return r3vMalloc(size); }
+
+void operator delete(void* ptr) noexcept
+{ r3vFree(ptr); }
+
+[[gnu::alias("_ZdlPv")]]  //alias of "function delete pointer void" aka "operator delete(void*)"
+void operator delete(void* ptr, const std::nothrow_t&) noexcept;
+
+/*
+ * The namespace
+ */
 namespace r3dVoxel
 {
 	/* Basic stuff */
@@ -19,10 +60,9 @@ namespace r3dVoxel
 	/* OOP base stuff */
 	#include "r3dVoxel/IClass.hpp"
 	#include "r3dVoxel/Ref.hpp"
+	#include "r3dVoxel/Array.hpp"
 
 	/* Derived classes */
-	#include "r3dVoxel/IByteArray.hpp"
-	#include "r3dVoxel/IClassArray.hpp"
 	#include "r3dVoxel/IMonitor.hpp"
 	#include "r3dVoxel/IView.hpp"
 	#include "r3dVoxel/IGameEngine.hpp"
@@ -36,71 +76,4 @@ namespace r3dVoxel
  */
 R3VAPI r3dVoxel::IGameEngine* r3vInitialize();
 
-/*
- * Factory for the byte array.
- */
-R3VAPI r3dVoxel::IByteArray* r3vNewByteArray(unsigned length);
-
-/*
- * Factory for arrays of IClass objects
- * This array calls r3dVoxel::IClass::release() for each element on release
- */
-R3VAPI r3dVoxel::IClassArray* r3vNewClassArray(unsigned length);
-
-/*
- * Memory management functions
- * Used by overridden operators 'new' and 'delete'
- */
-R3VAPI void* r3vMalloc(unsigned size);
-R3VAPI void r3vFree(void* pointer);
-R3VAPI long long r3vGetMemoryUsage();
-
-/*
- * Wrapper template for r3dVoxel::IByteArray
- * DO NOT USE THIS FOR ARRAYS OF DERIVED CLASSES OF r3dVoxel::IClass
- * r3dVoxel::IClass and its derivatives are INTERFACES!
- * As such, they use r3dVoxel::IClass::release() for deallocation.
- *
- * Regular classes can be safely used, with some caution in mind.
- * DO NOT USE VIRTUAL CLASSES, SEGMENTATION FAULT WILL OCCUR ON DEALLOCATION!
- */
-template<typename T>
-class r3vArrayHelper : virtual r3dVoxel::Final
-{
-public:
-	typedef typename r3dVoxel::Const<T, r3dVoxel::IByteArray>::type ByteArray;
-	ByteArray* array;
-
-	/* Allocate array for "num" elements */
-	r3vArrayHelper(const unsigned num) : array(r3vNewByteArray(num * sizeof(T))) {}
-
-	/* Creates helper instance with existing array */
-	r3vArrayHelper(ByteArray* ptr) : array(ptr) {}
-
-	/* Calls T::~T() for each element in the array */
-	void release() const
-	{
-		for(unsigned i = 0; i < array->length(); i += sizeof(T))
-			static_cast<T*>(array->at(i))->~T();
-
-		array->release();
-	}
-
-	/* Returns the number of elements in the array */
-	unsigned length() const
-	{
-		return (array->length() / sizeof(T));
-	}
-
-	/* Accesses an element in the array */
-	T& operator[](unsigned index)
-	{
-		return *static_cast<T*>(array->at(index * sizeof(T)));
-	}
-
-	/* Accesses a const element in the array */
-	const T operator[](unsigned index) const
-	{
-		return *static_cast<T*>(array->at(index * sizeof(T)));
-	}
-};
+//TODO change terminate handler to release allocated memory

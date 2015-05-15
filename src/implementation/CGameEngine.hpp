@@ -6,10 +6,9 @@ static r3dVoxel::IGameEngine* init(bool);
  */
 class CGameEngine : public r3dVoxel::IGameEngine
 {
-	typedef std::map<GLFWmonitor*, CMonitor> mon;
-	mon m_monitors;
+	std::map<GLFWmonitor*, CMonitor> m_monitors;
 
-	static void monitor_callback(GLFWmonitor* monitor, int status)
+	static void monitor_callback(GLFWmonitor* monitor, std::int32_t status)
 	{
 		CGameEngine* engine = static_cast<CGameEngine*>(r3vInitialize());
 		if(engine)
@@ -17,7 +16,7 @@ class CGameEngine : public r3dVoxel::IGameEngine
 			switch(status)
 			{
 			case GLFW_CONNECTED:
-				engine->m_monitors[monitor] = CMonitor(monitor);
+				engine->m_monitors.emplace(monitor, monitor);
 				break;
 
 			case GLFW_DISCONNECTED:
@@ -28,20 +27,20 @@ class CGameEngine : public r3dVoxel::IGameEngine
 	}
 
 public:
-	CGameEngine()
+	CGameEngine() //TODO init glew
 	{
 		//init GLFW
 		if(!glfwInit())
-			throw 0;
+			throw std::runtime_error("GLFW initialization failure");
 
 		//set monitor callback
 		glfwSetMonitorCallback(monitor_callback);
 
 		//get all monitors into our map
-		int count = 0;
+		std::int32_t count = 0;
 		GLFWmonitor** pmon = glfwGetMonitors(&count);
-		for(int i = 0; i < count; i++)
-			m_monitors[pmon[i]] = CMonitor(pmon[i]);
+		for(std::int32_t i = 0; i < count; i++)
+			m_monitors.emplace(pmon[i], pmon[i]);
 	}
 
 	~CGameEngine()
@@ -54,34 +53,35 @@ public:
 	//// Interface methods ////
 	///////////////////////////
 
-	const r3dVoxel::IByteArray* getAllMonitors()
+	r3dVoxel::Array<r3dVoxel::IMonitor*> getAllMonitors()
 	{
-		//this is an exceptional use case
-		r3vArrayHelper<r3dVoxel::IMonitor*> pmon(m_monitors.size());
-		if(pmon.array)
+		try
 		{
-			int i = 0;
-			for(mon::iterator m = m_monitors.begin(); m != m_monitors.end(); m++)
-				pmon[i++] = &m->second;
+			std::size_t index = 0;
+			decltype(getAllMonitors()) pmon(m_monitors.size());
+			for(auto& m : m_monitors)
+				pmon[index++] = &m.second;
+			return pmon;
 		}
-
-		//can return NULL
-		return pmon.array;
+		catch(...)
+		{
+			return {};
+		}
 	}
 
-	const r3dVoxel::IMonitor* getPrimaryMonitor()
+	r3dVoxel::IMonitor* getPrimaryMonitor()
 	{
 		GLFWmonitor* pmon = glfwGetPrimaryMonitor();
 		if(pmon && m_monitors.count(pmon))
 			return &m_monitors[pmon];
 		else
-			return 0;
+			return nullptr;
 	}
 
 	r3dVoxel::IView* createView()
 	{
 		//TODO finish
-		return 0;
+		return nullptr;
 	}
 };
 
@@ -96,10 +96,10 @@ R3VAPI r3dVoxel::IGameEngine* r3vInitialize()
  */
 static r3dVoxel::IGameEngine* init(bool reset)
 {
-	static CGameEngine* instance = 0;
+	static CGameEngine* instance = nullptr;
 
 	if(reset)
-		instance = 0;
+		instance = nullptr;
 	else if(!instance)
 	{
 		try
@@ -110,7 +110,7 @@ static r3dVoxel::IGameEngine* init(bool reset)
 		{
 			//sanity check
 			if(instance)
-				throw "Should have remained 0";
+				throw std::runtime_error("Should have been nullptr");
 		}
 	}
 

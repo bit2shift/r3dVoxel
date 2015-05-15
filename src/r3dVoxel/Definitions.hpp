@@ -1,28 +1,12 @@
 /*
- * Useful linguistic definitions
+ * Type surrogate
  */
-
-#ifdef R3V_EXPORT
-#define R3VAPI    extern "C" __declspec(dllexport)
-#else
-#define R3VAPI    extern "C" __declspec(dllimport)
-#endif
+template<typename T> struct type_is {using type = T;};
 
 /*
- * Makeshift 'final' keyword
- * Use only as base class
+ * Copies "const" or "volatile" from type A to type B
  */
-class Final
-{
-protected:
-	Final(){}
-};
-
-/*
- * Copies the "const" modifier from type A to type B
- */
-template<typename A, typename B> struct Const               { typedef       B  type; };
-template<typename A, typename B> struct Const<const A,  B>  { typedef const B  type; };
-template<typename A, typename B> struct Const<const A,  B*> { typedef const B* type; };
-template<typename A, typename B> struct Const<const A*, B>  { typedef const B  type; };
-template<typename A, typename B> struct Const<const A*, B*> { typedef const B* type; };
+template<typename A, typename B> struct copy_cv                      : type_is<               B> {};
+template<typename A, typename B> struct copy_cv<const          A, B> : type_is<const          B> {};
+template<typename A, typename B> struct copy_cv<      volatile A, B> : type_is<      volatile B> {};
+template<typename A, typename B> struct copy_cv<const volatile A, B> : type_is<const volatile B> {};

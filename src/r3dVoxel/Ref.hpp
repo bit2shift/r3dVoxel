@@ -1,17 +1,24 @@
 #ifndef R3V_EXPORT
 
 /*
- * A wrapper class for IClass objects
- * Only gets compiled on import
+ * A wrapper for IClass objects
+ * Only gets used on import
  */
-class Ref : virtual r3dVoxel::Final
+template<typename T>
+class Ref final
 {
 private:
-	r3dVoxel::IClass* m_ptr;
+	T* m_ptr;
 
 public:
-	Ref() : m_ptr(0) {}
-	Ref(r3dVoxel::IClass* ptr) : m_ptr(ptr) {}
+	Ref(T* ptr = nullptr)
+	{
+		//assign pointer if it's an IClass
+		if(dynamic_cast<r3dVoxel::IClass*>(ptr))
+			m_ptr = ptr;
+		else
+			m_ptr = nullptr;
+	}
 
 	~Ref()
 	{
@@ -19,7 +26,7 @@ public:
 			m_ptr->release();
 	}
 
-	r3dVoxel::IClass* operator->()
+	T* operator->()
 	{
 		return m_ptr;
 	}

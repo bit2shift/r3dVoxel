@@ -3,12 +3,12 @@
  * Example:
  *   SVideoMode vm = {800, 600, 8, 8, 8, 59};
  */
-struct SVideoMode
+struct SVideoMode final
 {
-	short width;   //screen width in pixels
-	short height;  //screen height in pixels
-	char red;      //red channel bit depth
-	char green;    //green channel bit depth
-	char blue;     //blue channel bit depth
-	char refresh;  //how fast the screen is refreshed
+	std::int16_t width;   //screen width in pixels
+	std::int16_t height;  //screen height in pixels
+	std::int8_t red;      //red channel bit depth
+	std::int8_t green;    //green channel bit depth
+	std::int8_t blue;     //blue channel bit depth
+	std::int8_t refresh;  //how fast the screen is refreshed
 };

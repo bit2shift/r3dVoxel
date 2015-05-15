@@ -9,11 +9,9 @@ protected:
 	virtual ~IClass(){}
 
 public:
-	////////////////////////////////
-	////  OVERRIDE IS FORBIDDEN ////
-	//// THERE CAN ONLY BE ONLY ////
-	//// ONE IMPLEMENTATION OF  ////
-	////  THIS GLORIOUS METHOD  ////
-	////////////////////////////////
-	virtual void release() const;
+	/* Destructor delegate */
+	virtual void release() final
+	{
+		delete this;
+	}
 };

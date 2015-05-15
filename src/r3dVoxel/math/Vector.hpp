@@ -10,20 +10,20 @@ struct vec
 {
 	T x, y, z, w;
 
-	typedef T simd __attribute((vector_size(16)));
+	typedef T simd [[gnu::vector_size(16)]];
 	operator T*(){return reinterpret_cast<T*>(this);}
 	operator simd&(){return *reinterpret_cast<simd*>(this);}
 };
 
 /* predefined vector wrappers */
-typedef vec<float>    fvec_t;
-typedef vec<int>      ivec_t;
-typedef vec<unsigned> uvec_t;
+typedef vec<float>         fvec_t;
+typedef vec<std::int32_t>  ivec_t;
+typedef vec<std::uint32_t> uvec_t;
 
 /* predefined vectors */
-typedef fvec_t::simd  fvec;
-typedef ivec_t::simd  ivec;
-typedef uvec_t::simd  uvec;
+typedef fvec_t::simd fvec;
+typedef ivec_t::simd ivec;
+typedef uvec_t::simd uvec;
 
 fvec cross(fvec a, fvec b)
 {

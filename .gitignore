@@ -28,5 +28,4 @@
 *.app
 
 # Output folders
-/Debug/
-/Release/
+/obj/
