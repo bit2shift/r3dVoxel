@@ -25,9 +25,9 @@ R3VAPI std::size_t r3vGetMemoryUsage();
  */
 void* operator new(std::size_t size)
 {
-	void* ptr = r3vMalloc(size);
-	if(ptr)
-		return ptr;
+	void* pointer = r3vMalloc(size);
+	if(pointer)
+		return pointer;
 	else
 		throw std::bad_alloc();
 }
@@ -35,11 +35,11 @@ void* operator new(std::size_t size)
 void* operator new(std::size_t size, const std::nothrow_t&) noexcept
 { return r3vMalloc(size); }
 
-void operator delete(void* ptr) noexcept
-{ r3vFree(ptr); }
+void operator delete(void* pointer) noexcept
+{ r3vFree(pointer); }
 
-[[gnu::alias("_ZdlPv")]]  //alias of "function delete pointer void" aka "operator delete(void*)"
-void operator delete(void* ptr, const std::nothrow_t&) noexcept;
+void operator delete(void* pointer, const std::nothrow_t&) noexcept
+{ r3vFree(pointer); }
 
 /*
  * The namespace
@@ -75,5 +75,3 @@ namespace r3dVoxel
  * Consecutive calls will return the same instance.
  */
 R3VAPI r3dVoxel::IGameEngine* r3vInitialize();
-
-//TODO change terminate handler to release allocated memory
