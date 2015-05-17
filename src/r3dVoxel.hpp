@@ -1,8 +1,9 @@
 #pragma once
 #include <algorithm>        //std::copy
+#include <cstddef>          //std::size_t
 #include <cstdint>          //std::int8_t, std::uint8_t, ...
 #include <initializer_list> //ditto
-#include <new>              //std::size_t, std::bad_alloc, std::nothrow_t
+#include <new>              //std::bad_alloc, std::nothrow_t
 #include <stdexcept>        //std::out_of_range
 
 #ifdef R3V_EXPORT
@@ -16,7 +17,7 @@
  * Used by overridden operators 'new' and 'delete'
  */
 R3VAPI void* r3vMalloc(std::size_t size);
-R3VAPI void r3vFree(void* pointer);
+R3VAPI void r3vFree(const void* pointer);
 R3VAPI std::size_t r3vGetMemoryUsage();
 
 /*
@@ -33,13 +34,19 @@ void* operator new(std::size_t size)
 }
 
 void* operator new(std::size_t size, const std::nothrow_t&) noexcept
-{ return r3vMalloc(size); }
+{
+	return r3vMalloc(size);
+}
 
 void operator delete(void* pointer) noexcept
-{ r3vFree(pointer); }
+{
+	r3vFree(pointer);
+}
 
 void operator delete(void* pointer, const std::nothrow_t&) noexcept
-{ r3vFree(pointer); }
+{
+	r3vFree(pointer);
+}
 
 /*
  * The namespace

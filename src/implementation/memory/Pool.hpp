@@ -1,4 +1,5 @@
 #include <array>
+#include <cstdlib>
 #include <utility>
 
 /*
@@ -74,7 +75,7 @@ public:
 		return pointer;
 	}
 
-	void destroy(void* pointer)
+	void destroy(const void* pointer)
 	{
 		if(pointer)
 		{
