@@ -27,14 +27,14 @@ public:
 	{
 		std::int32_t x, y;
 		glfwGetMonitorPos(m_monitor, &x, &y);
-		return decltype(getPosition()){x, y, 0, 0};
+		return r3dVoxel::math::ivec{x, y, 0, 0};
 	}
 
 	r3dVoxel::math::ivec getPhysicalSize()
 	{
 		std::int32_t width, height;
 		glfwGetMonitorPhysicalSize(m_monitor, &width, &height);
-		return decltype(getPhysicalSize()){width, height, 0, 0};
+		return r3dVoxel::math::ivec{width, height, 0, 0};
 	}
 
 	const char* getName()
