@@ -10,6 +10,9 @@
 //C++ includes
 #include <map>
 
+r3dVoxel::IClass::~IClass(){}
+void r3dVoxel::IClass::release(){delete this;}
+
 //Implementation headers
 #include "CMonitor.hpp"
 #include "CView.hpp"

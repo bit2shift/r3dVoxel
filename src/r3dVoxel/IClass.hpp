@@ -6,12 +6,9 @@ class IClass
 {
 protected:
 	/* Override the destructor in subclasses when freeing resources */
-	virtual ~IClass(){}
+	virtual ~IClass();
 
 public:
 	/* Destructor delegate */
-	virtual void release() final
-	{
-		delete this;
-	}
+	virtual void release();
 };
