@@ -66,7 +66,6 @@ namespace r3dVoxel
 
 	/* OOP base stuff */
 	#include "r3dVoxel/IClass.hpp"
-	#include "r3dVoxel/Ref.hpp"
 	#include "r3dVoxel/Array.hpp"
 
 	/* Derived classes */

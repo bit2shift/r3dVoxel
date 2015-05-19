@@ -1,14 +1,13 @@
 /*
  * Base class for all interfaces
  * Core of the API
+ *
+ * Override the destructor in subclasses
  */
 class IClass
 {
-protected:
-	/* Override the destructor in subclasses when freeing resources */
-	virtual ~IClass();
-
 public:
-	/* Destructor delegate */
-	virtual void release();
+	virtual ~IClass() = 0;
 };
+
+IClass::~IClass(){}
