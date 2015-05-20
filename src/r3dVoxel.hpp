@@ -17,7 +17,7 @@
  * Used by overridden operators 'new' and 'delete'
  */
 R3VAPI void* r3vMalloc(std::size_t size);
-R3VAPI void r3vFree(const void* pointer);
+R3VAPI void r3vFree(void* pointer);
 R3VAPI std::size_t r3vGetMemoryUsage();
 
 /*

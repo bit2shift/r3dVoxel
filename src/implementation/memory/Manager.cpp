@@ -18,7 +18,7 @@ R3VAPI void* r3vMalloc(std::size_t size)
 	return MEMORY_POOL.create(size);
 }
 
-R3VAPI void r3vFree(const void* pointer)
+R3VAPI void r3vFree(void* pointer)
 {
 	MEMORY_POOL.destroy(pointer);
 }

@@ -54,28 +54,30 @@ public:
 
 	void* create(std::size_t size)
 	{
-		char* pointer = talloc<char>(size + 15);
 		Node* node = talloc<Node>(1);
-		if(pointer && node)
+		char* pointer = talloc<char>(size + 15);
+		if(node && pointer)
 		{
 			Root& root = hashroot(pointer);
 			root.size += size;
 
 			node->size = size;
 			node->pointer = pointer;
-			node->next = std::exchange(root.chain, node);
+			node->next = root.chain;
+			root.chain = node;
 
 			pointer += (15 - (std::uintptr_t(pointer - 1) & 15));
+			return pointer;
 		}
 		else
 		{
-			std::free(std::exchange(pointer, nullptr));
-			std::free(std::exchange(node, nullptr));
+			std::free(node);
+			std::free(pointer);
+			return nullptr;
 		}
-		return pointer;
 	}
 
-	void destroy(const void* pointer)
+	void destroy(void* pointer)
 	{
 		if(pointer)
 		{
@@ -86,17 +88,20 @@ public:
 			{
 				if((std::uintptr_t(pointer) - std::uintptr_t(node->pointer)) < 16)
 				{
+					root.size -= node->size;
+					pointer = node->pointer;
+
 					if(prev)
 						prev->next = node->next;
 					else
 						root.chain = node->next;
 
-					root.size -= node->size;
-					std::free(node->pointer);
 					std::free(node);
+					std::free(pointer);
 					break;
 				}
-				prev = std::exchange(node, node->next);
+				prev = node;
+				node = node->next;
 			}
 		}
 	}
