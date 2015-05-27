@@ -1,0 +1,7 @@
+[submodule "dep/glfw"]
+	path = dep/glfw
+	url = https://github.com/glfw/glfw.git
+	branch = latest
+[submodule "dep/glew"]
+	path = dep/glew
+	url = https://github.com/nigels-com/glew.git
