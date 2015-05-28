@@ -1,11 +1,11 @@
 # Compiler flags and include folders
 CXXFLAG=-c -std=c++14 -Wall -Wconversion -msse2 -mstackrealign
-INCDIRS=-I../../glew/include -I../../glfw/include
+INCDIRS=-Idep/glew/include -Idep/glfw/include
 
 # Linker flags, library folders and libraries
 LNKFLAG=-shared -static
-LIBDIRS=-L../../glew/lib -L../../glfw/lib-mingw
-LIBS=-lglew32mxs -lglfw3 -lgdi32 -lopengl32
+LIBDIRS=-Ldep/glew/lib -Ldep/glfw/src
+LIBS=-lglew32mx -lglfw3 -lgdi32 -lopengl32
 
 # Sources and objects
 SRC=$(wildcard src/implementation/*.cpp src/implementation/*/*.cpp)
@@ -36,3 +36,9 @@ obj/%.o: src/%.cpp
 # Main target, links binary after clean'n'compile
 build: $(OBJ)
 	g++ $^ $(LNKFLAG) $(LIBDIRS) $(LIBS) -o $(OUTPUT)/r3dVoxel.dll
+
+depbuild:
+	@sh dep/depmake build
+
+depclean:
+	@sh dep/depmake clean

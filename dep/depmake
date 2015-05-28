@@ -1,0 +1,35 @@
+shopt -s extglob
+DIR="$PWD/$(basename $(dirname $0))"
+
+case "$1" in
+	build)
+		echo "Building GLEW"
+		cd "$DIR/glew"
+		make extensions all
+
+		echo "Building GLFW"
+		cd "$DIR/glfw"
+		cmake -G "MSYS Makefiles" -D GLFW_BUILD_EXAMPLES=OFF -D GLFW_BUILD_TESTS=OFF -D GLFW_BUILD_DOCS=OFF .
+		make
+		;;
+
+
+	clean)
+		echo "Cleaning GLEW"
+		cd "$DIR/glew"
+		rm -fR !(.|..|.git)
+		git reset --hard
+
+		echo "Cleaning GLFW"
+		cd "$DIR/glfw"
+		rm -fR !(.|..|.git)
+		git reset --hard
+		;;
+
+
+	*)
+		echo "$(basename $0) [build|clean]"
+		exit -1
+		;;
+esac
+exit 0
