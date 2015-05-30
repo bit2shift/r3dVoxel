@@ -3,24 +3,24 @@ DIR="$PWD/$(basename $(dirname $0))"
 
 case "$1" in
 	build)
-		echo "Building GLEW"
+		printf "\n\e[36mBuilding GLEW\e[m\n"
 		cd "$DIR/glew"
 		make extensions all
 
-		echo "Building GLFW"
+		printf "\n\e[36mBuilding GLFW\e[m\n"
 		cd "$DIR/glfw"
-		cmake -G "MSYS Makefiles" -D GLFW_BUILD_EXAMPLES=OFF -D GLFW_BUILD_TESTS=OFF -D GLFW_BUILD_DOCS=OFF .
+		cmake -G "Unix Makefiles" -D GLFW_BUILD_EXAMPLES=OFF -D GLFW_BUILD_TESTS=OFF -D GLFW_BUILD_DOCS=OFF .
 		make
 		;;
 
 
 	clean)
-		echo "Cleaning GLEW"
+		printf "\n\e[36mCleaning GLEW\e[m\n"
 		cd "$DIR/glew"
 		rm -fR !(.|..|.git)
 		git reset --hard
 
-		echo "Cleaning GLFW"
+		printf "\n\e[36mCleaning GLFW\e[m\n"
 		cd "$DIR/glfw"
 		rm -fR !(.|..|.git)
 		git reset --hard
