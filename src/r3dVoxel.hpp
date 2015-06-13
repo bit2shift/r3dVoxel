@@ -5,6 +5,7 @@
 #include <initializer_list> //ditto
 #include <new>              //std::bad_alloc, std::nothrow_t
 #include <stdexcept>        //std::out_of_range
+#include <utility>          //std::forward
 
 #ifdef R3V_EXPORT
 #define R3VAPI    extern "C" [[gnu::dllexport]]
@@ -55,7 +56,7 @@ namespace r3dVoxel
 {
 	/* Basic stuff */
 	#include "r3dVoxel/Definitions.hpp"
-	#include "r3dVoxel/SVideoMode.hpp"
+	#include "r3dVoxel/Array.hpp"
 
 	/* Math stuff */
 	namespace math
@@ -64,9 +65,8 @@ namespace r3dVoxel
 		//TODO more math stuff
 	}
 
-	/* OOP base stuff */
+	/* OOP base class */
 	#include "r3dVoxel/IClass.hpp"
-	#include "r3dVoxel/Array.hpp"
 
 	/* Derived classes */
 	#include "r3dVoxel/IMonitor.hpp"

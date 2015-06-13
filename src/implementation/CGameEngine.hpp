@@ -1,12 +1,14 @@
-/* forward declaration */
-static r3dVoxel::IGameEngine* init(bool);
-
 /*
  * IGameEngine implementation
  */
 class CGameEngine : public r3dVoxel::IGameEngine
 {
 	std::map<GLFWmonitor*, CMonitor> m_monitors;
+
+	static void error_callback(std::int32_t error, const char* description)
+	{
+		//std::cerr << "[GLFW] " << error << " : " << description << std::endl;
+	}
 
 	static void monitor_callback(GLFWmonitor* monitor, std::int32_t status)
 	{
@@ -27,8 +29,12 @@ class CGameEngine : public r3dVoxel::IGameEngine
 	}
 
 public:
-	CGameEngine() //TODO init glew
+	static CGameEngine* instance;
+
+	CGameEngine()
 	{
+		glfwSetErrorCallback(error_callback);
+
 		//init GLFW
 		if(!glfwInit())
 			throw std::runtime_error("GLFW initialization failure");
@@ -41,12 +47,14 @@ public:
 		GLFWmonitor** pmon = glfwGetMonitors(&count);
 		for(std::int32_t i = 0; i < count; i++)
 			m_monitors.emplace(pmon[i], pmon[i]);
+
+		instance = this;
 	}
 
 	~CGameEngine()
 	{
+		instance = nullptr;
 		glfwTerminate();
-		init(true);
 	}
 
 	///////////////////////////
@@ -85,34 +93,16 @@ public:
 	}
 };
 
-R3VAPI r3dVoxel::IGameEngine* r3vInitialize()
+CGameEngine* CGameEngine::instance = nullptr;
+
+R3VAPI r3dVoxel::IGameEngine* r3vInitialize() try
 {
-	return init(false);
+	if(!CGameEngine::instance)
+		new CGameEngine();
+	return CGameEngine::instance;
 }
-
-/*
- * Initialization and singleton helper
- * internal function
- */
-static r3dVoxel::IGameEngine* init(bool reset)
+catch(...)
 {
-	static CGameEngine* instance = nullptr;
-
-	if(reset)
-		instance = nullptr;
-	else if(!instance)
-	{
-		try
-		{
-			instance = new CGameEngine();
-		}
-		catch(...)
-		{
-			//sanity check
-			if(instance)
-				throw std::runtime_error("Should have been nullptr");
-		}
-	}
-
-	return instance;
+	//TODO logger log
+	return nullptr;
 }
