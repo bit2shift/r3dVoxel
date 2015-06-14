@@ -41,14 +41,17 @@ class Pool
 public:
 	~Pool()
 	{
+		//XXX log still-allocated memory?
 		for(Root& root : m_hashtable)
 		{
 			Node* node = root.chain;
 			while(node)
 			{
-				std::free(node->pointer);
+				void* pointer = node->pointer;
 				std::free(std::exchange(node, node->next));
+				std::free(pointer);
 			}
+			root = {0};
 		}
 	}
 
