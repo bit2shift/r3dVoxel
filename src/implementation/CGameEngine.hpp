@@ -5,6 +5,8 @@ class CGameEngine : public r3dVoxel::IGameEngine
 {
 	std::map<GLFWmonitor*, CMonitor> m_monitors;
 
+	friend r3dVoxel::IGameEngine* r3vInitialize();
+
 	static void error_callback(std::int32_t error, const char* description)
 	{
 		//std::cerr << "[GLFW] " << error << " : " << description << std::endl;
@@ -28,9 +30,6 @@ class CGameEngine : public r3dVoxel::IGameEngine
 		}
 	}
 
-public:
-	static CGameEngine* instance;
-
 	CGameEngine()
 	{
 		glfwSetErrorCallback(error_callback);
@@ -47,16 +46,14 @@ public:
 		GLFWmonitor** pmon = glfwGetMonitors(&count);
 		for(std::int32_t i = 0; i < count; i++)
 			m_monitors.emplace(pmon[i], pmon[i]);
-
-		instance = this;
 	}
 
 	~CGameEngine()
 	{
-		instance = nullptr;
 		glfwTerminate();
 	}
 
+public:
 	///////////////////////////
 	//// Interface methods ////
 	///////////////////////////
@@ -93,13 +90,10 @@ public:
 	}
 };
 
-CGameEngine* CGameEngine::instance = nullptr;
-
 R3VAPI r3dVoxel::IGameEngine* r3vInitialize() try
 {
-	if(!CGameEngine::instance)
-		new CGameEngine();
-	return CGameEngine::instance;
+	static CGameEngine instance;
+	return &instance;
 }
 catch(...)
 {

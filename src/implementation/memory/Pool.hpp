@@ -1,21 +1,25 @@
-#include <array>
+#include <atomic>
+#include <cstdint>
 #include <cstdlib>
 #include <utility>
-
-/*
- * std::calloc() type wrapper
- */
-template<typename T>
-T* talloc(std::size_t count)
-{
-	return static_cast<T*>(std::calloc(count, sizeof(T)));
-}
 
 /*
  * Allocation pool
  */
 class Pool
 {
+	struct Lock
+	{
+		static std::atomic_flag& flag()
+		{
+			static std::atomic_flag instance = ATOMIC_FLAG_INIT;
+			return instance;
+		}
+
+		Lock() { while(flag().test_and_set(std::memory_order_acquire)); }
+		~Lock(){       flag().clear(std::memory_order_release);         }
+	};
+
 	struct Node
 	{
 		std::size_t size;
@@ -29,13 +33,18 @@ class Pool
 		Node* chain;
 	};
 
-	// std::array -> internal array -> Root -> zero-initialize
-	std::array<Root, 256> m_hashtable = {{{0}}};
+	Root m_hashtable[256] = {{0}};
 
 	// suits both 32-bit and 64-bit pointers
 	Root& hashroot(const void* pointer)
 	{
 		return m_hashtable[std::uintptr_t(pointer) >> 24 & 0xFF];
+	}
+
+	template<typename T>
+	T* talloc(std::size_t count)
+	{
+		return static_cast<T*>(std::calloc(count, sizeof(T)));
 	}
 
 public:
@@ -57,6 +66,7 @@ public:
 
 	void* create(std::size_t size)
 	{
+		Lock lock;
 		Node* node = talloc<Node>(1);
 		char* pointer = talloc<char>(size + 15);
 		if(node && pointer)
@@ -82,30 +92,28 @@ public:
 
 	void destroy(void* pointer)
 	{
-		if(pointer)
+		Lock lock;
+		Root& root = hashroot(pointer);
+		Node* node = root.chain;
+		Node* prev = nullptr;
+		while(node)
 		{
-			Root& root = hashroot(pointer);
-			Node* node = root.chain;
-			Node* prev = nullptr;
-			while(node)
+			if((std::uintptr_t(pointer) - std::uintptr_t(node->pointer)) < 16)
 			{
-				if((std::uintptr_t(pointer) - std::uintptr_t(node->pointer)) < 16)
-				{
-					root.size -= node->size;
-					pointer = node->pointer;
+				root.size -= node->size;
+				pointer = node->pointer;
 
-					if(prev)
-						prev->next = node->next;
-					else
-						root.chain = node->next;
+				if(prev)
+					prev->next = node->next;
+				else
+					root.chain = node->next;
 
-					std::free(node);
-					std::free(pointer);
-					break;
-				}
-				prev = node;
-				node = node->next;
+				std::free(node);
+				std::free(pointer);
+				break;
 			}
+			prev = node;
+			node = node->next;
 		}
 	}
 

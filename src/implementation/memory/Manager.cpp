@@ -1,12 +1,10 @@
 #include "Pool.hpp"
-#include <atomic>
 
 /*
  * Exporting the library functions from here,
  * so mirror the following define in here
  */
-#define R3VAPI         extern "C" [[gnu::dllexport]]
-#define THREAD_LOCK    volatile simple_mutex sm
+#define R3VAPI    extern "C" [[gnu::dllexport]]
 
 /*
  * This gets constructed upon library loading
@@ -14,28 +12,18 @@
  * Standard behaviour for DLL and SO
  */
 static Pool MEMORY_POOL;
-static std::atomic_flag MEMORY_LOCK = ATOMIC_FLAG_INIT;
-
-struct simple_mutex
-{
-	simple_mutex() { while(MEMORY_LOCK.test_and_set(std::memory_order_acquire)); }
-	~simple_mutex(){       MEMORY_LOCK.clear(std::memory_order_release);         }
-};
 
 R3VAPI void* r3vMalloc(std::size_t size)
 {
-	THREAD_LOCK;
-	return MEMORY_POOL.create(size);
+	return size ? MEMORY_POOL.create(size) : nullptr;
 }
 
 R3VAPI void r3vFree(void* pointer)
 {
-	THREAD_LOCK;
-	MEMORY_POOL.destroy(pointer);
+	pointer ? MEMORY_POOL.destroy(pointer) : (void)0;
 }
 
 R3VAPI std::size_t r3vGetMemoryUsage()
 {
-	THREAD_LOCK;
 	return MEMORY_POOL.usage();
 }
