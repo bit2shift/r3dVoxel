@@ -1,3 +1,4 @@
+#include <array>
 #include <atomic>
 #include <cstdint>
 #include <cstdlib>
@@ -22,23 +23,24 @@ class Pool
 
 	struct Node
 	{
+		Node* next;
 		std::size_t size;
 		void* pointer;
-		Node* next;
 	};
 
 	struct Root
 	{
-		std::size_t size;
 		Node* chain;
+		std::size_t size;
 	};
 
-	Root m_hashtable[256] = {{0}};
+	// std::array -> internal array -> Root -> zero-initialize
+	std::array<Root, 256> m_hashtable = {{{0}}};
 
 	// suits both 32-bit and 64-bit pointers
-	Root& hashroot(const void* pointer)
+	Root* hashroot(const void* pointer)
 	{
-		return m_hashtable[std::uintptr_t(pointer) >> 24 & 0xFF];
+		return &m_hashtable[std::uintptr_t(pointer) % m_hashtable.size()];
 	}
 
 	template<typename T>
@@ -51,7 +53,7 @@ public:
 	~Pool()
 	{
 		//XXX log still-allocated memory?
-		for(Root& root : m_hashtable)
+		for(Root root : m_hashtable)
 		{
 			Node* node = root.chain;
 			while(node)
@@ -60,7 +62,6 @@ public:
 				std::free(std::exchange(node, node->next));
 				std::free(pointer);
 			}
-			root = {0};
 		}
 	}
 
@@ -71,16 +72,11 @@ public:
 		char* pointer = talloc<char>(size + 15);
 		if(node && pointer)
 		{
-			Root& root = hashroot(pointer);
-			root.size += size;
-
-			node->size = size;
-			node->pointer = pointer;
-			node->next = root.chain;
-			root.chain = node;
-
-			pointer += (15 - (std::uintptr_t(pointer - 1) & 15));
-			return pointer;
+			Root* root = hashroot(pointer);
+			*node = {root->chain, size, pointer};
+			root->chain = node;
+			root->size += size;
+			return pointer + (15 - (std::uintptr_t(pointer - 1) & 15));
 		}
 		else
 		{
@@ -93,34 +89,28 @@ public:
 	void destroy(void* pointer)
 	{
 		Lock lock;
-		Root& root = hashroot(pointer);
-		Node* node = root.chain;
-		Node* prev = nullptr;
+		Root* root = hashroot(pointer);
+		Node* prev = reinterpret_cast<Node*>(root);
+		Node* node = root->chain;
 		while(node)
 		{
 			if((std::uintptr_t(pointer) - std::uintptr_t(node->pointer)) < 16)
 			{
-				root.size -= node->size;
+				prev->next = node->next;
+				root->size -= node->size;
 				pointer = node->pointer;
-
-				if(prev)
-					prev->next = node->next;
-				else
-					root.chain = node->next;
-
 				std::free(node);
 				std::free(pointer);
 				break;
 			}
-			prev = node;
-			node = node->next;
+			prev = std::exchange(node, node->next);
 		}
 	}
 
 	std::size_t usage()
 	{
 		std::size_t total = 0;
-		for(Root& root : m_hashtable)
+		for(Root root : m_hashtable)
 			total += root.size;
 		return total;
 	}
