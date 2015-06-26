@@ -27,3 +27,8 @@ R3VAPI std::size_t r3vGetMemoryUsage()
 {
 	return MEMORY_POOL.usage();
 }
+
+R3VAPI std::size_t r3vGetSize(const void* pointer)
+{
+	return pointer ? MEMORY_POOL.size(pointer) : 0;
+}

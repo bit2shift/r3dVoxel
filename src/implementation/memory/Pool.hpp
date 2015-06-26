@@ -114,4 +114,18 @@ public:
 			total += root.size;
 		return total;
 	}
+
+	std::size_t size(const void* pointer)
+	{
+		Lock lock;
+		Root* root = hashroot(pointer);
+		Node* node = root->chain;
+		while(node)
+		{
+			if((std::uintptr_t(pointer) - std::uintptr_t(node->pointer)) < 16)
+				return node->size;
+			node = node->next;
+		}
+		return 0;
+	}
 };
