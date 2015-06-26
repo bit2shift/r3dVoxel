@@ -5,40 +5,13 @@ class CGameEngine : public r3dVoxel::IGameEngine
 {
 	std::map<GLFWmonitor*, CMonitor> m_monitors;
 
-	friend r3dVoxel::IGameEngine* r3vInitialize();
-
-	static void error_callback(std::int32_t error, const char* description)
-	{
-		//std::cerr << "[GLFW] " << error << " : " << description << std::endl;
-	}
-
-	static void monitor_callback(GLFWmonitor* monitor, std::int32_t status)
-	{
-		CGameEngine* engine = static_cast<CGameEngine*>(r3vInitialize());
-		if(engine)
-		{
-			switch(status)
-			{
-			case GLFW_CONNECTED:
-				engine->m_monitors.emplace(monitor, monitor);
-				break;
-
-			case GLFW_DISCONNECTED:
-				engine->m_monitors.erase(monitor);
-				break;
-			}
-		}
-	}
-
 	CGameEngine()
 	{
 		glfwSetErrorCallback(error_callback);
 
-		//init GLFW
 		if(!glfwInit())
 			throw std::runtime_error("GLFW initialization failure");
 
-		//set monitor callback
 		glfwSetMonitorCallback(monitor_callback);
 
 		//get all monitors into our map
@@ -53,7 +26,38 @@ class CGameEngine : public r3dVoxel::IGameEngine
 		glfwTerminate();
 	}
 
+	static void error_callback(std::int32_t error, const char* description)
+	{
+		//std::cerr << "[GLFW] " << error << " : " << description << std::endl;
+	}
+
+	static void monitor_callback(GLFWmonitor* monitor, std::int32_t status)
+	{
+		CGameEngine* engine = static_cast<CGameEngine*>(r3vInitialize());
+		switch(status)
+		{
+		case GLFW_CONNECTED:
+			engine->m_monitors.emplace(monitor, monitor);
+			break;
+
+		case GLFW_DISCONNECTED:
+			engine->m_monitors.erase(monitor);
+			break;
+		}
+	}
+
 public:
+	friend r3dVoxel::IGameEngine* r3vInitialize() try
+	{
+		static CGameEngine instance;
+		return &instance;
+	}
+	catch(...)
+	{
+		//TODO logger log
+		return nullptr;
+	}
+
 	///////////////////////////
 	//// Interface methods ////
 	///////////////////////////
@@ -89,14 +93,3 @@ public:
 		return nullptr;
 	}
 };
-
-R3VAPI r3dVoxel::IGameEngine* r3vInitialize() try
-{
-	static CGameEngine instance;
-	return &instance;
-}
-catch(...)
-{
-	//TODO logger log
-	return nullptr;
-}
