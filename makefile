@@ -3,7 +3,7 @@ CXXFLAG=-c -std=c++14 -Wall -Wconversion -msse2 -mstackrealign
 INCDIRS=-Idep/glew/include -Idep/glfw/include
 
 # Linker flags, library folders and libraries
-LNKFLAG=-shared -static
+LNKFLAG=-shared
 LIBDIRS=-Ldep/glew/lib -Ldep/glfw/src
 LIBS=-lglew32mx -lglfw3 -lgdi32 -lopengl32
 
