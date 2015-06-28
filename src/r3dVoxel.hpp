@@ -1,11 +1,15 @@
 #pragma once
 #include <algorithm>        //std::copy
+#include <cmath>            //std::abs, std::signbit
 #include <cstddef>          //std::size_t
 #include <cstdint>          //std::int8_t, std::uint8_t, ...
 #include <initializer_list> //ditto
+#include <iomanip>          //IO manipulators
 #include <new>              //std::bad_alloc, std::nothrow_t
+#include <regex>            //std::regex, ...
+#include <sstream>          //std::ostringstream
 #include <stdexcept>        //std::out_of_range
-#include <utility>          //std::forward
+#include <utility>          //std::forward, ...
 
 #ifdef R3V_EXPORT
 #define R3VAPI    extern "C" [[gnu::dllexport]]
@@ -14,8 +18,11 @@
 #endif
 
 /*
- * Memory management functions
- * Used by overridden operators 'new' and 'delete'
+ * Memory management functions:
+ * - Allocation
+ * - Deallocation
+ * - Total allocated memory
+ * - Size of allocation
  */
 R3VAPI void* r3vMalloc(std::size_t size);
 R3VAPI void r3vFree(void* pointer);
@@ -70,6 +77,7 @@ namespace r3dVoxel
 	#include "r3dVoxel/IClass.hpp"
 
 	/* Derived classes */
+	#include "r3dVoxel/ILogger.hpp"
 	#include "r3dVoxel/IMonitor.hpp"
 	#include "r3dVoxel/IView.hpp"
 	#include "r3dVoxel/IGameEngine.hpp"
