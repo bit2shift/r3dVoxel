@@ -53,7 +53,7 @@ public:
 	~Pool()
 	{
 		//XXX log still-allocated memory?
-		for(Root root : m_hashtable)
+		for(Root& root : m_hashtable)
 		{
 			Node* node = root.chain;
 			while(node)
@@ -110,7 +110,7 @@ public:
 	std::size_t usage()
 	{
 		std::size_t total = 0;
-		for(Root root : m_hashtable)
+		for(Root& root : m_hashtable)
 			total += root.size;
 		return total;
 	}
