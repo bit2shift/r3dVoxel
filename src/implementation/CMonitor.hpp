@@ -5,15 +5,17 @@ class CMonitor : public r3dVoxel::IMonitor
 {
 	GLFWmonitor* m_monitor;
 
-private:
-	static void copyVideoMode(r3dVoxel::SVideoMode& vm, const GLFWvidmode mode)
+	static r3dVoxel::SVideoMode copyVideoMode(const GLFWvidmode& mode)
 	{
-		vm.width   = std::int16_t(mode.width);
-		vm.height  = std::int16_t(mode.height);
-		vm.red     = std::int8_t(mode.redBits);
-		vm.green   = std::int8_t(mode.greenBits);
-		vm.blue    = std::int8_t(mode.blueBits);
-		vm.refresh = std::int8_t(mode.refreshRate);
+		return
+		{
+			std::int16_t(mode.width),
+			std::int16_t(mode.height),
+			std::int8_t(mode.redBits),
+			std::int8_t(mode.greenBits),
+			std::int8_t(mode.blueBits),
+			std::int8_t(mode.refreshRate)
+		};
 	}
 
 public:
@@ -44,26 +46,23 @@ public:
 
 	r3dVoxel::SVideoMode getVideoMode()
 	{
-		r3dVoxel::SVideoMode vm = {0};
 		const GLFWvidmode* mode = glfwGetVideoMode(m_monitor);
 		if(mode)
-			copyVideoMode(vm, *mode);
-
-		return vm;
+			return copyVideoMode(*mode);
+		else
+			return {0};
 	}
 
 	r3dVoxel::Array<r3dVoxel::SVideoMode> getAllVideoModes()
 	{
-		//get available video modes
 		std::int32_t count = 0;
 		const GLFWvidmode* pvm = glfwGetVideoModes(m_monitor, &count);
 
-		//allocate new array, return empty on failure
 		try
 		{
 			decltype(getAllVideoModes()) modes(count);
 			while(count--)
-				copyVideoMode(modes[count], pvm[count]);
+				modes[count] = copyVideoMode(pvm[count]);
 			return modes;
 		}
 		catch(...)

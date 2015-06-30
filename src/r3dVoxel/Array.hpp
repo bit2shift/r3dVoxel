@@ -38,7 +38,7 @@ public:
 		swap(first.m_arr, second.m_arr);
 	}
 
-	/* swap() is Array<T>::swap() on the following two declarations */
+	/* swap() is the above friend on the following two declarations */
 	Array(Array&& other) noexcept : Array()
 	{
 		swap(*this, other);
