@@ -14,10 +14,8 @@ public:
 	virtual r3dVoxel::math::ivec getPhysicalSize() = 0;
 
 	/*
-	 * Name, encoded as UTF-8
+	 * Monitor name, encoded as UTF-8
 	 * The returned string is managed internally
-	 * DO NOT FREE IT
-	 * TODO replace "const char*" with a string wrapper
 	 */
 	virtual const char* getName() = 0;
 
