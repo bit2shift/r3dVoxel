@@ -86,6 +86,12 @@ namespace r3dVoxel
 }
 
 /*
+ * Obtain named logger instance
+ * All instances are destroyed upon exit
+ */
+R3VAPI r3dVoxel::ILogger* r3vGetLogger(const char* name);
+
+/*
  * Initialize game engine
  * Consecutive calls will return the same instance.
  */

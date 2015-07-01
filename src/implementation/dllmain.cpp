@@ -11,6 +11,7 @@
 #include <map>
 
 //Implementation headers
+#include "CLogger.hpp"
 #include "CMonitor.hpp"
 #include "CView.hpp"
 #include "CGameEngine.hpp"
