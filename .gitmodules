@@ -2,8 +2,9 @@
 	path = dep/glfw
 	url = https://github.com/glfw/glfw.git
 	branch = latest
-	ignore = dirty
+	ignore = all
+
 [submodule "dep/glew"]
 	path = dep/glew
 	url = https://github.com/nigels-com/glew.git
-	ignore = dirty
+	ignore = all
