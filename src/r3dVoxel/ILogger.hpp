@@ -19,7 +19,7 @@ public:
 	template<typename... T>
 	void log(Level lvl, const char* str, T&&... args)
 	{
-		static const std::regex re(R"re(\{(\d)(?:,([-+]?\d\d?))?(?::([A-Za-z])(\d\d?)?)?\}|[^])re");
+		static const std::regex re(R"re(\{(\d)(?:,(-?\d\d?))?(?::([A-Za-z])(\d\d?)?)?\}|[^])re");
 		std::cregex_iterator begin(str, str + std::strlen(str), re);
 		std::cregex_iterator end;
 		std::ostringstream stream;
@@ -35,21 +35,34 @@ public:
 					std::int32_t width = (cm[4].matched ? std::stoi(cm[4]) : 0);
 
 					std::ostringstream field;
+					field << std::internal << std::setfill('0');
 					switch(format)
 					{
+					case 'H':
+						field << std::hex << std::uppercase << std::setw(width);
+						break;
+
+					case 'h':
+						field << std::hex << std::setw(width);
+						break;
+
 					case 'X':
 					case 'x':
-						field << std::hex << std::setw(width + 2);
+						field << "0x" << std::hex << std::uppercase << std::setw(width);
 						break;
 
 					case 'O':
 					case 'o':
-						field << std::oct << std::setw(width + 1);
+						field << '0' << std::oct << std::setw(width);
 						break;
 
 					//TODO more format specifiers
+
+					default:
+						field << std::right << std::setfill(' ');
+						break;
 					}
-					field << std::internal << std::setfill('0') << std::showbase << t;
+					field << t;
 					stream << std::setw(std::abs(align)) << (std::signbit(align) ? std::left : std::right) << field.str();
 				};
 				r3dVoxel::parameter_pack::at(std::stoi(cm[1]), print, std::forward<T>(args)...);
