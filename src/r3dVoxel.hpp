@@ -5,6 +5,7 @@
 #include <cstdint>          //std::int8_t, std::uint8_t, ...
 #include <initializer_list> //ditto
 #include <iomanip>          //IO manipulators
+#include <locale>           //std::time_put,...
 #include <new>              //std::bad_alloc, std::nothrow_t
 #include <regex>            //std::regex, ...
 #include <sstream>          //std::ostringstream
@@ -89,7 +90,7 @@ namespace r3dVoxel
  * Obtain named logger instance
  * All instances are destroyed upon exit
  */
-R3VAPI r3dVoxel::ILogger* r3vGetLogger(const char* name);
+R3VAPI r3dVoxel::ILogger* r3vGetLogger(const char* name, const char* fname = nullptr);
 
 /*
  * Initialize game engine
