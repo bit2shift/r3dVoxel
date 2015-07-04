@@ -4,20 +4,10 @@
 class ILogger : public r3dVoxel::IClass
 {
 public:
-	enum struct Level : std::uint8_t
-	{
-		OFF,
-		SEVERE,
-		WARNING,
-		INFO,
-		DEBUG,
-		ALL
-	};
-
-	virtual void log(Level lvl, const char* str) = 0;
+	virtual void log(r3dVoxel::ELoggingLevel::Enum lvl, const char* str) = 0;
 
 	template<typename... T>
-	void log(Level lvl, const char* str, T&&... args)
+	void log(r3dVoxel::ELoggingLevel::Enum lvl, const char* str, T&&... args)
 	{
 		static const std::regex re(R"re(\{(\d)(?:,(-?\d\d?))?(?::([A-Za-z])(\d\d?)?)?\}|[^])re");
 		std::cregex_iterator begin(str, str + std::strlen(str), re);

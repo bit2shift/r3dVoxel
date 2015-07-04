@@ -106,3 +106,44 @@ namespace std
 
 namespace r3dVoxel {
 #endif
+
+/*
+ * Enum<T> class for pseudo-reflection of enums
+ */
+template<typename T>
+class Enum final
+{
+	const char* m_name;
+	const T m_value;
+	static T m_counter;
+
+public:
+	Enum(const char* name, T init = m_counter) : m_name(name), m_value(init) {m_counter = T(init + 1);}
+
+	const char* name() const {return m_name;}
+	const T value() const {return m_value;}
+};
+
+template<typename T>
+T Enum<T>::m_counter = 0;
+
+/*
+ * Enum<T> helpers
+ */
+#define ENUM_TYPE(x)     typedef Enum<x> Enum;
+#define ENUM_DECL(x,...) x(#x,##__VA_ARGS__)
+#define ENUM(...)        const Enum ENUM_DECL(__VA_ARGS__);
+
+/*
+ * Logging level
+ */
+namespace ELoggingLevel
+{
+	ENUM_TYPE(std::uint8_t)
+	ENUM(OFF)
+	ENUM(SEVERE)
+	ENUM(WARNING)
+	ENUM(INFO)
+	ENUM(DEBUG)
+	ENUM(ALL)
+}

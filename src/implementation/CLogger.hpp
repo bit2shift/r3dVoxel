@@ -40,8 +40,18 @@ public:
 	//// Interface methods ////
 	///////////////////////////
 
-	void log(Level lvl, const char* str)
+	void log(r3dVoxel::ELoggingLevel::Enum lvl, const char* str)
 	{
-		//TODO
+		std::ostringstream buffer;
+
+		std::time_t now = std::time(nullptr);
+		buffer
+			<< std::put_time(std::localtime(&now), "%Y-%m-%d %H:%M:%S ")
+			<< '[' << lvl.name() << ']' << ' '
+			<< '[' << m_name << ']' << ' '
+			<< str << std::endl;
+
+		std::clog << buffer.str();
+		(*m_file) << buffer.str();
 	}
 };
