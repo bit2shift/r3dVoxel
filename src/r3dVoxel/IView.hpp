@@ -1,3 +1,5 @@
+#pragma once
+
 /*
  * Defines a rendering window, with its own OpenGL context
  */

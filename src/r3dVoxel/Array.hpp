@@ -1,3 +1,5 @@
+#pragma once
+
 /*
  * r3dVoxel's interoperable array
  */

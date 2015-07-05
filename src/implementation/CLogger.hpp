@@ -1,3 +1,5 @@
+#pragma once
+
 /*
  * ILogger implementation
  */

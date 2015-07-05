@@ -1,3 +1,5 @@
+#pragma once
+
 /*
  * Base class for all interfaces
  * Core of the API

@@ -1,3 +1,5 @@
+#pragma once
+
 /*
  * Vector types
  *

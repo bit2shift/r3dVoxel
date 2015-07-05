@@ -1,3 +1,5 @@
+#pragma once
+
 /*
  * The most important interface of r3dVoxel
  */

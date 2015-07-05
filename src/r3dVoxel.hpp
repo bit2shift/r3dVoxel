@@ -1,16 +1,20 @@
 #pragma once
+
 #include <algorithm>        //std::copy
 #include <cmath>            //std::abs, std::signbit
 #include <cstddef>          //std::size_t
 #include <cstdint>          //std::int8_t, std::uint8_t, ...
 #include <initializer_list> //ditto
 #include <iomanip>          //IO manipulators
-#include <locale>           //std::time_put,...
 #include <new>              //std::bad_alloc, std::nothrow_t
 #include <regex>            //std::regex, ...
 #include <sstream>          //std::ostringstream
 #include <stdexcept>        //std::out_of_range
 #include <utility>          //std::forward, ...
+
+#if __GNUC__ < 5
+#include "r3dVoxel/put_time.hpp"
+#endif
 
 #ifdef R3V_EXPORT
 #define R3VAPI    extern "C" [[gnu::dllexport]]
@@ -18,45 +22,7 @@
 #define R3VAPI    extern "C" [[gnu::dllimport]]
 #endif
 
-/*
- * Memory management functions:
- * - Allocation
- * - Deallocation
- * - Total allocated memory
- * - Size of allocation
- */
-R3VAPI void* r3vMalloc(std::size_t size);
-R3VAPI void r3vFree(void* pointer);
-R3VAPI std::size_t r3vGetMemoryUsage();
-R3VAPI std::size_t r3vGetSize(const void* pointer);
-
-/*
- * Overridden memory operators
- * These 4 operators are used by the other variants
- */
-void* operator new(std::size_t size)
-{
-	void* pointer = r3vMalloc(size);
-	if(pointer)
-		return pointer;
-	else
-		throw std::bad_alloc();
-}
-
-void* operator new(std::size_t size, const std::nothrow_t&) noexcept
-{
-	return r3vMalloc(size);
-}
-
-void operator delete(void* pointer) noexcept
-{
-	r3vFree(pointer);
-}
-
-void operator delete(void* pointer, const std::nothrow_t&) noexcept
-{
-	r3vFree(pointer);
-}
+#include "r3dVoxel/Memory.hpp"
 
 /*
  * The namespace

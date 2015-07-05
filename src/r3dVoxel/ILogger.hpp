@@ -1,3 +1,19 @@
+#pragma once
+
+/*
+ * Logging level
+ */
+namespace ELoggingLevel
+{
+	ENUM_TYPE(std::uint8_t)
+	ENUM(OFF)
+	ENUM(SEVERE)
+	ENUM(WARNING)
+	ENUM(INFO)
+	ENUM(DEBUG)
+	ENUM(ALL)
+}
+
 /*
  * Handy all-purpose logger
  */

@@ -1,3 +1,5 @@
+#pragma once
+
 //TODO position callback: glfwSetWindowPosCallback()
 //TODO size callback: glfwSetWindowSizeCallback()
 //TODO close callback: glfwSetWindowCloseCallback()
