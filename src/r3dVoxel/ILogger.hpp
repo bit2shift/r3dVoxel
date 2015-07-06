@@ -49,7 +49,7 @@ public:
 						break;
 
 					case 'h':
-						field << std::hex << std::setw(width);
+						field << std::hex << std::nouppercase << std::setw(width);
 						break;
 
 					case 'X':
