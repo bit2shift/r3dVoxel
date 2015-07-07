@@ -52,10 +52,9 @@ class Enum final
 	static T m_counter;
 
 public:
-	Enum(const char* name, T init = m_counter) : m_name(name), m_value(init) {m_counter = T(init + 1);}
-
-	const char* name() const {return m_name;}
-	const T value() const {return m_value;}
+	Enum(const char* name, T init = m_counter) noexcept : m_name(name), m_value(init) {m_counter = T(init + 1);}
+	const char* name() const noexcept {return m_name;}
+	const T value() const noexcept {return m_value;}
 };
 
 template<typename T>
