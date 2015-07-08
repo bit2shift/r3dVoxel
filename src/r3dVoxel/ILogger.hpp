@@ -34,7 +34,7 @@ public:
 			std::cmatch cm = *begin++;
 			if(cm[1].matched)
 			{
-				auto print = [&stream, &cm](const auto& t)
+				auto print = [&stream, &cm](auto t)
 				{
 					std::int32_t align = (cm[2].matched ? std::stoi(cm[2]) : 0);
 					std::int8_t format = (cm[3].matched ? cm[3].str()[0] : 0);
@@ -44,31 +44,35 @@ public:
 					field << std::internal << std::setfill('0');
 					switch(format)
 					{
-					case 'H':
-						field << std::hex << std::uppercase << std::setw(width);
-						break;
-
-					case 'h':
-						field << std::hex << std::nouppercase << std::setw(width);
-						break;
-
 					case 'X':
-					case 'x':
-						field << "0x" << std::hex << std::uppercase << std::setw(width);
+					case 'x': // hexadecimal notation
+						field << "0x" << std::hex << std::uppercase << std::setw(width) << t;
 						break;
 
 					case 'O':
-					case 'o':
-						field << '0' << std::oct << std::setw(width);
+					case 'o': // octal notation
+						field << '0' << std::oct << std::setw(width) << t;
+						break;
+
+					case 'H': // upper-case hexadecimal (no base)
+						field << std::hex << std::uppercase << std::setw(width) << t;
+						break;
+
+					case 'h': // lower-case hexadecimal (no base)
+						field << std::hex << std::nouppercase << std::setw(width) << t;
+						break;
+
+					case 'I':
+					case 'i': // integer (forced specifier)
+						field << std::dec << std::setw(width) << typename std::conditional<std::is_integral<decltype(t)>::value, int, decltype(t)>::type(t);
 						break;
 
 					//TODO more format specifiers
 
 					default:
-						field << std::right << std::setfill(' ');
+						field << std::right << std::setfill(' ') << t;
 						break;
 					}
-					field << t;
 					stream << std::setw(std::abs(align)) << (std::signbit(align) ? std::left : std::right) << field.str();
 				};
 				r3dVoxel::parameter_pack::at(std::stoi(cm[1]), print, std::forward<T>(args)...);

@@ -10,6 +10,7 @@
 #include <regex>            //std::regex, ...
 #include <sstream>          //std::ostringstream
 #include <stdexcept>        //std::out_of_range
+#include <type_traits>      //std::conditional, std::is_integral
 #include <utility>          //std::forward, ...
 
 #if __GNUC__ < 5
