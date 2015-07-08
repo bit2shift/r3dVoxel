@@ -8,6 +8,7 @@
 #include <GLFW/glfw3.h>
 
 //C++ includes
+#include <ctime>
 #include <fstream>
 #include <iostream>
 #include <map>
