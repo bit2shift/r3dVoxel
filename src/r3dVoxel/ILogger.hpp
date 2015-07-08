@@ -63,8 +63,13 @@ public:
 						break;
 
 					case 'I':
-					case 'i': // integer (forced specifier)
-						field << std::dec << std::setw(width) << typename std::conditional<std::is_integral<decltype(t)>::value, int, decltype(t)>::type(t);
+					case 'i': // signed integer (forced specifier)
+						field << typename std::conditional<std::is_integral<decltype(t)>::value, std::intmax_t, decltype(t)>::type(t);
+						break;
+
+					case 'U':
+					case 'u': // unsigned integer (forced specifier)
+						field << typename std::conditional<std::is_integral<decltype(t)>::value, std::uintmax_t, decltype(t)>::type(t);
 						break;
 
 					//TODO more format specifiers
