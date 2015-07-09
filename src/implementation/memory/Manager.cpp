@@ -11,7 +11,7 @@
  * and then destroyed upon unloading.
  * Standard behaviour for DLL and SO
  */
-static Pool MEMORY_POOL;
+static Pool<1024> MEMORY_POOL;
 
 R3VAPI void* r3vMalloc(std::size_t size)
 {

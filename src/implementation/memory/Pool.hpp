@@ -1,6 +1,5 @@
 #pragma once
 
-#include <array>
 #include <atomic>
 #include <cstdint>
 #include <cstdlib>
@@ -9,8 +8,11 @@
 /*
  * Allocation pool
  */
+template<std::size_t htsz>
 class Pool
 {
+	static_assert((htsz & -htsz) == htsz, "Must be power of 2");
+
 	struct Lock
 	{
 		static std::atomic_flag& flag()
@@ -36,13 +38,12 @@ class Pool
 		std::size_t size;
 	};
 
-	// std::array -> internal array -> Root -> zero-initialize
-	std::array<Root, 256> m_hashtable = {{{0}}};
+	Root m_hashtable[htsz] = {{0}};
 
 	// suits both 32-bit and 64-bit pointers
 	Root* hashroot(const void* pointer)
 	{
-		return &m_hashtable[std::uintptr_t(pointer) % m_hashtable.size()];
+		return &m_hashtable[std::uintptr_t(pointer) & ~-htsz];
 	}
 
 	template<typename T>
@@ -78,7 +79,7 @@ public:
 			*node = {root->chain, size, pointer};
 			root->chain = node;
 			root->size += size;
-			return pointer + (15 - (std::uintptr_t(pointer - 1) & 15));
+			return reinterpret_cast<void*>(std::uintptr_t(pointer + 15) & ~15);
 		}
 		else
 		{
