@@ -30,7 +30,7 @@ class CGameEngine : public r3dVoxel::IGameEngine
 
 	static void error_callback(std::int32_t error, const char* description)
 	{
-		//std::cerr << "[GLFW] " << error << " : " << description << std::endl;
+		r3vGetLogger(nullptr)->log(r3dVoxel::ELoggingLevel::SEVERE, "GLFW Error {0:X8} : {1}", error, description);
 	}
 
 	static void monitor_callback(GLFWmonitor* monitor, std::int32_t status)
@@ -54,9 +54,9 @@ public:
 		static CGameEngine instance;
 		return &instance;
 	}
-	catch(...)
+	catch(std::exception& e)
 	{
-		//TODO logger log
+		r3vGetLogger(nullptr)->log(r3dVoxel::ELoggingLevel::SEVERE, "r3vInitialize() : {0}", e.what());
 		return nullptr;
 	}
 
