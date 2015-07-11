@@ -19,8 +19,8 @@ class CGameEngine : public r3dVoxel::IGameEngine
 		//get all monitors into our map
 		std::int32_t count = 0;
 		GLFWmonitor** pmon = glfwGetMonitors(&count);
-		for(std::int32_t i = 0; i < count; i++)
-			m_monitors.emplace(pmon[i], pmon[i]);
+		while(count--)
+			m_monitors.emplace(pmon[count], pmon[count]);
 	}
 
 	~CGameEngine()

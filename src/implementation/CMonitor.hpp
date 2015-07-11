@@ -52,7 +52,7 @@ public:
 		if(mode)
 			return copyVideoMode(*mode);
 		else
-			return {0};
+			return {};
 	}
 
 	r3dVoxel::Array<r3dVoxel::SVideoMode> getAllVideoModes()
