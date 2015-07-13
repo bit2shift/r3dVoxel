@@ -79,7 +79,7 @@ public:
 			*node = {root->chain, size, pointer};
 			root->chain = node;
 			root->size += size;
-			return reinterpret_cast<void*>(std::uintptr_t(pointer + 15) & ~15);
+			return reinterpret_cast<void*>(std::uintptr_t(pointer + 15) & ~15U);
 		}
 		else
 		{
