@@ -80,7 +80,7 @@ public:
 					}
 					stream << std::setw(std::abs(align)) << (std::signbit(align) ? std::left : std::right) << field.str();
 				};
-				r3dVoxel::parameter_pack::at(std::stoi(cm[1]), print, std::forward<T>(args)...);
+				r3dVoxel::parameter_pack::at(std::stoul(cm[1]), print, std::forward<T>(args)...);
 			}
 			else
 				stream << cm.str();

@@ -57,8 +57,8 @@ public:
 
 	r3dVoxel::Array<r3dVoxel::SVideoMode> getAllVideoModes()
 	{
-		std::int32_t count = 0;
-		const GLFWvidmode* pvm = glfwGetVideoModes(m_monitor, &count);
+		std::size_t count = 0;
+		const GLFWvidmode* pvm = glfwGetVideoModes(m_monitor, reinterpret_cast<int*>(&count));
 
 		try
 		{
