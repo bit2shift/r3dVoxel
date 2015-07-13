@@ -13,7 +13,7 @@
 #include <type_traits>      //std::conditional, std::is_integral
 #include <utility>          //std::forward, ...
 
-#if __GNUC__ < 5
+#if (__GNUG__ < 5) && !defined(__clang__)
 #include "r3dVoxel/put_time.hpp"
 #endif
 

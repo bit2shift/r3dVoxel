@@ -13,7 +13,11 @@ struct vec
 	T x, y, z, w;
 };
 
+#ifdef __GNUG__
 #define VEC(x) __attribute((vector_size(16))) x
+#else
+#error This requires a GCC-compatible compiler
+#endif
 
 /* predefined vectors */
 typedef VEC(float)         fvec;
