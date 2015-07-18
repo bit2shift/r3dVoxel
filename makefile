@@ -1,6 +1,6 @@
 # Compiler flags and include folders
-CXXFLAG=-c -std=c++14 -Werror -Wall -Wconversion -msse2 -mstackrealign
-INCDIRS=-Idep/glew/include -Idep/glfw/include
+CXXFLAG=-c -std=c++14 -Werror -Wall -Wconversion -msse2 -mstackrealign -DR3V_EXPORT -DGLEW_MX -DGLEW_STATIC
+INCDIRS=-Idep/glew/include -Idep/glfw/include -Iinc -Isrc
 
 # Linker flags, library folders and libraries
 LNKFLAG=-shared
@@ -8,7 +8,7 @@ LIBDIRS=-Ldep/glew/lib -Ldep/glfw/src
 LIBS=-lglew32mx -lglfw3 -lgdi32 -lopengl32
 
 # Sources and objects
-SRC=$(wildcard src/implementation/*.cpp src/implementation/*/*.cpp)
+SRC=$(wildcard src/impl/*.cpp src/impl/*/*.cpp)
 OBJ=$(SRC:src/%.cpp=obj/%.o)
 
 # Default target
@@ -26,16 +26,19 @@ release: clean build
 
 # Clean the object files
 clean:
-	rm -fR obj
+	@echo "Cleaning..."
+	@rm -rf obj
 
 # Compile source
 obj/%.o: src/%.cpp
-	mkdir -p $(dir $@)
-	g++ $< $(CXXFLAG) $(INCDIRS) -o $@
+	@mkdir -p $(dir $@)
+	@echo "Compiling [$<]"
+	@g++ $< $(CXXFLAG) $(INCDIRS) -o $@
 
 # Main target, links binary after clean'n'compile
 build: $(OBJ)
-	g++ $^ $(LNKFLAG) $(LIBDIRS) $(LIBS) -o $(OUTPUT)/r3dVoxel.dll
+	@echo "Linking..."
+	@g++ $^ $(LNKFLAG) $(LIBDIRS) $(LIBS) -o $(OUTPUT)/r3dVoxel.dll
 
 depbuild:
 	@sh dep/depmake build
