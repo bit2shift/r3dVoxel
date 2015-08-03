@@ -1,6 +1,6 @@
 # Compiler flags and include folders
 CXXFLAG=-c -std=c++14 -Werror -Wall -Wconversion -msse2 -mstackrealign -DR3V_EXPORT -DGLEW_MX -DGLEW_STATIC
-INCDIRS=-Idep/glew/include -Idep/glfw/include -Iinc -Isrc
+INCDIRS=-Idep/glew/include -Idep/glfw/include -Iinc
 
 # Linker flags, library folders and libraries
 LNKFLAG=-shared
@@ -8,7 +8,7 @@ LIBDIRS=-Ldep/glew/lib -Ldep/glfw/src
 LIBS=-lglew32mx -lglfw3 -lgdi32 -lopengl32
 
 # Sources and objects
-SRC=$(wildcard src/impl/*.cpp src/impl/*/*.cpp)
+SRC=$(wildcard src/*.cpp src/*/*.cpp)
 OBJ=$(SRC:src/%.cpp=obj/%.o)
 
 # Default target
