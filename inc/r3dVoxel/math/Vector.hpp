@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../bugfix/eclipse_cdt.hpp"
+
 #include <cmath>
 #include <cstdint>
 #include <type_traits>
@@ -27,9 +29,9 @@ namespace r3dVoxel
 		 * - "vector" -> (w == 0)
 		 */
 		template<typename T>
-		struct vec
+		struct ALIGN(16) vec
 		{
-			alignas(16) T x, y, z, w;
+			T x, y, z, w;
 
 			template<typename V, typename = typename std::enable_if<sizeof(V) == 16>::type>
 			vec(V simd) noexcept {(*this) = reinterpret_cast<vec&>(simd);}

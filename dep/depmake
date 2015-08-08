@@ -17,12 +17,12 @@ case "$1" in
 	clean)
 		printf "\n\e[36mCleaning GLEW\e[m\n"
 		cd "$DIR/glew"
-		rm -fR !(.|..|.git)
+		rm -rf !(.|..|.git)
 		git reset --hard
 
 		printf "\n\e[36mCleaning GLFW\e[m\n"
 		cd "$DIR/glfw"
-		rm -fR !(.|..|.git)
+		rm -rf !(.|..|.git)
 		git reset --hard
 		;;
 
