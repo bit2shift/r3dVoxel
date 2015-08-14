@@ -1,4 +1,5 @@
 #include "CMonitor.hpp"
+
 #include <r3dVoxel/util/parameter_pack.hpp>
 
 namespace r3dVoxel

@@ -1,4 +1,5 @@
 #include "CGameEngine.hpp"
+
 #include <r3dVoxel/ILogger.hpp>
 #include <r3dVoxel/r3vABI.hpp>
 #include <exception>
