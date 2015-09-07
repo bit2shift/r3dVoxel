@@ -79,7 +79,19 @@ namespace r3dVoxel
 				if(index < m_num)
 					return m_arr[index];
 				else
-					throw std::out_of_range("r3dVoxel::Array<T>[index] : index >= length()");
+					throw std::out_of_range("r3dVoxel::util::Array<T>[index] : index >= length()");
+			}
+
+			/* Iterator to the beginning of the array */
+			T* begin() noexcept
+			{
+				return m_arr;
+			}
+
+			/* Iterator to the end of the array */
+			T* end() noexcept
+			{
+				return (m_arr + m_num);
 			}
 		};
 	}
