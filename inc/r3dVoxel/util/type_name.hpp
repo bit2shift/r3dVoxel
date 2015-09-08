@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <cstdlib>
 #include <cxxabi.h>
 #include <new>
@@ -14,7 +15,7 @@ namespace r3dVoxel
 		 * Obtains the fully qualified name of a type.
 		 * Usage: embedded (no gap hazards)
 		 */
-		template<typename T = decltype(nullptr)>
+		template<typename T = std::nullptr_t>
 		class type_name final
 		{
 			char* m_name;

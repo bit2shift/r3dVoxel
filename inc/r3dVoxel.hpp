@@ -1,6 +1,7 @@
 #pragma once
 
 /* Bug fixes of usefulness to us, just in case */
+#include "r3dVoxel/bugfix/eclipse_cdt.hpp"
 #include "r3dVoxel/bugfix/put_time.hpp"
 
 /* Library functions */
@@ -18,6 +19,7 @@
 #include "r3dVoxel/util/Enum.hpp"
 #include "r3dVoxel/util/copy_cv.hpp"
 #include "r3dVoxel/util/parameter_pack.hpp"
+#include "r3dVoxel/util/type_name.hpp"
 
 /* Interfaces */
 #include "r3dVoxel/IClass.hpp"
