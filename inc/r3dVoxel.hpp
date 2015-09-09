@@ -10,9 +10,16 @@
 /* Math stuff */
 #include "r3dVoxel/math/Vector.hpp"
 
-/* Custom operators new and delete */
+/*
+ * Custom operators new and delete
+ *
+ * Define R3V_MEMOPS in **ONLY ONE** source file
+ *   in order to have them available at link-time.
+ */
+#ifdef R3V_MEMOPS
 #include "r3dVoxel/memops/new.hpp"
 #include "r3dVoxel/memops/delete.hpp"
+#endif
 
 /* Utilities */
 #include "r3dVoxel/util/Array.hpp"
