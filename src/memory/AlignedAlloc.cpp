@@ -25,7 +25,7 @@ namespace r3dVoxel
 
 		void AlignedAlloc::deallocate(void* pointer, std::size_t size) noexcept
 		{
-			if(pointer)
+			if(pointer && !(std::uintptr_t(pointer) & 15ULL))
 				std::free(clean(pointer, size)[-1]);
 		}
 	}
