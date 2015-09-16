@@ -48,7 +48,7 @@ namespace r3dVoxel
 			std::ostringstream stream;
 
 			if(!std::is_void<C>())
-				stream << '(' << util::type_name<C>() << ')' << ' ';
+				stream << '(' << util::type_name<C>() << ") ";
 
 			while(begin != end)
 			{
