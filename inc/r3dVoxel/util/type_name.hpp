@@ -5,6 +5,7 @@
 #include <new>
 #include <stdexcept>
 #include <typeinfo>
+#include <utility>
 
 namespace r3dVoxel
 {
@@ -32,7 +33,7 @@ namespace r3dVoxel
 			}
 
 		public:
-			template<typename V = T>
+			template<typename V>
 			type_name(V&& value) : type_name(typeid(value)) {}
 			type_name() : type_name(typeid(T)) {}
 
@@ -41,10 +42,24 @@ namespace r3dVoxel
 				std::free(m_name);
 			}
 
-			operator char*() noexcept
+			operator const char*() noexcept
 			{
 				return m_name;
 			}
+
+			type_name(type_name&& other) noexcept
+			{
+				std::swap(m_name, other.m_name);
+			}
+
+			type_name& operator=(type_name&& other) noexcept
+			{
+				std::swap(m_name, other.m_name);
+				return *this;
+			}
+
+			type_name(const type_name&) = delete;
+			type_name& operator=(const type_name&) = delete;
 		};
 	}
 }
