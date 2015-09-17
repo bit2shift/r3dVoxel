@@ -3,15 +3,16 @@
 #include <r3dVoxel/r3vABI.hpp>
 #include <r3dVoxel/bugfix/put_time.hpp>
 #include <ctime>
+#include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <map>
 
 namespace r3dVoxel
 {
-	auto CLogger::init(std::string name, std::ofstream& file) -> decltype(this)
+	auto CLogger::operator()(std::string name) -> decltype(this)
 	{
 		m_name = name;
-		m_file = &file;
 		return this;
 	}
 
@@ -30,28 +31,18 @@ namespace r3dVoxel
 			<< str << std::endl;
 
 		std::clog << buffer.str();
-		(*m_file) << buffer.str();
+		m_logfile << buffer.str();
 	}
+
+	std::ofstream CLogger::m_logfile("r3dVoxel.log", std::ios_base::app);
 }
 
-R3VAPI r3dVoxel::ILogger* r3vGetLogger(const char* name, const char* fname)
+R3VAPI r3dVoxel::ILogger* r3vGetLogger(const char* name)
 {
-	typedef std::map<std::string, r3dVoxel::CLogger> map_logger;
-	typedef std::map<std::string, std::ofstream>     map_file;
-
-	static std::pair<map_logger, map_file> storage;
+	static std::map<std::string, r3dVoxel::CLogger> loggers;
 
 	if(!name)
-		name = "r3dVoxel";
+		name = "GLOBAL";
 
-	if(!fname)
-		fname = "r3dVoxel.log";
-
-	auto& logger = storage.first[name];
-	auto& file = storage.second[fname];
-
-	if(!file.is_open())
-		file.open(fname, std::ios_base::app);
-
-	return logger.init(name, file);
+	return loggers[name](name);
 }

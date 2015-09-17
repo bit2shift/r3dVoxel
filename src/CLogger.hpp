@@ -1,7 +1,7 @@
 #pragma once
 
 #include <r3dVoxel/ILogger.hpp>
-#include <fstream>
+#include <iosfwd>
 
 namespace r3dVoxel
 {
@@ -10,11 +10,11 @@ namespace r3dVoxel
 	 */
 	class CLogger : public ILogger
 	{
+		static std::ofstream m_logfile;
 		std::string m_name;
-		std::ofstream* m_file;
 
 	public:
-		auto init(std::string name, std::ofstream& file) -> decltype(this);
+		auto operator()(std::string name) -> decltype(this);
 
 		///////////////////////////
 		//// Interface methods ////

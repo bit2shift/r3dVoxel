@@ -3,7 +3,6 @@
 #include "IClass.hpp"
 #include "util/Enum.hpp"
 #include "util/parameter_pack.hpp"
-#include "util/type_name.hpp"
 
 #include <cmath>
 #include <cstdint>
@@ -39,17 +38,13 @@ namespace r3dVoxel
 	public:
 		virtual void log(ELoggingLevel::type lvl, const char* str) noexcept = 0;
 
-		template<typename C = void, typename... T>
+		template<typename... T>
 		void log(ELoggingLevel::type lvl, const char* str, T&&... args)
 		{
 			static const std::regex re(R"re(\{(\d)(?:,(-?\d\d?))?(?::([A-Za-z])(\d\d?)?)?\}|[^])re");
 			std::cregex_iterator begin(str, str + std::char_traits<char>::length(str), re);
 			std::cregex_iterator end;
 			std::ostringstream stream;
-
-			if(!std::is_void<C>())
-				stream << '(' << util::type_name<C>() << ") ";
-
 			while(begin != end)
 			{
 				std::cmatch cm = *begin++;
