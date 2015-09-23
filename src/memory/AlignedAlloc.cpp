@@ -12,6 +12,11 @@ namespace r3dVoxel
 			return reinterpret_cast<void**>(new(pointer) char[size]{});
 		}
 
+		bool AlignedAlloc::valid(const void* pointer) noexcept
+		{
+			return pointer && !(std::uintptr_t(pointer) & 15ULL);
+		}
+
 		void* AlignedAlloc::allocate(std::size_t size) noexcept
 		{
 			void* raw = std::malloc(size + 16);
@@ -25,7 +30,7 @@ namespace r3dVoxel
 
 		void AlignedAlloc::deallocate(void* pointer, std::size_t size) noexcept
 		{
-			if(pointer && !(std::uintptr_t(pointer) & 15ULL))
+			if(valid(pointer))
 				std::free(clean(pointer, size)[-1]);
 		}
 	}

@@ -9,6 +9,8 @@ namespace r3dVoxel
 	{
 		class AlignedAlloc
 		{
+			static bool valid(const void* pointer) noexcept;
+
 		public:
 			static void* allocate(std::size_t size) noexcept;
 			static void deallocate(void* pointer, std::size_t size) noexcept;
@@ -26,7 +28,7 @@ namespace r3dVoxel
 			template<typename T>
 			static void destroy(void* pointer, std::size_t count)
 			{
-				if(!pointer)
+				if(!valid(pointer))
 					return;
 
 				for(std::size_t i = 0; i < count; i++)
