@@ -88,6 +88,12 @@ namespace r3dVoxel
 							field << typename std::conditional<std::is_integral<decltype(t)>::value, std::uintmax_t, decltype(t)>::type(t);
 							break;
 
+						case 'Z':
+						case 'z': //std::size_t specifier, max hex digits (8 for 32-bit, 16 for 64-bit)
+							field << "0x" << std::hex << std::uppercase << std::setw(sizeof(std::size_t) << 1);
+							field << typename std::conditional<std::is_integral<decltype(t)>::value, std::size_t, decltype(t)>::type(t);
+							break;
+
 						//TODO more format specifiers
 
 						default:
