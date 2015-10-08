@@ -1,4 +1,4 @@
-#include "AlignedAlloc.hpp"
+#include "AllocUtils.hpp"
 
 #include <cstdint>
 #include <cstdlib>
@@ -12,12 +12,12 @@ namespace r3dVoxel
 			return reinterpret_cast<void**>(new(pointer) char[size]{});
 		}
 
-		bool AlignedAlloc::valid(const void* pointer) noexcept
+		bool AllocUtils::valid(const void* pointer) noexcept
 		{
 			return pointer && !(std::uintptr_t(pointer) & 15ULL);
 		}
 
-		void* AlignedAlloc::allocate(std::size_t size) noexcept
+		void* AllocUtils::allocate(std::size_t size) noexcept
 		{
 			void* raw = std::malloc(size + 16);
 			if(!raw)
@@ -28,7 +28,7 @@ namespace r3dVoxel
 			return pointer;
 		}
 
-		void AlignedAlloc::deallocate(void* pointer, std::size_t size) noexcept
+		void AllocUtils::deallocate(void* pointer, std::size_t size) noexcept
 		{
 			if(valid(pointer))
 				std::free(clean(pointer, size)[-1]);

@@ -7,7 +7,7 @@ namespace r3dVoxel
 {
 	namespace memory
 	{
-		class AlignedAlloc
+		class AllocUtils
 		{
 			static bool valid(const void* pointer) noexcept;
 
