@@ -9,9 +9,10 @@ namespace r3dVoxel
 	{
 		class AllocUtils
 		{
-			static bool valid(const void* pointer) noexcept;
-
 		public:
+			static bool valid(const void* pointer) noexcept;
+			static void** clean(void* pointer, std::size_t size) noexcept;
+
 			static void* allocate(std::size_t size) noexcept;
 			static void deallocate(void* pointer, std::size_t size) noexcept;
 

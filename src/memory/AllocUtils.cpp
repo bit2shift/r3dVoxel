@@ -7,14 +7,14 @@ namespace r3dVoxel
 {
 	namespace memory
 	{
-		inline void** clean(void* pointer, std::size_t size) noexcept
-		{
-			return reinterpret_cast<void**>(new(pointer) char[size]{});
-		}
-
 		bool AllocUtils::valid(const void* pointer) noexcept
 		{
-			return pointer && !(std::uintptr_t(pointer) & 15ULL);
+			return (pointer && !(std::uintptr_t(pointer) & 15ULL));
+		}
+
+		void** AllocUtils::clean(void* pointer, std::size_t size) noexcept
+		{
+			return reinterpret_cast<void**>(new(pointer) char[size]{});
 		}
 
 		void* AllocUtils::allocate(std::size_t size) noexcept
