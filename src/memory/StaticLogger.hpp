@@ -12,7 +12,7 @@ namespace r3dVoxel
 			std::FILE* m_file;
 
 		public:
-			StaticLogger(const char* name);
+			StaticLogger(const char* name) noexcept;
 			~StaticLogger();
 
 			template<typename... T>
