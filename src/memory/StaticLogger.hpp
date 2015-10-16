@@ -9,16 +9,19 @@ namespace r3dVoxel
 	{
 		class StaticLogger
 		{
-			std::FILE* m_file;
+			const char* m_name;
 
 		public:
-			StaticLogger(const char* name) noexcept;
-			~StaticLogger();
+			StaticLogger(const char* name) noexcept : m_name(name) {}
 
 			template<typename... T>
 			void operator()(const char* fmt, T&&... args) noexcept
 			{
-				std::fprintf(m_file, fmt, std::forward<T>(args)...);
+				if(std::FILE* file = std::fopen(m_name, "a"))
+				{
+					std::fprintf(file, fmt, std::forward<T>(args)...);
+					std::fclose(file);
+				}
 			}
 		};
 	}
