@@ -7,9 +7,9 @@ namespace r3dVoxel
 	namespace util
 	{
 		/*
-		 * An std::atomic_flag based spin-lock.
+		 * An std::atomic_flag-based spin-lock.
 		 * Meets the Lockable concept.
-		 * Therefore, usuable with std::lock_guard.
+		 * Therefore, usable with std::lock_guard.
 		 */
 		class spin_lock
 		{
