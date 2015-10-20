@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <cstdlib>
+#include <new>
 
 namespace r3dVoxel
 {
@@ -19,13 +20,14 @@ namespace r3dVoxel
 
 		void* AllocUtils::allocate(std::size_t size) noexcept
 		{
-			void* raw = std::malloc(size + 16);
-			if(!raw)
+			if(void* raw = std::malloc(size + 16))
+			{
+				void* pointer = reinterpret_cast<void*>((std::uintptr_t(raw) + 16) & ~15ULL);
+				clean(pointer, size)[-1] = raw;
+				return pointer;
+			}
+			else
 				return nullptr;
-
-			void* pointer = reinterpret_cast<void*>((std::uintptr_t(raw) + 16) & ~15ULL);
-			clean(pointer, size)[-1] = raw;
-			return pointer;
 		}
 
 		void AllocUtils::deallocate(void* pointer, std::size_t size) noexcept
