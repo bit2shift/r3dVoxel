@@ -17,12 +17,12 @@ all: debug
 # Debug target details
 debug: OUTPUT=../builds/Debug
 debug: CXXFLAG += -O0 -g3
-debug: clean build
+debug: build
 
 # Release target details
 release: OUTPUT=../builds/Release
 release: CXXFLAG += -O3
-release: clean build
+release: build
 
 # Clean the object files
 clean:
