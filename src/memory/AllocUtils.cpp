@@ -22,7 +22,7 @@ namespace r3dVoxel
 		{
 			if(void* raw = std::malloc(size + 16))
 			{
-				void* pointer = reinterpret_cast<void*>((std::uintptr_t(raw) + 16) & -16);
+				void* pointer = reinterpret_cast<void*>((std::intptr_t(raw) + 16) & -16);
 				clean(pointer, size)[-1] = raw;
 				return pointer;
 			}
