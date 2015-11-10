@@ -10,7 +10,7 @@ namespace r3dVoxel
 	{
 		bool AllocUtils::valid(const void* pointer) noexcept
 		{
-			return (pointer && !(std::uintptr_t(pointer) & 15ULL));
+			return (pointer && !(std::uintptr_t(pointer) & 15));
 		}
 
 		void** AllocUtils::clean(void* pointer, std::size_t size) noexcept
@@ -22,7 +22,7 @@ namespace r3dVoxel
 		{
 			if(void* raw = std::malloc(size + 16))
 			{
-				void* pointer = reinterpret_cast<void*>((std::uintptr_t(raw) + 16) & ~15ULL);
+				void* pointer = reinterpret_cast<void*>((std::uintptr_t(raw) + 16) & -16);
 				clean(pointer, size)[-1] = raw;
 				return pointer;
 			}
