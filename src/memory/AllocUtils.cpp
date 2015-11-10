@@ -8,6 +8,8 @@ namespace r3dVoxel
 {
 	namespace memory
 	{
+		std::atomic_size_t AllocUtils::total{0};
+
 		bool AllocUtils::valid(const void* pointer) noexcept
 		{
 			return (pointer && !(std::uintptr_t(pointer) & 15));
@@ -24,6 +26,7 @@ namespace r3dVoxel
 			{
 				void* pointer = reinterpret_cast<void*>((std::intptr_t(raw) + 16) & -16);
 				clean(pointer, size)[-1] = raw;
+				total += size;
 				return pointer;
 			}
 			else
@@ -33,7 +36,10 @@ namespace r3dVoxel
 		void AllocUtils::deallocate(void* pointer, std::size_t size) noexcept
 		{
 			if(valid(pointer))
+			{
+				total -= size;
 				std::free(clean(pointer, size)[-1]);
+			}
 		}
 	}
 }
