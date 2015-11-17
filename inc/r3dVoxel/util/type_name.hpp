@@ -1,11 +1,13 @@
 #pragma once
 
+#include "is_same_template.hpp"
+
 #include <cstdlib>
 #include <cxxabi.h>
 #include <new>
 #include <stdexcept>
+#include <type_traits>
 #include <typeinfo>
-#include <utility>
 
 namespace r3dVoxel
 {
@@ -33,7 +35,7 @@ namespace r3dVoxel
 			}
 
 		public:
-			template<typename V>
+			template<typename V, typename = std::enable_if_t<!is_same_template<std::decay_t<V>, type_name>>>
 			type_name(V&& value) : type_name(typeid(value)) {}
 			type_name() : type_name(typeid(T)) {}
 
@@ -47,18 +49,10 @@ namespace r3dVoxel
 				return m_name;
 			}
 
-			type_name(type_name&& other) noexcept
-			{
-				std::swap(m_name, other.m_name);
-			}
-
-			type_name& operator=(type_name&& other) noexcept
-			{
-				std::swap(m_name, other.m_name);
-				return *this;
-			}
-
+			type_name(type_name&&) = delete;
 			type_name(const type_name&) = delete;
+
+			type_name& operator=(type_name&&) = delete;
 			type_name& operator=(const type_name&) = delete;
 		};
 	}

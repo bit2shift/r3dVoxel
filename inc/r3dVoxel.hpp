@@ -25,6 +25,7 @@
 #include "r3dVoxel/util/Array.hpp"
 #include "r3dVoxel/util/Enum.hpp"
 #include "r3dVoxel/util/copy_cv.hpp"
+#include "r3dVoxel/util/is_same_template.hpp"
 #include "r3dVoxel/util/parameter_pack.hpp"
 #include "r3dVoxel/util/spin_lock.hpp"
 #include "r3dVoxel/util/type_name.hpp"
