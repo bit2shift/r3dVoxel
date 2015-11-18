@@ -34,7 +34,7 @@ namespace r3dVoxel
 		{
 			T x, y, z, w;
 
-			template<typename V, typename = std::enable_if_t<sizeof(V) == sizeof(vec)>>
+			template<typename V, typename = std::enable_if_t<sizeof(V) >= sizeof(T[4])>>
 			vec(V&& simd) noexcept {(*this) = reinterpret_cast<vec&>(simd);}
 		};
 
