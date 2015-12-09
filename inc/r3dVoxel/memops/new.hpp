@@ -12,12 +12,10 @@ void* operator new(std::size_t size)
 {
 	while(true)
 	{
-		void* pointer = r3vMalloc(size);
-		if(pointer)
+		if(auto pointer = r3vMalloc(size))
 			return pointer;
 
-		std::new_handler handler = std::get_new_handler();
-		if(handler)
+		if(auto handler = std::get_new_handler())
 			handler();
 		else
 			throw std::bad_alloc();
@@ -39,12 +37,10 @@ void* operator new(std::size_t size, const std::nothrow_t&) noexcept
 {
 	while(true)
 	{
-		void* pointer = r3vMalloc(size);
-		if(pointer)
+		if(auto pointer = r3vMalloc(size))
 			return pointer;
 
-		std::new_handler handler = std::get_new_handler();
-		if(handler)
+		if(auto handler = std::get_new_handler())
 			handler();
 		else
 			return nullptr;
