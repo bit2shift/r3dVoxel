@@ -4,34 +4,32 @@
 
 #include <r3dVoxel/util/spin_lock.hpp>
 #include <cstddef>
+#include <memory>
 
 namespace r3dVoxel
 {
 	namespace memory
 	{
-		class Node;
-
 		class LargePool
 		{
+			struct Node;
+
+			static constexpr std::size_t NODE_COUNT{1 << 16};
+			static constexpr std::size_t TABLE_SIZE{1 << 8};
+			static constexpr StaticLogger MM_LOGGER{"memory.log"};
+
+			std::unique_ptr<Node[]> m_storage;
+			std::unique_ptr<Node[]> m_table;
 			Node* m_stack;
-			Node* m_table;
-			std::size_t m_size;
 
 			util::spin_lock m_spinny;
 
-			static StaticLogger logger;
-			static void deallocate(Node* branch) noexcept;
-
-			template<typename P>
-			static void insert(P&& predicate, Node* branch, Node* node) noexcept;
-
-			template<typename P>
-			static Node* extract(P&& predicate, Node* branch) noexcept;
-
-			Node* access_table_branch(const void* pointer) noexcept;
+			Node* acquire() noexcept;
+			void release(Node* node) noexcept;
+			Node* branch(const void* pointer) noexcept;
 
 		public:
-			LargePool(std::size_t size);
+			LargePool();
 			~LargePool();
 
 			void* allocate(std::size_t size) noexcept;
