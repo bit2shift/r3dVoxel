@@ -26,7 +26,7 @@ namespace r3dVoxel
 		std::time_t now = std::time(nullptr);
 		buffer
 			<< std::put_time(std::localtime(&now), "%Y-%m-%d %H:%M:%S [")
-			<< lvl.name() << "] ["
+			<< &lvl << "] ["
 			<< m_name << "] "
 			<< str << std::endl;
 
