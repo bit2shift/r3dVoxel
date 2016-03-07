@@ -21,13 +21,15 @@ namespace r3dVoxel
 	 */
 	namespace ELoggingLevel
 	{
-		ENUM_TYPE(std::uint8_t)
-		ENUM(OFF)
-		ENUM(SEVERE)
-		ENUM(WARNING)
-		ENUM(INFO)
-		ENUM(DEBUG)
-		ENUM(ALL)
+		ENUM_TYPE(std::uint8_t);
+		#line 0
+		ENUM(OFF);
+		ENUM(SEVERE);
+		ENUM(WARNING);
+		ENUM(INFO);
+		ENUM(DEBUG);
+		ENUM(ALL);
+		#line 32
 	}
 
 	/*
