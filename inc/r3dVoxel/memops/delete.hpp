@@ -10,7 +10,7 @@
  */
 void operator delete(void* pointer) noexcept
 {
-	r3vFree(pointer);
+	r3vFree(pointer, 0);
 }
 
 /*
@@ -18,7 +18,7 @@ void operator delete(void* pointer) noexcept
  */
 void operator delete[](void* pointer) noexcept
 {
-	r3vFree(pointer);
+	r3vFree(pointer, 0);
 }
 
 /*
@@ -26,7 +26,7 @@ void operator delete[](void* pointer) noexcept
  */
 void operator delete(void* pointer, const std::nothrow_t&) noexcept
 {
-	r3vFree(pointer);
+	r3vFree(pointer, 0);
 }
 
 /*
@@ -34,7 +34,7 @@ void operator delete(void* pointer, const std::nothrow_t&) noexcept
  */
 void operator delete[](void* pointer, const std::nothrow_t&) noexcept
 {
-	r3vFree(pointer);
+	r3vFree(pointer, 0);
 }
 
 /*

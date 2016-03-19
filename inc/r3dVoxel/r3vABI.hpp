@@ -18,7 +18,7 @@
  * - Size of allocation
  */
 R3VAPI void* r3vMalloc(std::size_t size);
-R3VAPI void r3vFree(void* pointer, std::size_t size = 0);
+R3VAPI void r3vFree(void* pointer, std::size_t size);
 R3VAPI std::size_t r3vGetMemoryUsage();
 R3VAPI std::size_t r3vGetSize(const void* pointer);
 
