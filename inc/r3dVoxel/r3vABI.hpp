@@ -10,18 +10,6 @@
 #define R3VAPI extern "C" [[gnu::dllimport]]
 #endif
 
-namespace r3dVoxel
-{
-	class IGameEngine;
-	class ILogger;
-}
-
-/*
- * Initialize game engine
- * Consecutive calls will return the same instance.
- */
-R3VAPI r3dVoxel::IGameEngine* r3vInitialize();
-
 /*
  * Memory management functions:
  * - Allocation
@@ -33,6 +21,16 @@ R3VAPI void* r3vMalloc(std::size_t size);
 R3VAPI void r3vFree(void* pointer, std::size_t size = 0);
 R3VAPI std::size_t r3vGetMemoryUsage();
 R3VAPI std::size_t r3vGetSize(const void* pointer);
+
+/*
+ * Forward declaration
+ * of classes used below
+ */
+namespace r3dVoxel
+{
+	class ILogger;
+	class IGameEngine;
+}
 
 /*
  * Obtain named logger instance
@@ -48,3 +46,9 @@ r3dVoxel::ILogger* r3vGetLogger()
 {
 	return r3vGetLogger(r3dVoxel::util::type_name<T>());
 }
+
+/*
+ * Initialize game engine
+ * Consecutive calls will return the same instance.
+ */
+R3VAPI r3dVoxel::IGameEngine* r3vInitialize();
