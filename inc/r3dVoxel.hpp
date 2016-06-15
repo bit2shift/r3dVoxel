@@ -1,7 +1,6 @@
 #pragma once
 
 /* Bug fixes of usefulness to us, just in case */
-#include "r3dVoxel/bugfix/eclipse_cdt.hpp"
 #include "r3dVoxel/bugfix/put_time.hpp"
 
 /* Library functions */

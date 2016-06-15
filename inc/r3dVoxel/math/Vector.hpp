@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../bugfix/eclipse_cdt.hpp"
-
 #include <cmath>
 #include <cstdint>
 #include <type_traits>
@@ -30,7 +28,7 @@ namespace r3dVoxel
 		 * - "vector" -> (w == 0)
 		 */
 		template<typename T>
-		struct ALIGN(16) vec
+		struct alignas(16) vec
 		{
 			T x, y, z, w;
 
