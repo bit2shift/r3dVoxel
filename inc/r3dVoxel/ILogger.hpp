@@ -29,7 +29,7 @@ namespace r3dVoxel
 		ENUM(INFO);
 		ENUM(DEBUG);
 		ENUM(ALL);
-		#line 32
+		#line 33
 	}
 
 	/*
@@ -37,78 +37,120 @@ namespace r3dVoxel
 	 */
 	class ILogger : public IClass
 	{
+		template<typename T>
+		std::string print(std::string& format, T&& object)
+		{
+			int width = (format.length() > 1) ? std::stoi(format.substr(1)) : 0;
+
+			std::ostringstream field;
+			field << std::internal << std::setfill('0');
+			switch(format[0])
+			{
+			case 'X':
+			case 'x': //hexadecimal notation
+				field << "0x" << std::hex << std::uppercase << std::setw(width) << object;
+				break;
+
+			case 'O':
+			case 'o': //octal notation
+				field << '0' << std::oct << std::setw(width) << object;
+				break;
+
+			case 'H': //upper-case hexadecimal (no base)
+				field << std::hex << std::uppercase << std::setw(width) << object;
+				break;
+
+			case 'h': //lower-case hexadecimal (no base)
+				field << std::hex << std::nouppercase << std::setw(width) << object;
+				break;
+
+			case 'I':
+			case 'i': //signed integer (forced specifier)
+				field << typename std::conditional<std::is_integral<T>::value, std::intmax_t, T>::type(object);
+				break;
+
+			case 'U':
+			case 'u': //unsigned integer (forced specifier)
+				field << typename std::conditional<std::is_integral<T>::value, std::uintmax_t, T>::type(object);
+				break;
+
+			case 'Z':
+			case 'z': //std::size_t specifier, max hex digits (8 for 32-bit, 16 for 64-bit)
+				field << "0x" << std::hex << std::uppercase << std::setw(sizeof(std::size_t) << 1);
+				field << typename std::conditional<std::is_integral<T>::value, std::size_t, T>::type(object);
+				break;
+
+			//TODO more format specifiers
+
+			default:
+				field << std::right << std::setfill(' ') << object;
+				break;
+			}
+
+			return field.str();
+		}
+
 	public:
 		virtual void log(ELoggingLevel::type lvl, const char* str) noexcept = 0;
 
 		template<typename... T>
 		void log(ELoggingLevel::type lvl, const char* str, T&&... args)
 		{
-			static const std::regex re(R"re(\{(\d)(?:,(-?\d\d?))?(?::([A-Za-z])(\d\d?)?)?\}|[^])re");
-			std::cregex_iterator begin(str, str + std::char_traits<char>::length(str), re);
-			std::cregex_iterator end;
+			static const int index[]{-1, 1, 2, 3};
+			static const std::regex rex(R"(\{(\d)(,-?\d{1,2})?(:[[:alpha:]]\d{0,2})?\})", std::regex::optimize);
+			std::cregex_token_iterator begin(str, str + std::char_traits<char>::length(str), rex, index), end;
 			std::ostringstream stream;
 			while(begin != end)
 			{
-				std::cmatch cm = *begin++;
-				if(cm[1].matched)
+				auto position = -1UL;
+				std::string format{0};
+				for(auto i : index)
 				{
-					auto print = [&stream, &cm](auto t)
+					if(begin == end)
+						break;
+
+					auto cm = *begin++;
+
+					if(!cm.matched)
+						continue;
+
+					switch(i)
 					{
-						std::int32_t align = (cm[2].matched ? std::stoi(cm[2]) : 0);
-						std::int8_t format = (cm[3].matched ? *cm[3].first : 0);
-						std::int32_t width = (cm[4].matched ? std::stoi(cm[4]) : 0);
+					case -1:
+						stream << cm;
+						break;
 
-						std::ostringstream field;
-						field << std::internal << std::setfill('0');
-						switch(format)
+					case 1:
+						position = std::stoul(cm);
+						break;
+
+					case 2:
 						{
-						case 'X':
-						case 'x': //hexadecimal notation
-							field << "0x" << std::hex << std::uppercase << std::setw(width) << t;
-							break;
-
-						case 'O':
-						case 'o': //octal notation
-							field << '0' << std::oct << std::setw(width) << t;
-							break;
-
-						case 'H': //upper-case hexadecimal (no base)
-							field << std::hex << std::uppercase << std::setw(width) << t;
-							break;
-
-						case 'h': //lower-case hexadecimal (no base)
-							field << std::hex << std::nouppercase << std::setw(width) << t;
-							break;
-
-						case 'I':
-						case 'i': //signed integer (forced specifier)
-							field << typename std::conditional<std::is_integral<decltype(t)>::value, std::intmax_t, decltype(t)>::type(t);
-							break;
-
-						case 'U':
-						case 'u': //unsigned integer (forced specifier)
-							field << typename std::conditional<std::is_integral<decltype(t)>::value, std::uintmax_t, decltype(t)>::type(t);
-							break;
-
-						case 'Z':
-						case 'z': //std::size_t specifier, max hex digits (8 for 32-bit, 16 for 64-bit)
-							field << "0x" << std::hex << std::uppercase << std::setw(sizeof(std::size_t) << 1);
-							field << typename std::conditional<std::is_integral<decltype(t)>::value, std::size_t, decltype(t)>::type(t);
-							break;
-
-						//TODO more format specifiers
-
-						default:
-							field << std::right << std::setfill(' ') << t;
-							break;
+							auto align = std::stoi(std::string(cm.first + 1, cm.second));
+							stream << std::setw(std::abs(align)) << (std::signbit(align) ? std::left : std::right);
 						}
-						stream << std::setw(std::abs(align)) << (std::signbit(align) ? std::left : std::right) << field.str();
-					};
-					util::parameter_pack::at(std::stoul(cm[1]), print, std::forward<T>(args)...);
+						break;
+
+					case 3:
+						format.assign(cm.first + 1, cm.second);
+						break;
+					}
 				}
-				else
-					stream << cm.str();
+
+				if(position < 10)
+				{
+					util::parameter_pack::at
+					(
+						position,
+						[&stream, this, &format](auto object)
+						{
+							stream << this->print(format, std::forward<decltype(object)>(object));
+						},
+						std::forward<T>(args)...
+					);
+				}
 			}
+
 			this->log(lvl, stream.str().c_str());
 		}
 	};
