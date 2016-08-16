@@ -17,7 +17,7 @@ namespace r3dVoxel
 			template<typename... T>
 			void operator()(const char* fmt, T&&... args) noexcept
 			{
-				if(std::FILE* file = std::fopen(m_name, "a"))
+				if(auto file = std::fopen(m_name, "a"))
 				{
 					std::fprintf(file, fmt, std::forward<T>(args)...);
 					std::fclose(file);

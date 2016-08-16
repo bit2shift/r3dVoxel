@@ -1,5 +1,7 @@
 #include "AllocUtils.hpp"
 
+#include <atomic>
+#include <cstddef>
 #include <cstdint>
 #include <cstdlib>
 #include <new>
@@ -8,9 +10,9 @@ static void* alloc(std::size_t size) noexcept
 {
 	if(alignof(std::max_align_t) >= 16)
 		return std::malloc(size);
-	else if(void* raw = std::malloc(size + 16))
+	else if(auto raw = std::malloc(size + 16))
 	{
-		void* pointer = reinterpret_cast<void*>((std::intptr_t(raw) + 16) & -16);
+		auto pointer = reinterpret_cast<void*>((std::intptr_t(raw) + 16) & -16);
 		reinterpret_cast<void**>(pointer)[-1] = raw;
 		return pointer;
 	}
@@ -44,7 +46,7 @@ namespace r3dVoxel
 
 		void* AllocUtils::allocate(std::size_t size) noexcept
 		{
-			if(void* pointer = alloc(size))
+			if(auto pointer = alloc(size))
 			{
 				total += size;
 				return clean(pointer, size);
