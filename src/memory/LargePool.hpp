@@ -14,8 +14,8 @@ namespace r3dVoxel
 		{
 			struct Node;
 
-			static constexpr std::size_t NODE_COUNT{1 << 16};
 			static constexpr std::size_t TABLE_SIZE{1 << 8};
+			static constexpr std::size_t NODE_COUNT{1 << 16};
 			static constexpr StaticLogger MM_LOGGER{"memory.log"};
 
 			std::unique_ptr<Node[]> m_storage;
