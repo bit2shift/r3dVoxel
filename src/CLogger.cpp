@@ -1,12 +1,16 @@
 #include "CLogger.hpp"
 
+#include <r3dVoxel/ILogger.hpp>
 #include <r3dVoxel/r3vABI.hpp>
-#include <r3dVoxel/bugfix/put_time.hpp>
+
 #include <ctime>
 #include <fstream>
 #include <iomanip>
+#include <ios>
 #include <iostream>
 #include <map>
+#include <sstream>
+#include <string>
 
 namespace r3dVoxel
 {

@@ -1,8 +1,15 @@
 #include "CGameEngine.hpp"
 
+#include <r3dVoxel/IGameEngine.hpp>
 #include <r3dVoxel/ILogger.hpp>
 #include <r3dVoxel/r3vABI.hpp>
+#include <r3dVoxel/util/Array.hpp>
+
+#include <GLFW/glfw3.h>
+
+#include <cstddef>
 #include <exception>
+#include <stdexcept>
 
 namespace r3dVoxel
 {

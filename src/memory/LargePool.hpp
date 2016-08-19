@@ -3,6 +3,7 @@
 #include "StaticLogger.hpp"
 
 #include <r3dVoxel/util/spin_lock.hpp>
+
 #include <cstddef>
 #include <memory>
 

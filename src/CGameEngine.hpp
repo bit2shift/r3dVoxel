@@ -3,6 +3,10 @@
 #include "CMonitor.hpp"
 
 #include <r3dVoxel/IGameEngine.hpp>
+#include <r3dVoxel/util/Array.hpp>
+
+#include <GLFW/glfw3.h>
+
 #include <map>
 
 namespace r3dVoxel

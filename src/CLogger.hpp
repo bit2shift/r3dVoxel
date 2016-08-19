@@ -1,7 +1,9 @@
 #pragma once
 
 #include <r3dVoxel/ILogger.hpp>
+
 #include <iosfwd>
+#include <string>
 
 namespace r3dVoxel
 {

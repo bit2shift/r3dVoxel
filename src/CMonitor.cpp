@@ -1,6 +1,14 @@
 #include "CMonitor.hpp"
 
+#include <r3dVoxel/IMonitor.hpp>
+#include <r3dVoxel/math/Vector.hpp>
+#include <r3dVoxel/util/Array.hpp>
 #include <r3dVoxel/util/parameter_pack.hpp>
+
+#include <GLFW/glfw3.h>
+
+#include <cstddef>
+#include <cstdint>
 
 namespace r3dVoxel
 {

@@ -1,6 +1,9 @@
 #pragma once
 
 #include <r3dVoxel/IMonitor.hpp>
+#include <r3dVoxel/math/Vector.hpp>
+#include <r3dVoxel/util/Array.hpp>
+
 #include <GLFW/glfw3.h>
 
 namespace r3dVoxel

@@ -4,6 +4,8 @@
 #include "math/Vector.hpp"
 #include "util/Array.hpp"
 
+#include <cstdint>
+
 namespace r3dVoxel
 {
 	/*
