@@ -42,7 +42,7 @@ build: $(OBJ)
 
 depbuild:
 	@echo -e "\e[36mBuilding GLEW\e[m"
-	@make -C dep/glew extensions all
+	@make -C dep/glew extensions glew.lib
 
 	@echo -e "\e[36mBuilding GLFW\e[m"
 	@cmake -G "Unix Makefiles" -D GLFW_BUILD_EXAMPLES=OFF -D GLFW_BUILD_TESTS=OFF -D GLFW_BUILD_DOCS=OFF dep/glfw
