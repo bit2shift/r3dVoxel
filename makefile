@@ -5,7 +5,7 @@ INCDIRS=-Idep/glew/include -Idep/glfw/include -Iinc
 # Linker flags, library folders and libraries
 LNKFLAG=-shared
 LIBDIRS=-Ldep/glew/lib -Ldep/glfw/src
-LIBS=-lglew32mx -lglfw3 -lgdi32 -lopengl32
+LIBS=-lglew32 -lglfw3 -lgdi32 -lopengl32
 
 # Sources and objects
 SRC=$(wildcard src/*.cpp src/*/*.cpp)
