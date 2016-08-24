@@ -45,7 +45,7 @@ depbuild:
 	@make -C dep/glew extensions glew.lib
 
 	@echo -e "\e[36mBuilding GLFW\e[m"
-	@cmake -G "Unix Makefiles" -D GLFW_BUILD_EXAMPLES=OFF -D GLFW_BUILD_TESTS=OFF -D GLFW_BUILD_DOCS=OFF dep/glfw
+	@cd dep/glfw && cmake -G "Unix Makefiles" -DBUILD_SHARED_LIBS=OFF -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF .
 	@make -C dep/glfw
 
 depclean:
