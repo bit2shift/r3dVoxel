@@ -41,7 +41,12 @@ build: $(OBJ)
 	@g++ $^ $(LNKFLAG) $(LIBDIRS) $(LIBS) -o $(OUTPUT)/r3dVoxel.dll
 
 depbuild:
-	@sh dep/depmake build
+	@echo -e "\e[36mBuilding GLEW\e[m"
+	@make -C dep/glew extensions all
+
+	@echo -e "\e[36mBuilding GLFW\e[m"
+	@cmake -G "Unix Makefiles" -D GLFW_BUILD_EXAMPLES=OFF -D GLFW_BUILD_TESTS=OFF -D GLFW_BUILD_DOCS=OFF dep/glfw
+	@make -C dep/glfw
 
 depclean:
-	@sh dep/depmake clean
+	@git submodule foreach "git clean -dffqx; git reset --hard"
