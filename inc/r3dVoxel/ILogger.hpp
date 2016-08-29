@@ -30,7 +30,7 @@ namespace r3dVoxel
 		ENUM(INFO);
 		ENUM(DEBUG);
 		ENUM(ALL);
-		#line 33
+		#line 34
 	}
 
 	/*
