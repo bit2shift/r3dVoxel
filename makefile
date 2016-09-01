@@ -1,44 +1,36 @@
-# Compiler flags and include folders
-CXXFLAG=-c -std=c++14 -Werror -Wall -Wconversion -msse2 -mstackrealign -DR3V_EXPORT -DGLEW_MX -DGLEW_STATIC
-INCDIRS=-Idep/glew/include -Idep/glfw/include -Iinc
+VPATH = obj
+CC = @echo "Linking..."; g++
+CXX = @echo "Compiling [$<]"; g++
 
-# Linker flags, library folders and libraries
-LNKFLAG=-shared
-LIBDIRS=-Ldep/glew/lib -Ldep/glfw/src
-LIBS=-lglew32 -lglfw3 -lgdi32 -lopengl32
+CPPFLAGS = -MMD -MP -DR3V_EXPORT -DGLEW_MX -DGLEW_STATIC -Idep/glew/include -Idep/glfw/include -Iinc
+CXXFLAGS = -std=c++14 -Werror -Wall -Wconversion -msse2 -mstackrealign
 
-# Sources and objects
-SRC=$(wildcard src/*.cpp src/*/*.cpp)
-OBJ=$(SRC:src/%.cpp=obj/%.o)
+LDFLAGS = -shared -Ldep/glew/lib -Ldep/glfw/src
+LDLIBS = -lglew32 -lglfw3 -lgdi32 -lopengl32
 
-# Default target
-all: debug
+ifneq ($(MAKECMDGOALS),clean)
+SRC := $(shell cp -al src/. obj; /bin/find obj -name \*.cpp)
+endif
 
-# Debug target details
-debug: OUTPUT=../builds/Debug
-debug: CXXFLAG += -O0 -g3
-debug: build
+r3dVoxel.dll: $(SRC:.cpp=.o)
 
-# Release target details
-release: OUTPUT=../builds/Release
-release: CXXFLAG += -O3
-release: build
+-include $(SRC:.cpp=.d)
 
-# Clean the object files
 clean:
 	@echo "Cleaning..."
-	@rm -rf obj
+	@$(RM) -rf obj
 
-# Compile source
-obj/%.o: src/%.cpp
-	@mkdir -p $(dir $@)
-	@echo "Compiling [$<]"
-	@g++ $< $(CXXFLAG) $(INCDIRS) -o $@
+# debug target
+#debug: OUTDIR = ../builds/Debug
+#debug: CXXFLAGS += -O0 -g3
+#debug: $(OUTPUT)
 
-# Main target, links binary after clean'n'compile
-build: $(OBJ)
-	@echo "Linking..."
-	@g++ $^ $(LNKFLAG) $(LIBDIRS) $(LIBS) -o $(OUTPUT)/r3dVoxel.dll
+# release target
+#release: OUTDIR = ../builds/Release
+#release: CXXFLAGS += -O3
+#release: $(OUTPUT)
+
+#OUTPUT = $(OUTDIR)/
 
 depbuild:
 	@echo -e "\e[36mBuilding GLEW\e[m"
