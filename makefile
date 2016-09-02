@@ -8,8 +8,8 @@ CXXFLAGS = -std=c++14 -Werror -Wall -Wconversion -msse2 -mstackrealign
 LDFLAGS = -shared -Ldep/glew/lib -Ldep/glfw/src
 LDLIBS = -lglew32 -lglfw3 -lgdi32 -lopengl32
 
-ifneq ($(MAKECMDGOALS),clean)
-SRC := $(shell cp -al src/. obj; /usr/bin/find obj -name \*.cpp)
+ifeq ($(MAKECMDGOALS),)
+SRC := $(shell cp -al src/. obj; find obj -name \*.cpp)
 endif
 
 r3dVoxel.dll: $(SRC:.cpp=.o)
@@ -33,10 +33,10 @@ clean:
 #OUTPUT = $(OUTDIR)/
 
 depbuild:
-	@printf "\e[36mBuilding GLEW\e[m\n"
+	@printf "\033[36mBuilding GLEW\033[m\n"
 	@make -C dep/glew extensions glew.lib
 
-	@printf "\e[36mBuilding GLFW\e[m\n"
+	@printf "\033[36mBuilding GLFW\033[m\n"
 	@cd dep/glfw && cmake -G "Unix Makefiles" -DBUILD_SHARED_LIBS=OFF -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF .
 	@make -C dep/glfw
 
