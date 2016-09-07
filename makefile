@@ -2,7 +2,7 @@ VPATH = obj
 CC = @echo "Linking..."; g++
 CXX = @echo "Compiling [$<]"; g++
 
-CPPFLAGS = -MMD -MP -DR3V_EXPORT -DGLEW_MX -DGLEW_STATIC -Idep/glew/include -Idep/glfw/include -Iinc
+CPPFLAGS = -MMD -MP -DR3V_EXPORT -DGLEW_STATIC -Idep/glew/include -Idep/glfw/include -Iinc
 CXXFLAGS = -std=c++14 -Werror -Wall -Wconversion -msse2 -mstackrealign
 
 LDFLAGS = -shared -Ldep/glew/lib -Ldep/glfw/src
@@ -34,7 +34,7 @@ clean:
 
 depbuild:
 	@printf "\033[36mBuilding GLEW\033[m\n"
-	@make -C dep/glew extensions glew.lib
+	@make -C dep/glew extensions glew.lib.static
 
 	@printf "\033[36mBuilding GLFW\033[m\n"
 	@cd dep/glfw && cmake -G "Unix Makefiles" -DBUILD_SHARED_LIBS=OFF -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF .
