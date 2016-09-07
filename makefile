@@ -2,7 +2,7 @@ VPATH = obj
 CC = @echo "Linking..."; g++
 CXX = @echo "Compiling [$<]"; g++
 
-CPPFLAGS = -MMD -MP -DR3V_EXPORT -DGLEW_STATIC -Idep/glew/include -Idep/glfw/include -Iinc
+CPPFLAGS = -MMD -MP -DR3V_EXPORT -DGLEW_STATIC -Idep/glew/include -Idep/glfw/deps -Idep/glfw/include -Iinc
 CXXFLAGS = -std=c++14 -Werror -Wall -Wconversion -msse2 -mstackrealign
 
 LDFLAGS = -shared -Ldep/glew/lib -Ldep/glfw/src
