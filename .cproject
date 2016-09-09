@@ -37,7 +37,6 @@
 									<listOptionValue builtIn="false" value="__INT64_MAX__"/>
 									<listOptionValue builtIn="false" value="__LDBL_HAS_QUIET_NAN__"/>
 									<listOptionValue builtIn="false" value="__cpp_binary_literals"/>
-									<listOptionValue builtIn="false" value="__GCC_HAVE_DWARF2_CFI_ASM"/>
 									<listOptionValue builtIn="false" value="__WINT_TYPE__"/>
 									<listOptionValue builtIn="false" value="__ORDER_LITTLE_ENDIAN__"/>
 									<listOptionValue builtIn="false" value="__DEC64_MAX_EXP__"/>
@@ -61,7 +60,6 @@
 									<listOptionValue builtIn="false" value="__XSAVEOPT__"/>
 									<listOptionValue builtIn="false" value="__UINTMAX_C(c)"/>
 									<listOptionValue builtIn="false" value="__GCC_IEC_559_COMPLEX"/>
-									<listOptionValue builtIn="false" value="__code_model_32__"/>
 									<listOptionValue builtIn="false" value="__UINT64_MAX__"/>
 									<listOptionValue builtIn="false" value="__x86_64__"/>
 									<listOptionValue builtIn="false" value="__DEC128_MIN__"/>
@@ -145,9 +143,8 @@
 									<listOptionValue builtIn="false" value="__LDBL_DIG__"/>
 									<listOptionValue builtIn="false" value="__ATOMIC_CONSUME"/>
 									<listOptionValue builtIn="false" value="__LDBL_DENORM_MIN__"/>
-									<listOptionValue builtIn="false" value="__i386"/>
-									<listOptionValue builtIn="false" value="_INTEGRAL_MAX_BITS"/>
 									<listOptionValue builtIn="false" value="__tune_sandybridge__"/>
+									<listOptionValue builtIn="false" value="_INTEGRAL_MAX_BITS"/>
 									<listOptionValue builtIn="false" value="__GNUC_PATCHLEVEL__"/>
 									<listOptionValue builtIn="false" value="__LDBL_MIN_EXP__"/>
 									<listOptionValue builtIn="false" value="__WINNT"/>
@@ -175,8 +172,8 @@
 									<listOptionValue builtIn="false" value="__DEC32_MIN__"/>
 									<listOptionValue builtIn="false" value="__MINGW64__"/>
 									<listOptionValue builtIn="false" value="__code_model_medium__"/>
-									<listOptionValue builtIn="false" value="__FLT_HAS_DENORM__"/>
 									<listOptionValue builtIn="false" value="__PIC__"/>
+									<listOptionValue builtIn="false" value="__FLT_HAS_DENORM__"/>
 									<listOptionValue builtIn="false" value="__WCHAR_MIN__"/>
 									<listOptionValue builtIn="false" value="__CHAR32_TYPE__"/>
 									<listOptionValue builtIn="false" value="__GXX_RTTI"/>
@@ -188,7 +185,6 @@
 									<listOptionValue builtIn="false" value="__FLT_HAS_QUIET_NAN__"/>
 									<listOptionValue builtIn="false" value="__ATOMIC_HLE_ACQUIRE"/>
 									<listOptionValue builtIn="false" value="_WIN32"/>
-									<listOptionValue builtIn="false" value="__GNUC_GNU_INLINE__"/>
 									<listOptionValue builtIn="false" value="__UINT8_MAX__"/>
 									<listOptionValue builtIn="false" value="__UINT32_C(c)"/>
 									<listOptionValue builtIn="false" value="__INT64_C(c)"/>
@@ -207,7 +203,6 @@
 									<listOptionValue builtIn="false" value="__ATOMIC_ACQ_REL"/>
 									<listOptionValue builtIn="false" value="__LDBL_HAS_INFINITY__"/>
 									<listOptionValue builtIn="false" value="__DEC128_MAX_EXP__"/>
-									<listOptionValue builtIn="false" value="__i386__"/>
 									<listOptionValue builtIn="false" value="__SSE2__"/>
 									<listOptionValue builtIn="false" value="_fastcall"/>
 									<listOptionValue builtIn="false" value="__INT16_C(c)"/>
@@ -221,7 +216,6 @@
 									<listOptionValue builtIn="false" value="__POPCNT__"/>
 									<listOptionValue builtIn="false" value="__MMX__"/>
 									<listOptionValue builtIn="false" value="__ATOMIC_SEQ_CST"/>
-									<listOptionValue builtIn="false" value="i386"/>
 									<listOptionValue builtIn="false" value="__FLT_EVAL_METHOD__"/>
 									<listOptionValue builtIn="false" value="__FLT_MAX_10_EXP__"/>
 									<listOptionValue builtIn="false" value="__UINTPTR_MAX__"/>
@@ -260,7 +254,6 @@
 									<listOptionValue builtIn="false" value="WIN64"/>
 									<listOptionValue builtIn="false" value="__INT_MAX__"/>
 									<listOptionValue builtIn="false" value="__LDBL_MAX_10_EXP__"/>
-									<listOptionValue builtIn="false" value="__corei7__"/>
 									<listOptionValue builtIn="false" value="__SIZEOF_FLOAT__"/>
 									<listOptionValue builtIn="false" value="__sandybridge"/>
 									<listOptionValue builtIn="false" value="__INT_FAST64_MAX__"/>
@@ -283,7 +276,6 @@
 									<listOptionValue builtIn="false" value="__INTPTR_TYPE__"/>
 									<listOptionValue builtIn="false" value="__SIZEOF_INT128__"/>
 									<listOptionValue builtIn="false" value="__ATOMIC_ACQUIRE"/>
-									<listOptionValue builtIn="false" value="_X86_"/>
 									<listOptionValue builtIn="false" value="__LONG_LONG_MAX__"/>
 									<listOptionValue builtIn="false" value="__LDBL_EPSILON__"/>
 									<listOptionValue builtIn="false" value="__GCC_ATOMIC_CHAR_LOCK_FREE"/>
@@ -314,7 +306,6 @@
 									<listOptionValue builtIn="false" value="__UINT64_TYPE__"/>
 									<listOptionValue builtIn="false" value="__INT_FAST16_TYPE__"/>
 									<listOptionValue builtIn="false" value="__ORDER_PDP_ENDIAN__"/>
-									<listOptionValue builtIn="false" value="__corei7"/>
 									<listOptionValue builtIn="false" value="__WCHAR_TYPE__"/>
 									<listOptionValue builtIn="false" value="__UINTPTR_TYPE__"/>
 									<listOptionValue builtIn="false" value="__x86_64"/>
@@ -325,9 +316,11 @@
 									<listOptionValue builtIn="false" value="_thiscall"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.include.paths.1167307457" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/r3dVoxel/dep/glew/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/r3dVoxel/dep/glfw/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/r3dVoxel/inc}&quot;"/>
+								</option>
+								<option id="gnu.cpp.compiler.option.preprocessor.def.721328123" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="GLFW_INCLUDE_VULKAN"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1468863354" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
