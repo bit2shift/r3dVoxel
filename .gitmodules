@@ -1,10 +1,5 @@
 [submodule "dep/glfw"]
-	path = dep/glfw
 	url = https://github.com/glfw/glfw.git
 	branch = latest
-	ignore = all
-
-[submodule "dep/glew"]
-	path = dep/glew
-	url = https://github.com/nigels-com/glew.git
+	path = dep/glfw
 	ignore = all
