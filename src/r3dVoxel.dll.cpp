@@ -5,8 +5,6 @@
 #include <r3dVoxel/ILogger.hpp>
 #include <r3dVoxel/r3vABI.hpp>
 
-#define GLFW_INCLUDE_VULKAN
-#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 R3VAPI void test()
@@ -37,12 +35,6 @@ R3VAPI void test()
 		test->log(r3dVoxel::ELoggingLevel::SEVERE, "vkCreateInstance() failed with {0}", error);
 		return;
 	}
-
-
-	glewExperimental = true;
-	if(GLenum error = glewInit())
-		test->log(r3dVoxel::ELoggingLevel::SEVERE, "failed GLEW init with {0}", glewGetErrorString(error));
-
 
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	GLFWwindow* win = glfwCreateWindow(800, 600, "test", nullptr, nullptr);
