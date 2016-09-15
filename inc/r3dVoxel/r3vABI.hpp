@@ -4,7 +4,9 @@
 
 #include <cstddef>
 
-#ifdef R3V_EXPORT
+#if defined __ELF__
+#define R3VAPI extern "C" [[gnu::visibility("default")]]
+#elif defined R3V_EXPORT
 #define R3VAPI extern "C" [[gnu::dllexport]]
 #else
 #define R3VAPI extern "C" [[gnu::dllimport]]

@@ -3,10 +3,10 @@ CC = @echo "Linking..."; g++
 CXX = @echo "Compiling [$<]"; g++
 
 CPPFLAGS = -MMD -MP -DR3V_EXPORT -DGLFW_INCLUDE_VULKAN -Idep/glfw/deps -Idep/glfw/include -Iinc
-CXXFLAGS = -std=c++14 -Werror -Wall -Wconversion -msse2 -mstackrealign
+CXXFLAGS = -std=c++14 -Wall -Wconversion -Werror -fvisibility=hidden -msse2 -mstackrealign
 
 LDFLAGS = -shared -Ldep/glfw/src
-LDLIBS = -lglfw3 -lgdi32
+LDLIBS = $(shell PKG_CONFIG_PATH=dep/glfw/src pkg-config --static --libs-only-l glfw3)
 
 ifeq ($(MAKECMDGOALS),)
 SRC := $(shell cp -al src/. obj; find obj -name \*.cpp)
