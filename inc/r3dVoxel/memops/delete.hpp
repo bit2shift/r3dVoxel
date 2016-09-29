@@ -10,7 +10,7 @@
  */
 void operator delete(void* pointer) noexcept
 {
-	r3vFree(pointer, 0);
+	r3vFree(pointer);
 }
 
 /*
@@ -18,7 +18,7 @@ void operator delete(void* pointer) noexcept
  */
 void operator delete[](void* pointer) noexcept
 {
-	r3vFree(pointer, 0);
+	::operator delete(pointer);
 }
 
 /*
@@ -26,7 +26,7 @@ void operator delete[](void* pointer) noexcept
  */
 void operator delete(void* pointer, const std::nothrow_t&) noexcept
 {
-	r3vFree(pointer, 0);
+	::operator delete(pointer);
 }
 
 /*
@@ -34,11 +34,13 @@ void operator delete(void* pointer, const std::nothrow_t&) noexcept
  */
 void operator delete[](void* pointer, const std::nothrow_t&) noexcept
 {
-	r3vFree(pointer, 0);
+	::operator delete[](pointer);
 }
 
 /*
- * Versions (5) through (8) are considered defects in our allocation model.
+ * Versions (5) and (6) are considered defects in our allocation model.
+ * Versions (7) and (8) were removed as stated in LWG 2458.
+ * > http://open-std.org/JTC1/SC22/WG21/docs/lwg-defects.html#2458
  * We don't sort allocations by their size.
  * WE SORT THEM BY THEIR POINTER IN A HASHTABLE!
  */
@@ -48,7 +50,7 @@ void operator delete[](void* pointer, const std::nothrow_t&) noexcept
  */
 void operator delete(void* pointer, std::size_t size) noexcept
 {
-	r3vFree(pointer, size);
+	::operator delete(pointer);
 }
 
 /*
@@ -56,21 +58,5 @@ void operator delete(void* pointer, std::size_t size) noexcept
  */
 void operator delete[](void* pointer, std::size_t size) noexcept
 {
-	r3vFree(pointer, size);
-}
-
-/*
- * 7) Sized version of 3)
- */
-void operator delete(void* pointer, std::size_t size, const std::nothrow_t&) noexcept
-{
-	r3vFree(pointer, size);
-}
-
-/*
- * 8) Sized version of 4)
- */
-void operator delete[](void* pointer, std::size_t size, const std::nothrow_t&) noexcept
-{
-	r3vFree(pointer, size);
+	::operator delete[](pointer);
 }
