@@ -19,6 +19,9 @@ namespace r3dVoxel
 			Node(std::size_t sz);
 			~Node();
 
+			static void* operator new(std::size_t) = delete;
+			static void operator delete(void*) noexcept = delete;
+
 			static void* operator new[](std::size_t size);
 			static void operator delete[](void* pointer, std::size_t size) noexcept;
 		};
