@@ -2,7 +2,7 @@ VPATH = obj
 CC = @echo "Linking..."; g++
 CXX = @echo "Compiling [$<]"; g++
 
-CPPFLAGS = -MMD -MP -DR3V_EXPORT -DGLFW_INCLUDE_VULKAN -Idep/glfw/deps -Idep/glfw/include -Iinc
+CPPFLAGS = -MMD -MP -Idep/glfw/deps -Idep/glfw/include -Iinc -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
 CXXFLAGS = -std=c++14 -Wall -Wconversion -Werror -fvisibility=hidden -msse2 -mstackrealign
 
 LDFLAGS = -shared -Ldep/glfw/src
