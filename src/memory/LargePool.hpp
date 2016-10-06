@@ -25,8 +25,6 @@ namespace r3dVoxel
 
 			util::spin_lock m_spinny;
 
-			Node* acquire() noexcept;
-			void release(Node* node) noexcept;
 			Node* branch(const void* pointer) noexcept;
 
 		public:

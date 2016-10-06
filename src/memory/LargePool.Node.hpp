@@ -15,12 +15,14 @@ namespace r3dVoxel
 			alignas(8) std::size_t size{};
 			alignas(8) std::size_t length{};
 
-			Node() noexcept {}
+			Node() = default;
 			Node(std::size_t sz);
 			~Node();
 
 			static void* operator new(std::size_t) = delete;
 			static void operator delete(void*) noexcept = delete;
+
+			static void* operator new(std::size_t, LargePool* pool);
 
 			static void* operator new[](std::size_t size);
 			static void operator delete[](void* pointer, std::size_t size) noexcept;

@@ -3,41 +3,36 @@
 #include "AllocUtils.hpp"
 
 #include <cstddef>
-#include <cstdio>
 #include <new>
 
 namespace r3dVoxel
 {
 	namespace memory
 	{
-		class bad_node_alloc : public std::bad_alloc
-		{
-			static thread_local char BUFFER[64];
-
-		public:
-			bad_node_alloc(std::size_t size) noexcept
-			{
-				std::snprintf(BUFFER, sizeof(BUFFER), "Cannot allocate node with %zu bytes.", size);
-			}
-
-			const char* what() const noexcept
-			{
-				return BUFFER;
-			}
-		};
-
-		thread_local char bad_node_alloc::BUFFER[];
-
-		LargePool::Node::Node(std::size_t sz) : pointer(AllocUtils::allocate(sz)), size(sz), length(sz)
+		LargePool::Node::Node(std::size_t sz) : next(), pointer(AllocUtils::allocate(sz)), size(sz), length(sz)
 		{
 			if(!pointer)
-				throw bad_node_alloc(sz);
+			{
+				MM_LOGGER("[RUNNING LOW ON MEMORY] Cannot allocate node with %zu bytes.\n", sz);
+				throw std::bad_alloc();
+			}
 		}
 
 		LargePool::Node::~Node()
 		{
 			AllocUtils::deallocate(pointer, size);
 			(*this) = {};
+		}
+
+		void* LargePool::Node::operator new(std::size_t, LargePool* pool)
+		{
+			for(std::size_t i = 0; i < NODE_COUNT; i++)
+			{
+				auto node = &pool->m_storage[i];
+				if(!node->pointer)
+					return node;
+			}
+			throw std::bad_alloc();
 		}
 
 		void* LargePool::Node::operator new[](std::size_t size)
