@@ -21,8 +21,7 @@ namespace r3dVoxel
 
 			std::unique_ptr<Node[]> m_storage;
 			std::unique_ptr<Node[]> m_table;
-			Node* m_stack;
-
+			std::unique_ptr<Node[]> m_stack;
 			util::spin_lock m_spinny;
 
 			Node* branch(const void* pointer) noexcept;
