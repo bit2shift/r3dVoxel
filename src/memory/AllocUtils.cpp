@@ -6,11 +6,16 @@
 #include <cstdlib>
 #include <new>
 
-static void* alloc(std::size_t size) noexcept
+template<bool = false>
+void* alloc(std::size_t size) noexcept
 {
-	if(alignof(std::max_align_t) >= 16)
-		return std::malloc(size);
-	else if(auto raw = std::malloc(size + 16))
+	return std::malloc(size);
+}
+
+template<>
+void* alloc<true>(std::size_t size) noexcept
+{
+	if(auto raw = std::malloc(size + 16))
 	{
 		auto pointer = reinterpret_cast<void*>((std::intptr_t(raw) + 16) & -16);
 		reinterpret_cast<void**>(pointer)[-1] = raw;
@@ -20,12 +25,16 @@ static void* alloc(std::size_t size) noexcept
 		return nullptr;
 }
 
-static void dealloc(void* pointer) noexcept
+template<bool = false>
+void dealloc(void* pointer) noexcept
 {
-	if(alignof(std::max_align_t) >= 16)
-		std::free(pointer);
-	else
-		std::free(reinterpret_cast<void**>(pointer)[-1]);
+	std::free(pointer);
+}
+
+template<>
+void dealloc<true>(void* pointer) noexcept
+{
+	std::free(reinterpret_cast<void**>(pointer)[-1]);
 }
 
 namespace r3dVoxel
@@ -46,7 +55,7 @@ namespace r3dVoxel
 
 		void* AllocUtils::allocate(std::size_t size) noexcept
 		{
-			if(auto pointer = alloc(size))
+			if(auto pointer = alloc<alignof(std::max_align_t) < 16>(size))
 			{
 				total += size;
 				return clean(pointer, size);
@@ -60,7 +69,7 @@ namespace r3dVoxel
 			if(valid(pointer))
 			{
 				total -= size;
-				dealloc(clean(pointer, size));
+				dealloc<alignof(std::max_align_t) < 16>(clean(pointer, size));
 			}
 		}
 	}
