@@ -1,9 +1,10 @@
 #include "LargePool.Node.hpp"
 
 #include "AllocUtils.hpp"
+#include "LargePool.hpp"
+#include "node_error.hpp"
 
 #include <cstddef>
-#include <new>
 
 namespace r3dVoxel
 {
@@ -12,10 +13,7 @@ namespace r3dVoxel
 		LargePool::Node::Node(std::size_t sz) : next(), pointer(AllocUtils::allocate(sz)), size(sz), length(sz)
 		{
 			if(!pointer)
-			{
-				MM_LOGGER("[RUNNING LOW ON MEMORY] Cannot allocate node with %zu bytes.\n", sz);
-				throw std::bad_alloc();
-			}
+				throw node_error("Cannot initialise node with %zu bytes.", sz);
 		}
 
 		LargePool::Node::~Node()
@@ -32,7 +30,7 @@ namespace r3dVoxel
 				if(!node->pointer)
 					return node;
 			}
-			throw std::bad_alloc();
+			throw node_error("Cannot allocate node. LargePool's storage is full.");
 		}
 
 		void* LargePool::Node::operator new[](std::size_t size)
@@ -40,7 +38,7 @@ namespace r3dVoxel
 			if(auto pointer = AllocUtils::allocate(size))
 				return pointer;
 			else
-				throw std::bad_alloc();
+				throw node_error("Cannot allocate node array. We're probably out of memory.");
 		}
 
 		void LargePool::Node::operator delete[](void* pointer, std::size_t size) noexcept
