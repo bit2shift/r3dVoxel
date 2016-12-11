@@ -5,7 +5,7 @@
 namespace r3dVoxel
 {
 	/*
-	 * Defines a rendering window, with its own OpenGL context
+	 * Defines a rendering window
 	 */
 	class IView : public IClass
 	{
