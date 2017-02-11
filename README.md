@@ -1,7 +1,9 @@
 r3dVoxel
 ========
 
-A voxel game engine. Uses shader-based ray tracing
+A voxel game engine. Uses shader-based ray tracing.
+
+A working prototype of the shader is available at [Shadertoy](https://www.shadertoy.com/view/ltSXDm).
 
 ####Milestones to achieve
 - *Finish the basic game engine behavior (Vulkan window, etc.)*
