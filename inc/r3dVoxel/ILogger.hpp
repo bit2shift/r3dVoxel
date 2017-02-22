@@ -41,10 +41,11 @@ namespace r3dVoxel
 		template<typename T>
 		std::string print(std::string& format, T&& object)
 		{
-			int width = (format.length() > 1) ? std::stoi(format.substr(1)) : 0;
-
 			std::ostringstream field;
 			field << std::internal << std::setfill('0');
+
+			int width = (format.length() > 1) ? std::stoi(format.substr(1)) : 0;
+
 			switch(format[0])
 			{
 			case 'X':
@@ -103,9 +104,9 @@ namespace r3dVoxel
 			std::ostringstream stream;
 			while(begin != end)
 			{
-				auto position = -1UL;
+				unsigned position = -1U;
 				std::string format{0};
-				for(auto i : index)
+				for(int i : index)
 				{
 					if(begin == end)
 						break;
@@ -114,6 +115,9 @@ namespace r3dVoxel
 
 					if(!cm.matched)
 						continue;
+
+					if(i > 1)
+						format.assign(cm.first + 1, cm.second);
 
 					switch(i)
 					{
@@ -127,13 +131,12 @@ namespace r3dVoxel
 
 					case 2:
 						{
-							auto align = std::stoi(std::string(cm.first + 1, cm.second));
+							int align = std::stoi(format);
 							stream << std::setw(std::abs(align)) << (std::signbit(align) ? std::left : std::right);
 						}
 						break;
 
-					case 3:
-						format.assign(cm.first + 1, cm.second);
+					default:
 						break;
 					}
 				}

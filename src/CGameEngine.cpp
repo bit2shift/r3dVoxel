@@ -7,6 +7,7 @@
 
 #include <GLFW/glfw3.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <exception>
 #include <stdexcept>
@@ -60,15 +61,13 @@ namespace r3dVoxel
 
 	util::Array<IMonitor*> CGameEngine::getAllMonitors() noexcept try
 	{
-		std::size_t index = 0;
 		util::Array<IMonitor*> pmon(m_monitors.size());
-		for(auto& m : m_monitors)
-			pmon[index++] = &m.second;
+		std::transform(m_monitors.begin(), m_monitors.end(), pmon.begin(), [](auto& p){return &p.second;});
 		return pmon;
 	}
 	catch(std::exception& e)
 	{
-		r3vGetLogger<CGameEngine>()->log(ELoggingLevel::SEVERE, e.what());
+		r3vGetLogger<CGameEngine>()->log(ELoggingLevel::SEVERE, "{0}() : {1}", __func__, e.what());
 		return {};
 	}
 
@@ -88,13 +87,13 @@ namespace r3dVoxel
 	}
 }
 
-R3VAPI r3dVoxel::IGameEngine* r3vInitialize() try
+R3VAPI r3dVoxel::IGameEngine* r3vInitialize() noexcept try
 {
 	static r3dVoxel::CGameEngine instance;
 	return &instance;
 }
 catch(std::exception& e)
 {
-	r3vGetLogger("r3vInitialize")->log(r3dVoxel::ELoggingLevel::SEVERE, e.what());
+	r3vGetLogger(__func__)->log(r3dVoxel::ELoggingLevel::SEVERE, e.what());
 	return nullptr;
 }

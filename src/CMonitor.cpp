@@ -7,6 +7,7 @@
 
 #include <GLFW/glfw3.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
 
@@ -37,7 +38,8 @@ namespace r3dVoxel
 		return glfwGetMonitorName(m_monitor);
 	}
 
-	inline static SVideoMode copyVideoMode(const GLFWvidmode& mode)
+	//Want Speed? Pass by Value.
+	inline static SVideoMode copyVideoMode(GLFWvidmode mode)
 	{
 		return util::parameter_pack::list_cast<SVideoMode, std::int16_t, std::int16_t, std::int8_t, std::int8_t, std::int8_t, std::int8_t>
 		(mode.width, mode.height, mode.redBits, mode.greenBits, mode.blueBits, mode.refreshRate);
@@ -45,8 +47,7 @@ namespace r3dVoxel
 
 	SVideoMode CMonitor::getVideoMode() noexcept
 	{
-		const GLFWvidmode* mode = glfwGetVideoMode(m_monitor);
-		if(mode)
+		if(auto mode = glfwGetVideoMode(m_monitor))
 			return copyVideoMode(*mode);
 		else
 			return {};
@@ -54,15 +55,14 @@ namespace r3dVoxel
 
 	util::Array<SVideoMode> CMonitor::getAllVideoModes() noexcept
 	{
-		std::size_t count = 0;
-		const GLFWvidmode* pvm = glfwGetVideoModes(m_monitor, reinterpret_cast<int*>(&count));
+		int cnt;
+		auto ptr = glfwGetVideoModes(m_monitor, &cnt);
 
 		try
 		{
-			util::Array<SVideoMode> modes(count);
-			while(count--)
-				modes[count] = copyVideoMode(pvm[count]);
-			return modes;
+			util::Array<SVideoMode> arr(cnt);
+			std::transform(ptr, (ptr + cnt), arr.begin(), copyVideoMode);
+			return arr;
 		}
 		catch(...)
 		{

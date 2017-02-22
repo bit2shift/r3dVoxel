@@ -11,9 +11,6 @@
 
 namespace r3dVoxel
 {
-	class IMonitor;
-	class IView;
-
 	/*
 	 * IGameEngine implementer
 	 */

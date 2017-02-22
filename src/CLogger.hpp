@@ -16,7 +16,7 @@ namespace r3dVoxel
 		std::string m_name;
 
 	public:
-		auto operator()(std::string name) -> decltype(this);
+		CLogger(const char* name) : m_name(name) {}
 
 		///////////////////////////
 		//// Interface methods ////
