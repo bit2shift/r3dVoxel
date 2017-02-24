@@ -4,7 +4,7 @@
  * Enum<T> helpers
  */
 #define ENUM_TYPE(x) using type = r3dVoxel::util::Enum<x>
-#define ENUM(x)      constexpr type x{__LINE__,#x}
+#define ENUM(x)      constexpr type x{(__LINE__ - 1), #x}
 
 namespace r3dVoxel
 {
