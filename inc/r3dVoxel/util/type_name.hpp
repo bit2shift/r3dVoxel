@@ -1,13 +1,11 @@
 #pragma once
 
-#include "is_same_template.hpp"
-
 #include <cstdlib>
 #include <cxxabi.h>
 #include <new>
 #include <stdexcept>
-#include <type_traits>
 #include <typeinfo>
+#include <utility>
 
 namespace r3dVoxel
 {
@@ -17,12 +15,12 @@ namespace r3dVoxel
 		 * Obtains the fully qualified name of a type.
 		 * Usage: embedded (no gap hazards, I hope)
 		 */
-		template<typename T = void>
-		class type_name final
+		class type_name_t final
 		{
 			char* m_name;
 
-			type_name(const std::type_info& ti)
+		public:
+			type_name_t(const std::type_info& ti)
 			{
 				int status = 0;
 				m_name = abi::__cxa_demangle(ti.name(), nullptr, nullptr, &status);
@@ -34,26 +32,38 @@ namespace r3dVoxel
 				}
 			}
 
-		public:
-			template<typename V, typename = std::enable_if_t<!is_same_template<std::decay_t<V>, type_name>>>
-			type_name(V&& value) : type_name(typeid(value)) {}
-			type_name() : type_name(typeid(T)) {}
+			type_name_t(type_name_t&& tn) noexcept : m_name(nullptr)
+			{
+				std::swap(m_name, tn.m_name);
+			}
 
-			~type_name()
+			~type_name_t()
 			{
 				std::free(m_name);
+			}
+
+			type_name_t& operator=(type_name_t&& tn) noexcept
+			{
+				std::swap(m_name, tn.m_name);
+				return *this;
 			}
 
 			operator const char*() noexcept
 			{
 				return m_name;
 			}
-
-			type_name(type_name&&) = delete;
-			type_name(const type_name&) = delete;
-
-			type_name& operator=(type_name&&) = delete;
-			type_name& operator=(const type_name&) = delete;
 		};
+
+		template<typename T>
+		type_name_t type_name()
+		{
+			return typeid(T);
+		}
+
+		template<typename V>
+		type_name_t type_name(V&& v)
+		{
+			return typeid(v);
+		}
 	}
 }
