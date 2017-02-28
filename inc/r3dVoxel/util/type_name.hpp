@@ -5,7 +5,6 @@
 #include <new>
 #include <stdexcept>
 #include <typeinfo>
-#include <utility>
 
 namespace r3dVoxel
 {
@@ -18,6 +17,13 @@ namespace r3dVoxel
 		class type_name_t final
 		{
 			char* m_name;
+
+			friend void swap(type_name_t& a, type_name_t& b) noexcept
+			{
+				auto tmp = a.m_name;
+				a.m_name = b.m_name;
+				b.m_name = tmp;
+			}
 
 		public:
 			type_name_t(const std::type_info& ti)
@@ -34,7 +40,7 @@ namespace r3dVoxel
 
 			type_name_t(type_name_t&& tn) noexcept : m_name(nullptr)
 			{
-				std::swap(m_name, tn.m_name);
+				swap(*this, tn);
 			}
 
 			~type_name_t()
@@ -44,11 +50,11 @@ namespace r3dVoxel
 
 			type_name_t& operator=(type_name_t&& tn) noexcept
 			{
-				std::swap(m_name, tn.m_name);
+				swap(*this, tn);
 				return *this;
 			}
 
-			operator const char*() noexcept
+			operator const char*() const noexcept
 			{
 				return m_name;
 			}
