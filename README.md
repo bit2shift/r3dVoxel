@@ -5,7 +5,7 @@ A voxel game engine. Uses shader-based ray tracing.
 
 A working prototype of the shader is available at [Shadertoy](https://www.shadertoy.com/view/ltSXDm).
 
-####Milestones to achieve
+#### Milestones to achieve
 - *Finish the basic game engine behavior (Vulkan window, etc.)*
 - *Define the way 'blocks' (16x16x16 voxels) are sent to Vulkan (maybe a streaming thread)*
 - *Work out a shader to ray-trace the voxels in blocks (including GPU storage)*
@@ -14,5 +14,5 @@ A working prototype of the shader is available at [Shadertoy](https://www.shader
 - *__Considering other possible milestones__, make something useful with the engine*
 
 
-####Contributing
+#### Contributing
 - Read [CLA](CONTRIBUTING.md)
