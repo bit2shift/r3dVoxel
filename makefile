@@ -5,12 +5,25 @@ CXX = @echo "Compiling [$<]"; g++
 CPPFLAGS = -MMD -MP -Idep/glfw/deps -Idep/glfw/include -Iinc -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
 CXXFLAGS = -pedantic -std=c++14 -Wall -Wconversion -Werror -fvisibility=hidden -msse2 -mstackrealign
 
-LDFLAGS = -shared -Ldep/glfw/src
+LDFLAGS = -shared -static -Ldep/glfw/src
 LDLIBS = $(shell PKG_CONFIG_PATH=dep/glfw/src pkg-config --static --libs-only-l glfw3)
 
-ifeq ($(MAKECMDGOALS),)
-SRC := $(shell cp -al src/. obj; find obj -name \*.cpp)
-endif
+SRC = $(shell find obj -name *.cpp 2> /dev/null)
+
+# debug target
+debug: OUTDIR = ../builds/Debug/
+debug: export CXXFLAGS += -O0 -g3
+debug: all
+
+# release target
+release: OUTDIR = ../builds/Release/
+release: export CXXFLAGS += -O3
+release: all
+
+all:
+	@cp -al src/. obj
+	@$(MAKE) -e r3dVoxel.dll
+	@cp -fl r3dVoxel.dll $(OUTDIR)
 
 r3dVoxel.dll: $(SRC:.cpp=.o)
 
@@ -18,19 +31,7 @@ r3dVoxel.dll: $(SRC:.cpp=.o)
 
 clean:
 	@echo "Cleaning..."
-	@$(RM) -rf obj
-
-# debug target
-#debug: OUTDIR = ../builds/Debug
-#debug: CXXFLAGS += -O0 -g3
-#debug: $(OUTPUT)
-
-# release target
-#release: OUTDIR = ../builds/Release
-#release: CXXFLAGS += -O3
-#release: $(OUTPUT)
-
-#OUTPUT = $(OUTDIR)/
+	@$(RM) -r obj
 
 depbuild:
 	@printf "\033[36mBuilding GLFW\033[m\n"
