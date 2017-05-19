@@ -39,7 +39,7 @@ namespace r3dVoxel
 	class ILogger : public IClass
 	{
 		template<typename T>
-		std::string print(std::string& format, T&& object)
+		std::string print(std::string& format, T&& object) const
 		{
 			std::ostringstream field;
 			field << std::internal << std::setfill('0');
@@ -93,10 +93,10 @@ namespace r3dVoxel
 		}
 
 	public:
-		virtual void log(ELoggingLevel::type lvl, const char* str) noexcept = 0;
+		virtual void log(ELoggingLevel::type lvl, const char* str) const noexcept = 0;
 
 		template<typename... T>
-		void log(ELoggingLevel::type lvl, const char* str, T&&... args)
+		void log(ELoggingLevel::type lvl, const char* str, T&&... args) const
 		{
 			static const int index[]{-1, 1, 2, 3};
 			static const std::regex rex(R"(\{(\d)(,-?\d{1,2})?(:[[:alpha:]]\d{0,2})?\})", std::regex::optimize);
