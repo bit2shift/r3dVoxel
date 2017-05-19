@@ -35,7 +35,7 @@ clean:
 
 depbuild:
 	@printf "\033[36mBuilding GLFW\033[m\n"
-	@cd dep/glfw && cmake -G "Unix Makefiles" -DBUILD_SHARED_LIBS=OFF -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF .
+	@cmake -Bdep/glfw -Hdep/glfw -G "Unix Makefiles" -DBUILD_SHARED_LIBS=OFF -DGLFW_BUILD_DOCS=OFF -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF
 	@make -C dep/glfw
 
 depclean:
