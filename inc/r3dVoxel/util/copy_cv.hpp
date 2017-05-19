@@ -4,17 +4,18 @@ namespace r3dVoxel
 {
 	namespace util
 	{
-		/*
-		 * Type surrogate
-		 */
-		template<typename T> struct type_is {using type = T;};
+		namespace detail
+		{
+			template<typename A, typename B> struct copy_cv                      {using type = B               ;};
+			template<typename A, typename B> struct copy_cv<A const         , B> {using type = B const         ;};
+			template<typename A, typename B> struct copy_cv<A       volatile, B> {using type = B       volatile;};
+			template<typename A, typename B> struct copy_cv<A const volatile, B> {using type = B const volatile;};
+		}
 
 		/*
 		 * Copies "const" or "volatile" from type A to type B
 		 */
-		template<typename A, typename B> struct copy_cv                      : type_is<B               > {};
-		template<typename A, typename B> struct copy_cv<A const         , B> : type_is<B const         > {};
-		template<typename A, typename B> struct copy_cv<A       volatile, B> : type_is<B       volatile> {};
-		template<typename A, typename B> struct copy_cv<A const volatile, B> : type_is<B const volatile> {};
+		template<typename A, typename B>
+		using copy_cv = typename detail::copy_cv<A, B>::type;
 	}
 }
