@@ -16,44 +16,38 @@ namespace r3dVoxel
 		template<typename T>
 		class Array final
 		{
-			std::size_t m_num;
-			T* m_arr;
-
-		public:
-			Array() noexcept : m_num(0), m_arr(nullptr) {}
-
-			Array(std::size_t num) : m_num(num)
-			{
-				m_arr = new T[m_num]();
-			}
-
-			Array(std::initializer_list<T> elems) : Array(elems.size())
-			{
-				std::copy(elems.begin(), elems.end(), m_arr);
-			}
-
-			Array(const Array& other) : Array(other.m_num)
-			{
-				std::copy_n(other.m_arr, other.m_num, m_arr);
-			}
-
-			~Array()
-			{
-				delete[] m_arr;
-			}
+			std::size_t m_len;
+			T* m_ptr;
 
 			/* Swap function, used through ADL */
 			friend void swap(Array& first, Array& second) noexcept
 			{
-				using std::swap; //triggers ADL
-				swap(first.m_num, second.m_num);
-				swap(first.m_arr, second.m_arr);
+				using std::swap;
+				swap(first.m_len, second.m_len);
+				swap(first.m_ptr, second.m_ptr);
 			}
 
-			/* swap() is the above friend on the following two declarations */
-			Array(Array&& other) noexcept : Array()
+		public:
+			Array(std::size_t num = 0) : m_len(num), m_ptr(new T[m_len]) {}
+
+			Array(std::initializer_list<T> elems) : Array(elems.size())
+			{
+				std::copy(elems.begin(), elems.end(), m_ptr);
+			}
+
+			Array(const Array& other) : Array(other.m_len)
+			{
+				std::copy_n(other.m_ptr, m_len, m_ptr);
+			}
+
+			Array(Array&& other) : Array()
 			{
 				swap(*this, other);
+			}
+
+			~Array()
+			{
+				delete[] m_ptr;
 			}
 
 			/* Copy|Move'n'Swap idiom */
@@ -63,21 +57,17 @@ namespace r3dVoxel
 				return *this;
 			}
 
-			/* Disable the default copy and move assignments (see above) */
-			Array& operator=(const Array&) = delete;
-			Array& operator=(Array&&) = delete;
-
 			/* Length of this array */
-			std::size_t length() noexcept
+			std::size_t length() const noexcept
 			{
-				return m_num;
+				return m_len;
 			}
 
 			/* Array subscripting */
 			T& operator[](std::size_t index)
 			{
-				if(index < m_num)
-					return m_arr[index];
+				if(index < m_len)
+					return m_ptr[index];
 				else
 					throw std::out_of_range("r3dVoxel::util::Array<T>[index] : index >= length()");
 			}
@@ -85,13 +75,25 @@ namespace r3dVoxel
 			/* Iterator to the beginning of the array */
 			T* begin() noexcept
 			{
-				return m_arr;
+				return m_ptr;
+			}
+
+			/* Const iterator to the beginning of the array */
+			const T* begin() const noexcept
+			{
+				return m_ptr;
 			}
 
 			/* Iterator to the end of the array */
 			T* end() noexcept
 			{
-				return (m_arr + m_num);
+				return (m_ptr + m_len);
+			}
+
+			/* Const iterator to the end of the array */
+			const T* end() const noexcept
+			{
+				return (m_ptr + m_len);
 			}
 		};
 	}
