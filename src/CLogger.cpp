@@ -22,7 +22,7 @@ namespace r3dVoxel
 
 	void CLogger::log(ELoggingLevel::type lvl, const char* str) const noexcept
 	{
-		std::ostringstream buffer;
+		std::stringstream buffer;
 		std::time_t now = std::time(nullptr);
 		buffer
 			<< std::put_time(std::localtime(&now), "%Y-%m-%d %H:%M:%S [")
@@ -30,9 +30,9 @@ namespace r3dVoxel
 			<< m_name << "] "
 			<< str << std::endl;
 
-		std::string line = buffer.str();
-		std::clog << line;
-		m_logfile << line;
+		std::clog << buffer.rdbuf();
+		buffer.seekg(0);
+		m_logfile << buffer.rdbuf();
 	}
 }
 
