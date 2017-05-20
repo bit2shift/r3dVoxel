@@ -8,7 +8,6 @@
 #include <GLFW/glfw3.h>
 
 #include <algorithm>
-#include <cstddef>
 #include <exception>
 #include <stdexcept>
 
