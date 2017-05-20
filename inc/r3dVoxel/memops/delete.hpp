@@ -48,7 +48,7 @@ void operator delete[](void* pointer, const std::nothrow_t&) noexcept
 /*
  * 5) Sized version of 1)
  */
-void operator delete(void* pointer, std::size_t size) noexcept
+void operator delete(void* pointer, std::size_t) noexcept
 {
 	::operator delete(pointer);
 }
@@ -56,7 +56,7 @@ void operator delete(void* pointer, std::size_t size) noexcept
 /*
  * 6) Sized version of 2)
  */
-void operator delete[](void* pointer, std::size_t size) noexcept
+void operator delete[](void* pointer, std::size_t) noexcept
 {
 	::operator delete[](pointer);
 }
