@@ -21,14 +21,14 @@ namespace r3dVoxel
 
 	math::ivec CMonitor::getPosition() const noexcept
 	{
-		std::int32_t x, y;
+		int x, y;
 		glfwGetMonitorPos(m_monitor, &x, &y);
 		return math::ivec{x, y, 0, 0};
 	}
 
 	math::ivec CMonitor::getPhysicalSize() const noexcept
 	{
-		std::int32_t width, height;
+		int width, height;
 		glfwGetMonitorPhysicalSize(m_monitor, &width, &height);
 		return math::ivec{width, height, 0, 0};
 	}
