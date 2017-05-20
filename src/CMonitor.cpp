@@ -15,8 +15,6 @@
 
 namespace r3dVoxel
 {
-	CMonitor::CMonitor(GLFWmonitor* mon) noexcept : m_monitor(mon) {}
-
 	///////////////////////////
 	//// Interface methods ////
 	///////////////////////////
