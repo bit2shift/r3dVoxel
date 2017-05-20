@@ -38,6 +38,12 @@ namespace r3dVoxel
 	 */
 	class ILogger : public IClass
 	{
+		static auto& regex() noexcept
+		{
+			static const std::regex rex(R"(\{(\d)(,-?\d{1,2})?(:[[:alpha:]]\d{0,2})?\})", std::regex::optimize);
+			return rex;
+		}
+
 		template<typename T>
 		std::string print(std::string& format, T&& object) const
 		{
@@ -98,9 +104,8 @@ namespace r3dVoxel
 		template<typename... T>
 		void log(ELoggingLevel::type lvl, const char* str, T&&... args) const
 		{
-			static const int index[]{-1, 1, 2, 3};
-			static const std::regex rex(R"(\{(\d)(,-?\d{1,2})?(:[[:alpha:]]\d{0,2})?\})", std::regex::optimize);
-			std::cregex_token_iterator begin(str, str + std::char_traits<char>::length(str), rex, index), end;
+			constexpr int index[]{-1, 1, 2, 3};
+			std::cregex_token_iterator begin(str, str + std::char_traits<char>::length(str), regex(), index), end;
 			std::ostringstream stream;
 			while(begin != end)
 			{
