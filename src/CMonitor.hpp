@@ -22,10 +22,10 @@ namespace r3dVoxel
 		//// Interface methods ////
 		///////////////////////////
 
-		math::ivec getPosition() noexcept;
-		math::ivec getPhysicalSize() noexcept;
-		const char* getName() noexcept;
-		SVideoMode getVideoMode() noexcept;
-		util::Array<SVideoMode> getAllVideoModes() noexcept;
+		math::ivec getPosition() const noexcept;
+		math::ivec getPhysicalSize() const noexcept;
+		const char* getName() const noexcept;
+		SVideoMode getVideoMode() const noexcept;
+		util::Array<SVideoMode> getAllVideoModes() const noexcept;
 	};
 }

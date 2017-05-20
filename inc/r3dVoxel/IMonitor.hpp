@@ -30,19 +30,19 @@ namespace r3dVoxel
 	{
 	public:
 		/* Position on the virtual screen */
-		virtual math::ivec getPosition() noexcept = 0;
+		virtual math::ivec getPosition() const noexcept = 0;
 
 		/*
 		 * Physical size, in millimeters
 		 * MIGHT NOT BE ACCURATE!
 		 */
-		virtual math::ivec getPhysicalSize() noexcept = 0;
+		virtual math::ivec getPhysicalSize() const noexcept = 0;
 
 		/*
 		 * Monitor name, encoded as UTF-8
 		 * The returned string is managed internally.
 		 */
-		virtual const char* getName() noexcept = 0;
+		virtual const char* getName() const noexcept = 0;
 
 		/*
 		 * Current video mode
@@ -50,12 +50,12 @@ namespace r3dVoxel
 		 *   whether or not it's focused.
 		 * Note: zeroed SVideoMode on failure
 		 */
-		virtual SVideoMode getVideoMode() noexcept = 0;
+		virtual SVideoMode getVideoMode() const noexcept = 0;
 
 		/*
 		 * Supported video modes
 		 * Returns an array of SVideoMode, empty on failure.
 		 */
-		virtual util::Array<SVideoMode> getAllVideoModes() noexcept = 0;
+		virtual util::Array<SVideoMode> getAllVideoModes() const noexcept = 0;
 	};
 }

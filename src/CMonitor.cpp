@@ -19,21 +19,21 @@ namespace r3dVoxel
 	//// Interface methods ////
 	///////////////////////////
 
-	math::ivec CMonitor::getPosition() noexcept
+	math::ivec CMonitor::getPosition() const noexcept
 	{
 		std::int32_t x, y;
 		glfwGetMonitorPos(m_monitor, &x, &y);
 		return math::ivec{x, y, 0, 0};
 	}
 
-	math::ivec CMonitor::getPhysicalSize() noexcept
+	math::ivec CMonitor::getPhysicalSize() const noexcept
 	{
 		std::int32_t width, height;
 		glfwGetMonitorPhysicalSize(m_monitor, &width, &height);
 		return math::ivec{width, height, 0, 0};
 	}
 
-	const char* CMonitor::getName() noexcept
+	const char* CMonitor::getName() const noexcept
 	{
 		return glfwGetMonitorName(m_monitor);
 	}
@@ -45,7 +45,7 @@ namespace r3dVoxel
 		(mode.width, mode.height, mode.redBits, mode.greenBits, mode.blueBits, mode.refreshRate);
 	}
 
-	SVideoMode CMonitor::getVideoMode() noexcept
+	SVideoMode CMonitor::getVideoMode() const noexcept
 	{
 		if(auto mode = glfwGetVideoMode(m_monitor))
 			return copyVideoMode(*mode);
@@ -53,7 +53,7 @@ namespace r3dVoxel
 			return {};
 	}
 
-	util::Array<SVideoMode> CMonitor::getAllVideoModes() noexcept
+	util::Array<SVideoMode> CMonitor::getAllVideoModes() const noexcept
 	{
 		int cnt;
 		auto ptr = glfwGetVideoModes(m_monitor, &cnt);
