@@ -75,7 +75,7 @@ namespace r3dVoxel
 	{
 		GLFWmonitor* pmon = glfwGetPrimaryMonitor();
 		if(pmon && m_monitors.count(pmon))
-			return &m_monitors[pmon];
+			return &m_monitors.at(pmon);
 		else
 			return nullptr;
 	}

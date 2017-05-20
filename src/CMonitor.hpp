@@ -16,7 +16,7 @@ namespace r3dVoxel
 		GLFWmonitor* m_monitor;
 
 	public:
-		CMonitor(GLFWmonitor* mon = nullptr) noexcept;
+		CMonitor(GLFWmonitor* mon) noexcept;
 
 		///////////////////////////
 		//// Interface methods ////
