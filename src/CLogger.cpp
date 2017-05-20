@@ -9,6 +9,7 @@
 #include <ios>
 #include <iostream>
 #include <map>
+#include <ostream>
 #include <sstream>
 #include <string>
 
