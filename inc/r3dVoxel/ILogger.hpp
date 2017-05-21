@@ -45,9 +45,9 @@ namespace r3dVoxel
 		}
 
 		template<typename T>
-		std::string print(std::string& format, T&& object) const
+		static auto print(std::string& format, T&& object)
 		{
-			std::ostringstream field;
+			std::stringstream field;
 			field << std::internal << std::setfill('0');
 
 			int width = (format.length() > 1) ? std::stoi(format.substr(1)) : 0;
@@ -95,7 +95,7 @@ namespace r3dVoxel
 				break;
 			}
 
-			return field.str();
+			return field;
 		}
 
 	public:
@@ -151,9 +151,9 @@ namespace r3dVoxel
 					util::parameter_pack::at
 					(
 						position,
-						[&stream, this, &format](auto object)
+						[&stream, &format](auto object)
 						{
-							stream << this->print(format, std::forward<decltype(object)>(object));
+							stream << print(format, std::forward<decltype(object)>(object)).rdbuf();
 						},
 						std::forward<T>(args)...
 					);
