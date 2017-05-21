@@ -74,18 +74,18 @@ namespace r3dVoxel
 
 			case 'I':
 			case 'i': //signed integer (forced specifier)
-				field << typename std::conditional<std::is_integral<T>::value, std::intmax_t, T>::type(object);
+				field << std::conditional_t<std::is_integral<T>::value, std::intmax_t, T>(object);
 				break;
 
 			case 'U':
 			case 'u': //unsigned integer (forced specifier)
-				field << typename std::conditional<std::is_integral<T>::value, std::uintmax_t, T>::type(object);
+				field << std::conditional_t<std::is_integral<T>::value, std::uintmax_t, T>(object);
 				break;
 
 			case 'Z':
 			case 'z': //std::size_t specifier, max hex digits (8 for 32-bit, 16 for 64-bit)
 				field << "0x" << std::hex << std::uppercase << std::setw(sizeof(std::size_t) << 1);
-				field << typename std::conditional<std::is_integral<T>::value, std::size_t, T>::type(object);
+				field << std::conditional_t<std::is_integral<T>::value, std::size_t, T>(object);
 				break;
 
 			//TODO more format specifiers
