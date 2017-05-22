@@ -10,17 +10,24 @@ LDLIBS = $(shell PKG_CONFIG_PATH=dep/glfw/src pkg-config --static --libs-only-l 
 
 SRC = $(shell find obj -name *.cpp 2> /dev/null)
 
+.PHONY: all build clean cleanall debug depbuild depclean release
+
+all: depbuild debug
+
+cleanall: depclean clean
+	@$(RM) r3dVoxel.dll
+
 # debug target
 debug: OUTDIR = ../builds/Debug/
 debug: export CXXFLAGS += -O0 -g3
-debug: all
+debug: build
 
 # release target
 release: OUTDIR = ../builds/Release/
 release: export CXXFLAGS += -O3
-release: all
+release: build
 
-all:
+build:
 	@cp -al src/. obj
 	@$(MAKE) -e r3dVoxel.dll
 	@cp -fl r3dVoxel.dll $(OUTDIR)
