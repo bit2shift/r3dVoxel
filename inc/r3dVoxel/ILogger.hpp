@@ -4,7 +4,6 @@
 #include "util/Enum.hpp"
 #include "util/parameter_pack.hpp"
 
-#include <cmath>
 #include <cstddef>
 #include <cstdint>
 #include <iomanip>
@@ -30,7 +29,7 @@ namespace r3dVoxel
 		ENUM(INFO);
 		ENUM(DEBUG);
 		ENUM(ALL);
-		#line 34
+		#line 33
 	}
 
 	/*
@@ -44,15 +43,23 @@ namespace r3dVoxel
 			return rex;
 		}
 
+		template<typename N, typename I>
+		static N number(I begin, I end)
+		{
+			N num{};
+			bool neg = ((*begin == '-') && begin++);
+			while(begin < end)
+				num = (num * 10) + (*begin++ - '0');
+			return neg ? -num : num;
+		}
+
 		template<typename T>
-		static auto print(std::string& format, T&& object)
+		static auto print(char format, int width, T&& object)
 		{
 			std::stringstream field;
 			field << std::internal << std::setfill('0');
 
-			int width = (format.length() > 1) ? std::stoi(format.substr(1)) : 0;
-
-			switch(format[0])
+			switch(format)
 			{
 			case 'X':
 			case 'x': //hexadecimal notation
@@ -110,7 +117,9 @@ namespace r3dVoxel
 			while(begin != end)
 			{
 				unsigned position = -1U;
-				std::string format{0};
+				int alignment = 0;
+				char format = 0;
+				int width = 0;
 				for(int i : index)
 				{
 					if(begin == end)
@@ -121,27 +130,23 @@ namespace r3dVoxel
 					if(!cm.matched)
 						continue;
 
-					if(i > 1)
-						format.assign(cm.first + 1, cm.second);
-
 					switch(i)
 					{
 					case -1:
-						stream << cm;
+						stream.write(cm.first, cm.length());
 						break;
 
 					case 1:
-						position = std::stoul(cm);
+						position = number<unsigned>(cm.first, cm.second);
 						break;
 
 					case 2:
-						{
-							int align = std::stoi(format);
-							stream << std::setw(std::abs(align)) << (std::signbit(align) ? std::left : std::right);
-						}
+						alignment = number<int>(cm.first + 1, cm.second);
 						break;
 
-					default:
+					case 3:
+						format = cm.first[1];
+						width = number<int>(cm.first + 2, cm.second);
 						break;
 					}
 				}
@@ -151,9 +156,17 @@ namespace r3dVoxel
 					util::parameter_pack::at
 					(
 						position,
-						[&stream, &format](auto object)
+						[&stream, alignment, format, width](auto&& object)
 						{
-							stream << print(format, std::forward<decltype(object)>(object)).rdbuf();
+							auto&& str = print(format, width, std::forward<decltype(object)>(object));
+
+							if(alignment > 0)
+								stream << std::setw(alignment - int(str.tellp())) << "";
+
+							stream << str.rdbuf();
+
+							if(alignment < 0)
+								stream << std::setw(-alignment - int(str.tellp())) << "";
 						},
 						std::forward<T>(args)...
 					);
