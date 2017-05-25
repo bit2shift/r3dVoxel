@@ -3,7 +3,7 @@ CC = @echo "Linking..."; g++
 CXX = @echo "Compiling [$<]"; g++
 
 CPPFLAGS = -MMD -MP -Idep/glfw/deps -Idep/glfw/include -Iinc -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
-CXXFLAGS = -pedantic -std=c++14 -Wall -Wconversion -Werror -Wextra -fvisibility=hidden -msse2 -mstackrealign
+CXXFLAGS = -pedantic -std=c++17 -Wall -Wconversion -Werror -Wextra -fvisibility=hidden -msse2 -mstackrealign
 
 LDFLAGS = -shared -static -Ldep/glfw/src
 LDLIBS = $(shell PKG_CONFIG_PATH=dep/glfw/src pkg-config --static --libs-only-l glfw3)
