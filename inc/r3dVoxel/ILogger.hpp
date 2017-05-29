@@ -108,6 +108,27 @@ namespace r3dVoxel
 	public:
 		virtual void log(ELoggingLevel::type lvl, const char* str) const noexcept = 0;
 
+		/*
+		 * =======================
+		 * Composite Format String
+		 * =======================
+		 *
+		 * Syntax:
+		 *   {index[,alignment][:format]}
+		 *
+		 * Arguments:
+		 * - index: single digit (range: [0, 9])
+		 * - alignment: signed number (range: [-99, 99])
+		 * - format: single letter followed by two digits at most (range: [0, 99])
+		 *
+		 * Note:
+		 *   Elements inside the brackets are optional
+		 *   and should appear in the specified order.
+		 *
+		 * Example:
+		 *   logger->log(r3dVoxel::ELoggingLevel::INFO, "({1,-4}) ({0:X4})", 123, 69);
+		 *   It will print "(69  ) (0x007B)" to the specified logger.
+		 */
 		template<typename... T>
 		void log(ELoggingLevel::type lvl, std::string_view str, T&&... args) const
 		{
