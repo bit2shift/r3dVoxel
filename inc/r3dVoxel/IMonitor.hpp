@@ -15,12 +15,12 @@ namespace r3dVoxel
 	 */
 	struct SVideoMode
 	{
-		std::int16_t width;   //screen width in pixels
-		std::int16_t height;  //screen height in pixels
-		std::int8_t red;      //red channel bit depth
-		std::int8_t green;    //green channel bit depth
-		std::int8_t blue;     //blue channel bit depth
-		std::int8_t refresh;  //how fast the screen is refreshed
+		std::uint16_t width;   //screen width in pixels
+		std::uint16_t height;  //screen height in pixels
+		std::uint8_t red;      //red channel bit depth
+		std::uint8_t green;    //green channel bit depth
+		std::uint8_t blue;     //blue channel bit depth
+		std::uint8_t refresh;  //how fast the screen is refreshed
 	};
 
 	/*

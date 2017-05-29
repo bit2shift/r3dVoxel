@@ -41,7 +41,7 @@ namespace r3dVoxel
 	//Want Speed? Pass by Value.
 	inline static SVideoMode copyVideoMode(GLFWvidmode mode)
 	{
-		return util::parameter_pack::list_cast<SVideoMode, std::int16_t, std::int16_t, std::int8_t, std::int8_t, std::int8_t, std::int8_t>
+		return util::parameter_pack::list_cast<SVideoMode, std::uint16_t, std::uint16_t, std::uint8_t, std::uint8_t, std::uint8_t, std::uint8_t>
 		(mode.width, mode.height, mode.redBits, mode.greenBits, mode.blueBits, mode.refreshRate);
 	}
 
