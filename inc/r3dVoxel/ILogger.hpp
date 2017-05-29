@@ -10,7 +10,7 @@
 #include <ios>
 #include <regex>
 #include <sstream>
-#include <string>
+#include <string_view>
 #include <type_traits>
 #include <utility>
 
@@ -109,10 +109,10 @@ namespace r3dVoxel
 		virtual void log(ELoggingLevel::type lvl, const char* str) const noexcept = 0;
 
 		template<typename... T>
-		void log(ELoggingLevel::type lvl, const char* str, T&&... args) const
+		void log(ELoggingLevel::type lvl, std::string_view str, T&&... args) const
 		{
 			constexpr int index[]{-1, 1, 2, 3};
-			std::cregex_token_iterator begin(str, str + std::char_traits<char>::length(str), regex(), index), end;
+			std::cregex_token_iterator begin(str.begin(), str.end(), regex(), index), end;
 			std::ostringstream stream;
 			while(begin != end)
 			{
