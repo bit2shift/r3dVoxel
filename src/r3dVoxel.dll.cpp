@@ -7,6 +7,26 @@
 
 #include <GLFW/glfw3.h>
 
+R3VAPI void* r3vMalloc(std::size_t size) noexcept
+{
+	return std::malloc(size);
+}
+
+R3VAPI void r3vFree(void* pointer) noexcept
+{
+	std::free(pointer);
+}
+
+R3VAPI std::size_t r3vGetMemoryUsage() noexcept
+{
+	return 0;
+}
+
+R3VAPI std::size_t r3vGetSize(const void*) noexcept
+{
+	return 0;
+}
+
 R3VAPI void test()
 {
 	r3dVoxel::ILogger* test = r3vGetLogger("test");
