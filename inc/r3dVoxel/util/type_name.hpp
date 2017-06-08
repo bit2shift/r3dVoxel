@@ -14,11 +14,11 @@ namespace r3dVoxel
 		 * Obtains the fully qualified name of a type.
 		 * Usage: embedded (no gap hazards, I hope)
 		 */
-		class type_name_t final
+		class type_name final
 		{
 			char* m_name;
 
-			friend void swap(type_name_t& a, type_name_t& b) noexcept
+			friend void swap(type_name& a, type_name& b) noexcept
 			{
 				auto tmp = a.m_name;
 				a.m_name = b.m_name;
@@ -26,7 +26,7 @@ namespace r3dVoxel
 			}
 
 		public:
-			type_name_t(const std::type_info& ti)
+			type_name(const std::type_info& ti)
 			{
 				int status = 0;
 				m_name = abi::__cxa_demangle(ti.name(), nullptr, nullptr, &status);
@@ -38,17 +38,17 @@ namespace r3dVoxel
 				}
 			}
 
-			type_name_t(type_name_t&& tn) noexcept : m_name(nullptr)
+			type_name(type_name&& tn) noexcept : m_name(nullptr)
 			{
 				swap(*this, tn);
 			}
 
-			~type_name_t()
+			~type_name()
 			{
 				std::free(m_name);
 			}
 
-			type_name_t& operator=(type_name_t&& tn) noexcept
+			type_name& operator=(type_name&& tn) noexcept
 			{
 				swap(*this, tn);
 				return *this;
@@ -61,13 +61,13 @@ namespace r3dVoxel
 		};
 
 		template<typename T>
-		type_name_t type_name()
+		class type_name type_name()
 		{
 			return typeid(T);
 		}
 
 		template<typename V>
-		type_name_t type_name(V&& v)
+		class type_name type_name(V&& v)
 		{
 			return typeid(v);
 		}
