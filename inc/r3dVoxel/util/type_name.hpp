@@ -18,14 +18,6 @@ namespace r3dVoxel
 		{
 			char* m_name;
 
-			friend void swap(type_name& a, type_name& b) noexcept
-			{
-				auto tmp = a.m_name;
-				a.m_name = b.m_name;
-				b.m_name = tmp;
-			}
-
-		public:
 			type_name(const std::type_info& ti)
 			{
 				int status = 0;
@@ -38,14 +30,22 @@ namespace r3dVoxel
 				}
 			}
 
-			type_name(type_name&& tn) noexcept : m_name(nullptr)
-			{
-				swap(*this, tn);
-			}
-
+		public:
 			~type_name()
 			{
 				std::free(m_name);
+			}
+
+			friend void swap(type_name& a, type_name& b) noexcept
+			{
+				auto tmp = a.m_name;
+				a.m_name = b.m_name;
+				b.m_name = tmp;
+			}
+
+			type_name(type_name&& tn) noexcept : m_name(nullptr)
+			{
+				swap(*this, tn);
 			}
 
 			type_name& operator=(type_name&& tn) noexcept
@@ -58,6 +58,12 @@ namespace r3dVoxel
 			{
 				return m_name;
 			}
+
+			template<typename>
+			friend type_name type_name();
+
+			template<typename V>
+			friend type_name type_name(V&&);
 		};
 
 		template<typename T>
