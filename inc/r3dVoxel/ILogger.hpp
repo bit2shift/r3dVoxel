@@ -4,6 +4,7 @@
 #include "util/Enum.hpp"
 #include "util/parameter_pack.hpp"
 
+#include <cctype>
 #include <cstddef>
 #include <cstdint>
 #include <iomanip>
@@ -16,9 +17,6 @@
 
 namespace r3dVoxel
 {
-	/*
-	 * Logging level
-	 */
 	namespace ELoggingLevel
 	{
 		ENUM_TYPE(std::uint8_t);
@@ -29,7 +27,7 @@ namespace r3dVoxel
 		ENUM(INFO);
 		ENUM(DEBUG);
 		ENUM(ALL);
-		#line 33
+		#line 31
 	}
 
 	/*
@@ -72,11 +70,8 @@ namespace r3dVoxel
 				break;
 
 			case 'H': //upper-case hexadecimal (no base)
-				field << std::hex << std::uppercase << std::setw(width) << object;
-				break;
-
 			case 'h': //lower-case hexadecimal (no base)
-				field << std::hex << std::nouppercase << std::setw(width) << object;
+				field << std::hex << (std::isupper(format) ? std::uppercase : std::nouppercase) << std::setw(width) << object;
 				break;
 
 			case 'I':
