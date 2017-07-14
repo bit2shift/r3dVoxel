@@ -42,8 +42,8 @@ clean:
 
 depbuild:
 	@printf "\033[36mBuilding GLFW\033[m\n"
-	@cmake -Bdep/glfw -Hdep/glfw -G "Unix Makefiles" -DBUILD_SHARED_LIBS=OFF -DGLFW_BUILD_DOCS=OFF -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF
-	@make -C dep/glfw
+	@cmake -G"Unix Makefiles" -Hdep/glfw -Bdep/glfw -DBUILD_SHARED_LIBS=OFF -DGLFW_BUILD_DOCS=OFF -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF
+	@$(MAKE) -Cdep/glfw
 
 depclean:
 	@git submodule foreach "git clean -dffqx; git reset --hard"
