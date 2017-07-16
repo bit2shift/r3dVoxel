@@ -3,7 +3,6 @@
 #include <r3dVoxel/ILogger.hpp>
 
 #include <iosfwd>
-#include <string>
 
 namespace r3dVoxel
 {
@@ -13,10 +12,15 @@ namespace r3dVoxel
 	class CLogger : public ILogger
 	{
 		static std::ofstream m_logfile;
-		std::string m_name;
+		const char* m_name;
 
 	public:
-		CLogger(const char* name) : m_name(name) {}
+		CLogger(const char* name) noexcept : m_name(name) {}
+
+		static ILogger&& r3v(const char* name) noexcept
+		{
+			return static_cast<CLogger&&>(name);
+		}
 
 		///////////////////////////
 		//// Interface methods ////

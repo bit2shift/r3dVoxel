@@ -9,6 +9,7 @@
 #include <ios>
 #include <iostream>
 #include <map>
+#include <new>
 #include <ostream>
 #include <sstream>
 #include <string>
@@ -44,5 +45,8 @@ R3VAPI r3dVoxel::ILogger* r3vGetLogger(const char* name) noexcept
 	if(!name)
 		name = "GLOBAL";
 
-	return &loggers.emplace(name, name).first->second;
+	if(auto [iter, added] = loggers.try_emplace(name, ""); added)
+		return (iter->second.~CLogger(), new(&iter->second) r3dVoxel::CLogger(iter->first.c_str()));
+	else
+		return &iter->second;
 }
