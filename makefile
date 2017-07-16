@@ -15,7 +15,7 @@ SRC = $(shell find obj -name *.cpp 2> /dev/null)
 all: depbuild debug
 
 cleanall: depclean clean
-	@$(RM) r3dVoxel.dll
+	@$(RM) r3dVoxel.dso
 
 # debug target
 debug: OUTDIR = ../builds/Debug/
@@ -29,10 +29,10 @@ release: build
 
 build:
 	@cp -al src/. obj
-	@$(MAKE) -e r3dVoxel.dll
-	@cp -fl r3dVoxel.dll $(OUTDIR)
+	@$(MAKE) -e r3dVoxel.dso
+	@cp -fl r3dVoxel.dso $(OUTDIR)
 
-r3dVoxel.dll: $(SRC:.cpp=.o)
+r3dVoxel.dso: $(SRC:.cpp=.o)
 
 -include $(SRC:.cpp=.d)
 
