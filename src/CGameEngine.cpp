@@ -1,5 +1,7 @@
 #include "CGameEngine.hpp"
 
+#include "CLogger.hpp"
+
 #include <r3dVoxel/IGameEngine.hpp>
 #include <r3dVoxel/ILogger.hpp>
 #include <r3dVoxel/r3vABI.hpp>
@@ -15,7 +17,7 @@ namespace r3dVoxel
 {
 	void CGameEngine::error_callback(int error, const char* description)
 	{
-		r3vGetLogger<CGameEngine>()->log(ELoggingLevel::SEVERE, "GLFW Error {0:X8} : {1}", error, description);
+		CLogger::r3v("CGameEngine").log(ELoggingLevel::SEVERE, "GLFW Error {0:X8} : {1}", error, description);
 	}
 
 	void CGameEngine::monitor_callback(GLFWmonitor* monitor, int status)
@@ -66,7 +68,7 @@ namespace r3dVoxel
 	}
 	catch(std::exception& e)
 	{
-		r3vGetLogger<CGameEngine>()->log(ELoggingLevel::SEVERE, "{0}() : {1}", __func__, e.what());
+		CLogger::r3v("CGameEngine").log(ELoggingLevel::SEVERE, "{0}() : {1}", __func__, e.what());
 		return {};
 	}
 
@@ -93,6 +95,6 @@ R3VAPI r3dVoxel::IGameEngine* r3vInitialize() noexcept try
 }
 catch(std::exception& e)
 {
-	r3vGetLogger(__func__)->log(r3dVoxel::ELoggingLevel::SEVERE, e.what());
+	r3dVoxel::CLogger(__func__).log(r3dVoxel::ELoggingLevel::SEVERE, e.what());
 	return nullptr;
 }

@@ -1,8 +1,9 @@
 #include "CMonitor.hpp"
 
+#include "CLogger.hpp"
+
 #include <r3dVoxel/ILogger.hpp>
 #include <r3dVoxel/IMonitor.hpp>
-#include <r3dVoxel/r3vABI.hpp>
 #include <r3dVoxel/math/Vector.hpp>
 #include <r3dVoxel/util/Array.hpp>
 #include <r3dVoxel/util/parameter_pack.hpp>
@@ -66,7 +67,7 @@ namespace r3dVoxel
 		}
 		catch(std::exception& e)
 		{
-			r3vGetLogger<CMonitor>()->log(ELoggingLevel::SEVERE, "{0}() : {1}", __func__, e.what());
+			CLogger::r3v("CMonitor").log(ELoggingLevel::SEVERE, "{0}() : {1}", __func__, e.what());
 			return {};
 		}
 	}
