@@ -61,7 +61,7 @@ namespace r3dVoxel
 
 		try
 		{
-			util::Array<SVideoMode> arr(cnt);
+			util::Array<SVideoMode> arr{unsigned(cnt)};
 			std::transform(ptr, (ptr + cnt), arr.begin(), copyVideoMode);
 			return arr;
 		}

@@ -47,7 +47,7 @@ namespace r3dVoxel
 			N num{};
 			bool neg = ((*begin == '-') && begin++);
 			while(begin < end)
-				num = (num * 10) + (*begin++ - '0');
+				num = (num * 10) + N(*begin++ - '0');
 			return neg ? -num : num;
 		}
 
