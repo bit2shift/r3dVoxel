@@ -33,9 +33,9 @@ namespace r3dVoxel
 
 			std::forward_list<filter_type, allocator_type<filter_type>> m_filters{1};
 
-			static std::size_t hash(std::size_t hkey, std::size_t prime) noexcept
+			static std::size_t hash_combine(std::size_t a, std::size_t b) noexcept
 			{
-				return (prime ^ (hkey + std::size_t(0x9E3779B97F4A7C16) + (prime << 6) + (prime >> 2))) % std::tuple_size<filter_type::first_type>::value;
+				return (a ^ (b + std::size_t(0x9E3779B97F4A7C16) + (a << 6) + (a >> 2))) % std::tuple_size<filter_type::first_type>::value;
 			}
 
 			/*
@@ -49,7 +49,7 @@ namespace r3dVoxel
 				std::size_t hkey = std::hash<key_type>{}(key);
 				for(std::size_t prime : PRIMES)
 				{
-					if(predicate(filter.first[hash(hkey, prime)]))
+					if(predicate(filter.first[hash_combine(hkey, prime)]))
 						return false;
 				}
 				return true;
