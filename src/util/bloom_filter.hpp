@@ -33,22 +33,23 @@ namespace r3dVoxel
 
 			std::forward_list<filter_type, allocator_type<filter_type>> m_filters{1};
 
-			static std::size_t hash(const key_type& key, std::size_t prime) noexcept
+			static std::size_t hash(std::size_t hkey, std::size_t prime) noexcept
 			{
-				return (prime ^ (std::hash<key_type>{}(key) + std::size_t(0x9E3779B97F4A7C16) + (prime << 6) + (prime >> 2))) % std::tuple_size<filter_type::first_type>::value;
+				return (prime ^ (hkey + std::size_t(0x9E3779B97F4A7C16) + (prime << 6) + (prime >> 2))) % std::tuple_size<filter_type::first_type>::value;
 			}
 
 			/*
 			 * Evaluates a predicate over a group of buckets selected by the hash values of the key.
 			 * If the predicate is true, this function will return false to signal an incomplete iteration.
 			 * Otherwise it will return true on a complete iteration over all buckets.
-			 * Note: The predicate can be impure, if modifying the bucket values.
+			 * Note: The predicate can be impure, if it modifies the buckets.
 			 */
 			static bool bucket_do(filter_type& filter, const key_type& key, bool(*predicate)(std::uint8_t&)) noexcept
 			{
+				std::size_t hkey = std::hash<key_type>{}(key);
 				for(std::size_t prime : PRIMES)
 				{
-					if(predicate(filter.first[hash(key, prime)]))
+					if(predicate(filter.first[hash(hkey, prime)]))
 						return false;
 				}
 				return true;
