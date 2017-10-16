@@ -40,7 +40,7 @@ namespace r3dVoxel
 
 			/*
 			 * Evaluates a predicate over a group of buckets selected by the hash values of the key.
-			 * If the predicate is true, this function will return false to signal an incomplete iteration.
+			 * If the predicate is false, this function will return false to signal an incomplete iteration.
 			 * Otherwise it will return true on a complete iteration over all buckets.
 			 * Note: The predicate can be impure, if it modifies the buckets.
 			 */
@@ -50,7 +50,7 @@ namespace r3dVoxel
 				std::size_t hkey = std::hash<key_type>{}(key);
 				for(std::size_t prime : PRIMES)
 				{
-					if(predicate(filter.first[hash_combine(hkey, prime)]))
+					if(!predicate(filter.first[hash_combine(hkey, prime)]))
 						return false;
 				}
 				return true;
@@ -61,7 +61,7 @@ namespace r3dVoxel
 			{
 				for(filter_type& filter : m_filters)
 				{
-					if(bucket_do(filter, key, [](auto& bucket){return !bucket;}))
+					if(bucket_do(filter, key, [](auto bucket){return bucket;}))
 						return true;
 				}
 				return false;
@@ -70,7 +70,7 @@ namespace r3dVoxel
 			void add(const key_type& key) noexcept
 			{
 				filter_type& filter = (m_filters.front().second == THRESHOLD) ? m_filters.emplace_front() : m_filters.front();
-				bucket_do(filter, key, [](auto& bucket){return (++bucket, false);});
+				bucket_do(filter, key, [](auto& bucket){return ++bucket;});
 				++filter.second;
 			}
 
@@ -78,10 +78,10 @@ namespace r3dVoxel
 			{
 				for(filter_type& filter : m_filters)
 				{
-					if(bucket_do(filter, key, [](auto& bucket){return !bucket;}))
+					if(bucket_do(filter, key, [](auto bucket){return bucket;}))
 					{
-						--filter.second;
-						bucket_do(filter, key, [](auto& bucket){return (--bucket, false);});
+						filter.second--;
+						bucket_do(filter, key, [](auto& bucket){return bucket--;});
 						m_filters.remove_if([](const filter_type& filter){return !filter.second;});
 						return true;
 					}
