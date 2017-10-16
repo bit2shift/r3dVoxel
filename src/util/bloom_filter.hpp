@@ -44,7 +44,8 @@ namespace r3dVoxel
 			 * Otherwise it will return true on a complete iteration over all buckets.
 			 * Note: The predicate can be impure, if it modifies the buckets.
 			 */
-			static bool bucket_do(filter_type& filter, const key_type& key, bool(*predicate)(std::uint8_t&)) noexcept
+			template<typename P>
+			static bool bucket_do(filter_type& filter, const key_type& key, P predicate) noexcept
 			{
 				std::size_t hkey = std::hash<key_type>{}(key);
 				for(std::size_t prime : PRIMES)
@@ -60,7 +61,7 @@ namespace r3dVoxel
 			{
 				for(filter_type& filter : m_filters)
 				{
-					if(bucket_do(filter, key, [](std::uint8_t& bucket){return !bucket;}))
+					if(bucket_do(filter, key, [](auto& bucket){return !bucket;}))
 						return true;
 				}
 				return false;
@@ -69,7 +70,7 @@ namespace r3dVoxel
 			void add(const key_type& key) noexcept
 			{
 				filter_type& filter = (m_filters.front().second == THRESHOLD) ? m_filters.emplace_front() : m_filters.front();
-				bucket_do(filter, key, [](std::uint8_t& bucket){return (++bucket, false);});
+				bucket_do(filter, key, [](auto& bucket){return (++bucket, false);});
 				++filter.second;
 			}
 
@@ -77,10 +78,10 @@ namespace r3dVoxel
 			{
 				for(filter_type& filter : m_filters)
 				{
-					if(bucket_do(filter, key, [](std::uint8_t& bucket){return !bucket;}))
+					if(bucket_do(filter, key, [](auto& bucket){return !bucket;}))
 					{
 						--filter.second;
-						bucket_do(filter, key, [](std::uint8_t& bucket){return (--bucket, false);});
+						bucket_do(filter, key, [](auto& bucket){return (--bucket, false);});
 						m_filters.remove_if([](const filter_type& filter){return !filter.second;});
 						return true;
 					}
