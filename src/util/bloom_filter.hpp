@@ -20,7 +20,7 @@ namespace r3dVoxel
 			template<typename T>
 			using allocator_type = typename std::allocator_traits<typename C::allocator_type>::template rebind_alloc<T>;
 
-			using filter_type = std::pair<std::array<std::uint8_t, 4068>, std::uint8_t>;
+			using filter_type = std::pair<std::array<std::uint8_t, 4095>, std::uint8_t>;
 
 			static constexpr std::size_t THRESHOLD = 141;
 			static constexpr std::array<std::size_t, 20> PRIMES
