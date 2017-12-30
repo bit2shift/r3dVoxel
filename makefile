@@ -14,31 +14,21 @@ SRC = $(shell find obj -name *.cpp 2> /dev/null)
 
 all: depbuild debug
 
-cleanall: depclean clean
-	@$(RM) r3dVoxel.dso
-
-# debug target
-debug: OUTDIR = ../builds/Debug/
-debug: export CXXFLAGS += -O0 -g3
-debug: build
-
-# release target
-release: OUTDIR = ../builds/Release/
-release: export CXXFLAGS += -O3
-release: build
-
 build:
 	@cp -al src/. obj
 	@$(MAKE) -e r3dVoxel.dso
 	@cp -fl r3dVoxel.dso $(OUTDIR)
 
-r3dVoxel.dso: $(SRC:.cpp=.o)
-
--include $(SRC:.cpp=.d)
-
 clean:
 	@echo "Cleaning..."
 	@$(RM) -r obj
+
+cleanall: depclean clean
+	@$(RM) r3dVoxel.dso
+
+debug: OUTDIR = ../builds/Debug/
+debug: export CXXFLAGS += -O0 -g3
+debug: build
 
 depbuild:
 	@printf "\033[36mBuilding GLFW\033[m\n"
@@ -47,3 +37,11 @@ depbuild:
 
 depclean:
 	@git submodule foreach "git clean -dffqx; git reset --hard"
+
+release: OUTDIR = ../builds/Release/
+release: export CXXFLAGS += -O3
+release: build
+
+r3dVoxel.dso: $(SRC:.cpp=.o)
+
+-include $(SRC:.cpp=.d)
