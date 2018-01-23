@@ -3,7 +3,7 @@ CC = @echo "Linking..."; g++
 CXX = @echo "Compiling [$<]"; g++
 
 CPPFLAGS = -MMD -MP -Idep/glfw/deps -Idep/glfw/include -Iinc -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
-CXXFLAGS = -pedantic -std=c++17 -Wall -Wconversion -Werror -Wextra -fPIC -fvisibility=hidden -msse2 -mstackrealign
+CXXFLAGS ?= -pedantic -std=c++17 -Wall -Wconversion -Werror -Wextra -fPIC -fvisibility=hidden -msse2 -mstackrealign
 
 LDFLAGS = -shared -Ldep/glfw/src
 LDLIBS = $(shell PKG_CONFIG_PATH=dep/glfw/src pkg-config --static --libs-only-l glfw3)
@@ -14,7 +14,7 @@ all: depbuild debug
 
 build:
 	@cp -al src/. obj
-	@$(MAKE) -e SRC="`find obj -name \*.cpp`" r3dVoxel.dso
+	@$(MAKE) SRC="`find obj -name \*.cpp`" r3dVoxel.dso
 	@cp -fl r3dVoxel.dso $(OUTDIR)
 
 clean:
