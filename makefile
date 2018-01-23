@@ -8,15 +8,13 @@ CXXFLAGS = -pedantic -std=c++17 -Wall -Wconversion -Werror -Wextra -fPIC -fvisib
 LDFLAGS = -shared -Ldep/glfw/src
 LDLIBS = $(shell PKG_CONFIG_PATH=dep/glfw/src pkg-config --static --libs-only-l glfw3)
 
-SRC = $(shell find obj -name *.cpp 2> /dev/null)
-
 .PHONY: all build clean cleanall debug depbuild depclean release
 
 all: depbuild debug
 
 build:
 	@cp -al src/. obj
-	@$(MAKE) -e r3dVoxel.dso
+	@$(MAKE) -e SRC="`find obj -name \*.cpp`" r3dVoxel.dso
 	@cp -fl r3dVoxel.dso $(OUTDIR)
 
 clean:
