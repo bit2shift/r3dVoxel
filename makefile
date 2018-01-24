@@ -14,7 +14,7 @@ all: depbuild debug
 
 build:
 	@cp -al src/. obj
-	@$(MAKE) SRC="`find obj -name \*.cpp`" r3dVoxel.dso
+	@$(MAKE) SRC="$$(find obj -name \*.cpp -printf %p\ )" r3dVoxel.dso
 	@cp -fl r3dVoxel.dso $(OUTDIR)
 
 clean:
