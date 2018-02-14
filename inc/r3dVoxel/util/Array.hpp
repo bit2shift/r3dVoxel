@@ -26,7 +26,7 @@ namespace r3dVoxel::util
 		}
 
 	public:
-		Array(std::size_t num = 0) : m_len(num), m_ptr(new T[m_len]) {}
+		Array(std::size_t len = 0) : m_len(len), m_ptr(new T[m_len]) {}
 
 		Array(std::initializer_list<T> elems) : Array(elems.size())
 		{
