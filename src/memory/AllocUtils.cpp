@@ -28,40 +28,37 @@ static void dealloc(void* pointer) noexcept
 		std::free(reinterpret_cast<void**>(pointer)[-1]);
 }
 
-namespace r3dVoxel
+namespace r3dVoxel::memory
 {
-	namespace memory
+	std::atomic_size_t AllocUtils::total{0};
+
+	bool AllocUtils::valid(const void* pointer) noexcept
 	{
-		std::atomic_size_t AllocUtils::total{0};
+		return (pointer && !(std::uintptr_t(pointer) & 15));
+	}
 
-		bool AllocUtils::valid(const void* pointer) noexcept
+	void* AllocUtils::clean(void* pointer, std::size_t size) noexcept
+	{
+		return new(pointer) char[size]{};
+	}
+
+	void* AllocUtils::allocate(std::size_t size) noexcept
+	{
+		if(auto pointer = alloc(size))
 		{
-			return (pointer && !(std::uintptr_t(pointer) & 15));
+			total += size;
+			return clean(pointer, size);
 		}
+		else
+			return nullptr;
+	}
 
-		void* AllocUtils::clean(void* pointer, std::size_t size) noexcept
+	void AllocUtils::deallocate(void* pointer, std::size_t size) noexcept
+	{
+		if(valid(pointer))
 		{
-			return new(pointer) char[size]{};
-		}
-
-		void* AllocUtils::allocate(std::size_t size) noexcept
-		{
-			if(auto pointer = alloc(size))
-			{
-				total += size;
-				return clean(pointer, size);
-			}
-			else
-				return nullptr;
-		}
-
-		void AllocUtils::deallocate(void* pointer, std::size_t size) noexcept
-		{
-			if(valid(pointer))
-			{
-				total -= size;
-				dealloc(clean(pointer, size));
-			}
+			total -= size;
+			dealloc(clean(pointer, size));
 		}
 	}
 }
