@@ -65,7 +65,7 @@ namespace r3dVoxel::util
 		T& operator[](std::size_t index)
 		{
 			if(index < m_len)
-				return m_ptr[index];
+				return m_ptr[index % m_len];
 			else
 				throw std::out_of_range("r3dVoxel::util::Array<T>[index] : index >= length()");
 		}
