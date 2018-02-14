@@ -17,18 +17,15 @@
 
 namespace r3dVoxel
 {
-	namespace ELoggingLevel
+	ENUM_TYPE(ELoggingLevel, std::uint8_t)
 	{
-		ENUM_TYPE(std::uint8_t);
-		#line 1
-		ENUM(OFF);
-		ENUM(SEVERE);
-		ENUM(WARNING);
-		ENUM(INFO);
-		ENUM(DEBUG);
-		ENUM(ALL);
-		#line 31
-	}
+		ENUM_VALUE(OFF);
+		ENUM_VALUE(SEVERE);
+		ENUM_VALUE(WARNING);
+		ENUM_VALUE(INFO);
+		ENUM_VALUE(DEBUG);
+		ENUM_VALUE(ALL);
+	};
 
 	/*
 	 * Handy all-purpose logger
@@ -101,7 +98,7 @@ namespace r3dVoxel
 		}
 
 	public:
-		virtual void log(ELoggingLevel::type lvl, const char* str) const noexcept = 0;
+		virtual void log(ELoggingLevel lvl, const char* str) const noexcept = 0;
 
 		/*
 		 * =======================
@@ -125,7 +122,7 @@ namespace r3dVoxel
 		 *   It will print "(69  ) (0x007B)" to the specified logger.
 		 */
 		template<typename... T>
-		void log(ELoggingLevel::type lvl, std::string_view str, T&&... args) const
+		void log(ELoggingLevel lvl, std::string_view str, T&&... args) const
 		{
 			constexpr int index[]{-1, 1, 2, 3};
 			std::cregex_token_iterator begin(str.begin(), str.end(), regex(), index), end;

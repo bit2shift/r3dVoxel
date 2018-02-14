@@ -1,23 +1,27 @@
 #pragma once
 
 /*
- * Enum<T> helpers
+ * Enumeration helpers
  */
-#define ENUM_TYPE(x) using type = r3dVoxel::util::Enum<x>
-#define ENUM(x)      constexpr type x{(__LINE__ - 1), #x}
+#define ENUM_TYPE(name,type) struct name final : r3dVoxel::util::Enum<name, type, __COUNTER__>
+#define ENUM_VALUE(name)     static constexpr Enum name{__COUNTER__, #name}
 
 namespace r3dVoxel::util
 {
 	/*
-	 * Enum<T> struct for pseudo-reflection of enums
+	 * Enumeration structure for pseudo-reflection of enumerations
 	 */
-	template<typename T>
-	struct Enum final
+	template<typename T, typename V, V initial>
+	struct Enum
 	{
-		const T value;
-		const char* name;
+		constexpr Enum(const V value, const char* name) noexcept : m_value{V(~initial + value)}, m_name{name} {}
 
-		constexpr operator const T() const noexcept {return value;}
-		constexpr const char* operator&() const noexcept {return name;}
+		constexpr             operator const T&() const noexcept {return static_cast<const T&>(*this);}
+		constexpr             operator const V()  const noexcept {return m_value;}
+		constexpr const char* operator&()         const noexcept {return m_name;}
+
+	private:
+		const V m_value;
+		const char* m_name;
 	};
 }

@@ -26,6 +26,6 @@ namespace r3dVoxel
 		//// Interface methods ////
 		///////////////////////////
 
-		void log(ELoggingLevel::type lvl, const char* str) const noexcept;
+		void log(ELoggingLevel lvl, const char* str) const noexcept;
 	};
 }

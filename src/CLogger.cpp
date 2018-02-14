@@ -22,7 +22,7 @@ namespace r3dVoxel
 	//// Interface methods ////
 	///////////////////////////
 
-	void CLogger::log(ELoggingLevel::type lvl, const char* str) const noexcept
+	void CLogger::log(ELoggingLevel lvl, const char* str) const noexcept
 	{
 		std::stringstream buffer;
 		std::time_t now = std::time(nullptr);
