@@ -1,32 +1,20 @@
-VPATH = obj
+vpath %.cpp ../src
+
 CC = @echo "Linking..."; g++
 CXX = @echo "Compiling [$<]"; g++
 
-CPPFLAGS = -MMD -MP -Idep/glfw/deps -Idep/glfw/include -Iinc -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
+CPPFLAGS = -MMD -MP -I../dep/glfw/deps -I../dep/glfw/include -I../inc -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
 CXXFLAGS ?= -pedantic -std=c++17 -Wall -Wconversion -Werror -Wextra -fPIC -fvisibility=hidden -msse2 -mstackrealign
 
-LDFLAGS = -shared -Ldep/glfw/src
-LDLIBS = $(shell PKG_CONFIG_PATH=dep/glfw/src pkg-config --static --libs-only-l glfw3)
+LDFLAGS = -shared -L../dep/glfw/src
+LDLIBS = $(shell PKG_CONFIG_PATH=../dep/glfw/src pkg-config --static --libs-only-l glfw3)
 
 .PHONY: all build clean cleanall debug depbuild depclean release
 
 all: depbuild debug
 
-build:
-	@cp -al src/. obj
-	@$(MAKE) SRC="$$(find obj -name \*.cpp -printf %p\ )" r3dVoxel.dso
-	@cp -fl r3dVoxel.dso $(OUTDIR)
-
-clean:
-	@echo "Cleaning..."
-	@$(RM) -r obj
-
 cleanall: depclean clean
 	@$(RM) r3dVoxel.dso
-
-debug: OUTDIR = ../builds/Debug/
-debug: export CXXFLAGS += -O0 -g3
-debug: build
 
 depbuild:
 	@printf "\033[36mBuilding GLFW\033[m\n"
@@ -36,9 +24,21 @@ depbuild:
 depclean:
 	@git submodule foreach "git clean -dffqx; git reset --hard"
 
-release: OUTDIR = ../builds/Release/
+debug: export CXXFLAGS += -O0 -g3
+debug: build
+
 release: export CXXFLAGS += -O3
 release: build
+
+build: export SRC = $(shell find src -name \*.cpp -printf %P\ )
+build:
+	@mkdir -p $$(find src -type d -printf obj/%P\ )
+	@$(MAKE) -Cobj $(MAKEFILE_LIST:%=-f../%) r3dVoxel.dso
+	@cp -fl obj/r3dVoxel.dso .
+
+clean:
+	@echo "Cleaning..."
+	@$(RM) -r obj
 
 r3dVoxel.dso: $(SRC:.cpp=.o)
 
