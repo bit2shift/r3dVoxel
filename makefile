@@ -30,16 +30,14 @@ debug: build
 release: export CXXFLAGS += -O3
 release: build
 
-build: export SRC = $(shell find src -name \*.cpp -printf %P\ )
 build:
 	@mkdir -p $$(find src -type d -printf obj/%P\ )
-	@$(MAKE) -Cobj $(MAKEFILE_LIST:%=-f../%) r3dVoxel.dso
+	@$(MAKE) -Cobj $(MAKEFILE_LIST:%=-f../%) SRC="$$(find src -name \*.cpp -printf %P\ )" r3dVoxel.dso
 	@cp -fl obj/r3dVoxel.dso .
 
 clean:
 	@echo "Cleaning..."
 	@$(RM) -r obj
 
-r3dVoxel.dso: $(SRC:.cpp=.o)
-
 -include $(SRC:.cpp=.d)
+r3dVoxel.dso: $(SRC:.cpp=.o)
