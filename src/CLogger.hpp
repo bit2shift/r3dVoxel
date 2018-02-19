@@ -1,6 +1,7 @@
 #pragma once
 
 #include <r3dVoxel/ILogger.hpp>
+#include <r3dVoxel/util/spin_lock.hpp>
 
 #include <iosfwd>
 
@@ -11,6 +12,7 @@ namespace r3dVoxel
 	 */
 	class CLogger : public ILogger
 	{
+		static util::spin_lock m_ttylock, m_filelock;
 		static std::ofstream m_logfile;
 		const char* m_name;
 
