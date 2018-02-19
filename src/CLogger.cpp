@@ -16,7 +16,7 @@
 
 namespace r3dVoxel
 {
-	std::ofstream CLogger::m_logfile("r3dVoxel.log", std::ios_base::app);
+	std::ofstream CLogger::m_logfile{"r3dVoxel.log", std::ios_base::app};
 
 	///////////////////////////
 	//// Interface methods ////
@@ -46,7 +46,7 @@ R3VAPI r3dVoxel::ILogger* r3vGetLogger(const char* name) noexcept
 		name = "GLOBAL";
 
 	if(auto [iter, added] = loggers.try_emplace(name, ""); added)
-		return (iter->second.~CLogger(), new(&iter->second) r3dVoxel::CLogger(iter->first.c_str()));
+		return (iter->second.~CLogger(), new(&iter->second) r3dVoxel::CLogger{iter->first.c_str()});
 	else
 		return &iter->second;
 }

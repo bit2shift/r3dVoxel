@@ -10,7 +10,7 @@ namespace r3dVoxel::memory
 		const char* m_name;
 
 	public:
-		constexpr StaticLogger(const char* name) noexcept : m_name(name) {}
+		constexpr StaticLogger(const char* name) noexcept : m_name{name} {}
 
 		template<typename... T>
 		void operator()(const char* fmt, T&&... args) const noexcept

@@ -34,7 +34,7 @@ namespace r3dVoxel
 	{
 		static auto& regex() noexcept
 		{
-			static const std::regex rex(R"(\{(\d)(,-?\d{1,2})?(:[[:alpha:]]\d{0,2})?\})", std::regex::optimize);
+			static const std::regex rex{R"(\{(\d)(,-?\d{1,2})?(:[[:alpha:]]\d{0,2})?\})", std::regex::optimize};
 			return rex;
 		}
 
@@ -125,7 +125,7 @@ namespace r3dVoxel
 		void log(ELoggingLevel lvl, std::string_view str, T&&... args) const
 		{
 			constexpr int index[]{-1, 1, 2, 3};
-			std::cregex_token_iterator begin(str.begin(), str.end(), regex(), index), end;
+			std::cregex_token_iterator begin{str.begin(), str.end(), regex(), index}, end;
 			std::ostringstream stream;
 			while(begin != end)
 			{

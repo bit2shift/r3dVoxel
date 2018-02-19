@@ -25,7 +25,7 @@ namespace r3dVoxel::memory
 			if(auto pointer = AllocUtils::allocate(size))
 				return static_cast<T*>(pointer);
 			else
-				throw std::bad_alloc();
+				throw std::bad_alloc{};
 		}
 
 		void deallocate(T* pointer, std::size_t size)

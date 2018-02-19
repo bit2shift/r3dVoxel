@@ -40,7 +40,7 @@ namespace r3dVoxel
 		glfwSetErrorCallback(error_callback);
 
 		if(!glfwInit())
-			throw std::runtime_error("GLFW initialization failure");
+			throw std::runtime_error{"GLFW initialization failure"};
 
 		glfwSetMonitorCallback(monitor_callback);
 
@@ -62,7 +62,7 @@ namespace r3dVoxel
 
 	util::Array<IMonitor*> CGameEngine::getAllMonitors() noexcept try
 	{
-		util::Array<IMonitor*> pmon(m_monitors.size());
+		util::Array<IMonitor*> pmon{m_monitors.size()};
 		std::transform(m_monitors.begin(), m_monitors.end(), pmon.begin(), [](auto& p){return &p.second;});
 		return pmon;
 	}

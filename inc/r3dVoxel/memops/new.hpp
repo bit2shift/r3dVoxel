@@ -18,7 +18,7 @@ void* operator new(std::size_t size)
 		if(auto handler = std::get_new_handler())
 			handler();
 		else
-			throw std::bad_alloc();
+			throw std::bad_alloc{};
 	}
 }
 

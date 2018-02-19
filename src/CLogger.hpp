@@ -15,7 +15,7 @@ namespace r3dVoxel
 		const char* m_name;
 
 	public:
-		CLogger(const char* name) noexcept : m_name(name) {}
+		CLogger(const char* name) noexcept : m_name{name} {}
 
 		static ILogger&& r3v(const char* name) noexcept
 		{

@@ -22,9 +22,9 @@ namespace r3dVoxel::util
 			m_name = abi::__cxa_demangle(ti.name(), nullptr, nullptr, &status);
 			switch(status)
 			{
-			case -1: throw std::bad_alloc();
-			case -2: throw std::invalid_argument("mangled name");
-			case -3: throw std::invalid_argument("unknown");
+			case -1: throw std::bad_alloc{};
+			case -2: throw std::invalid_argument{"mangled name"};
+			case -3: throw std::invalid_argument{"unknown"};
 			}
 		}
 
@@ -41,7 +41,7 @@ namespace r3dVoxel::util
 			b.m_name = tmp;
 		}
 
-		type_name(type_name&& tn) noexcept : m_name(nullptr)
+		type_name(type_name&& tn) noexcept : m_name{nullptr}
 		{
 			swap(*this, tn);
 		}

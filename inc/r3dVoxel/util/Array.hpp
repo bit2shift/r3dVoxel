@@ -26,7 +26,7 @@ namespace r3dVoxel::util
 		}
 
 	public:
-		Array(std::size_t len = 0) : m_len(len), m_ptr(new T[m_len]) {}
+		Array(std::size_t len = 0) : m_len{len}, m_ptr{new T[len]} {}
 
 		Array(std::initializer_list<T> elems) : Array(elems.size())
 		{
@@ -67,7 +67,7 @@ namespace r3dVoxel::util
 			if(index < m_len)
 				return m_ptr[index % m_len];
 			else
-				throw std::out_of_range("r3dVoxel::util::Array<T>[index] : index >= length()");
+				throw std::out_of_range{"r3dVoxel::util::Array<T>[index] : index >= length()"};
 		}
 
 		/* Const array subscripting */
@@ -76,7 +76,7 @@ namespace r3dVoxel::util
 			if(index < m_len)
 				return m_ptr[index % m_len];
 			else
-				throw std::out_of_range("r3dVoxel::util::Array<T>[index] : index >= length()");
+				throw std::out_of_range{"r3dVoxel::util::Array<T>[index] : index >= length()"};
 		}
 
 		/* Iterator to the beginning of the array */
