@@ -41,13 +41,13 @@ namespace r3dVoxel::math
 
 	inline bool all(ivec v)
 	{
-		hop(v, &);
+		hop(v,&);
 		return v[0];
 	}
 
 	inline bool any(ivec v)
 	{
-		hop(v, |);
+		hop(v,|);
 		return v[0];
 	}
 
@@ -58,8 +58,8 @@ namespace r3dVoxel::math
 		//cz = ax*by - ay*bx
 		//cw = aw*bw - aw*bw == 0
 
-		fvec c1 = vec_shuffle(a, 1, 2, 0, 3) * vec_shuffle(b, 2, 0, 1, 3);
-		fvec c2 = vec_shuffle(a, 2, 0, 1, 3) * vec_shuffle(b, 1, 2, 0, 3);
+		fvec c1{vec_shuffle(a, 1, 2, 0, 3) * vec_shuffle(b, 2, 0, 1, 3)};
+		fvec c2{vec_shuffle(a, 2, 0, 1, 3) * vec_shuffle(b, 1, 2, 0, 3)};
 		return (c1 - c2);
 	}
 
@@ -68,17 +68,21 @@ namespace r3dVoxel::math
 		//d = ax*bx + ay*by + az*bz + aw*bw
 		//aw == bw == 0
 
-		fvec c = (a * b);
-		hop(c, +);
+		fvec c{a * b};
+		hop(c,+);
 		return c[0];
+	}
+
+	inline float length(fvec v)
+	{
+		return std::sqrt(dot(v, v));
 	}
 
 	inline fvec norm(fvec v)
 	{
-		float d = sqrtf(dot(v, v));
-		if(d > 1e-6)
-			return (v / fvec{d, d, d, 1});
+		if(float d = length(v); d > 1e-6)
+			return (v / d);
 		else
-			return fvec{0, 0, 0, 0};
+			return fvec{};
 	}
 }
