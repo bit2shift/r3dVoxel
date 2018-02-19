@@ -70,6 +70,15 @@ namespace r3dVoxel::util
 				throw std::out_of_range("r3dVoxel::util::Array<T>[index] : index >= length()");
 		}
 
+		/* Const array subscripting */
+		const T& operator[](std::size_t index) const
+		{
+			if(index < m_len)
+				return m_ptr[index % m_len];
+			else
+				throw std::out_of_range("r3dVoxel::util::Array<T>[index] : index >= length()");
+		}
+
 		/* Iterator to the beginning of the array */
 		T* begin() noexcept
 		{
