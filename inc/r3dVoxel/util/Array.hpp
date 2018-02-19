@@ -17,14 +17,6 @@ namespace r3dVoxel::util
 		std::size_t m_len;
 		T* m_ptr;
 
-		/* Swap function, used through ADL */
-		friend void swap(Array& first, Array& second) noexcept
-		{
-			using std::swap;
-			swap(first.m_len, second.m_len);
-			swap(first.m_ptr, second.m_ptr);
-		}
-
 	public:
 		Array(std::size_t len = 0) : m_len{len}, m_ptr{new T[len]} {}
 
@@ -101,6 +93,14 @@ namespace r3dVoxel::util
 		const T* end() const noexcept
 		{
 			return (m_ptr + m_len);
+		}
+
+		/* Swap function, used through ADL */
+		friend void swap(Array& first, Array& second) noexcept
+		{
+			using std::swap;
+			swap(first.m_len, second.m_len);
+			swap(first.m_ptr, second.m_ptr);
 		}
 	};
 }
