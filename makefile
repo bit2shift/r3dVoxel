@@ -1,20 +1,25 @@
-vpath %.cpp ../src
+ifeq ($(MAKELEVEL),0)
 
-CC = @echo "Linking..."; g++
-CXX = @echo "Compiling [$<]"; g++
+INCDIR := $(addprefix $(CURDIR)/,dep/glfw/deps dep/glfw/include inc)
+LIBDIR := $(addprefix $(CURDIR)/,dep/glfw/src)
 
-CPPFLAGS = -MMD -MP -I../dep/glfw/deps -I../dep/glfw/include -I../inc -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
-CXXFLAGS ?= -pedantic -std=c++17 -Wall -Wconversion -Werror -Wextra -fPIC -fvisibility=hidden -msse2 -mstackrealign
+export CPPFLAGS := $(addprefix -I,$(INCDIR)) -MMD -MP -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
+export CXXFLAGS := -pedantic -std=c++17 -Wall -Wconversion -Werror -Wextra -fPIC -fvisibility=hidden -msse2 -mstackrealign
+export LDFLAGS := $(addprefix -L,$(LIBDIR)) -shared
 
-LDFLAGS = -shared -L../dep/glfw/src
-LDLIBS = $(shell PKG_CONFIG_PATH=../dep/glfw/src pkg-config --static --libs-only-l glfw3)
+export SRCDIR := $(CURDIR)/src
+export OBJDIR := $(CURDIR)/obj
+
+SRC := $(shell find $(SRCDIR) -name \*.cpp -printf %P\ )
+export DEP := $(SRC:.cpp=.d)
+export OBJ := $(SRC:.cpp=.o)
 
 .PHONY: all build clean cleanall debug depbuild depclean release
 
 all: depbuild debug
 
 cleanall: depclean clean
-	@$(RM) r3dVoxel.dso
+	@$(RM) -r bin
 
 depbuild:
 	@printf "\033[36mBuilding GLFW\033[m\n"
@@ -24,20 +29,33 @@ depbuild:
 depclean:
 	@git submodule foreach "git clean -dffqx; git reset --hard"
 
-debug: export CXXFLAGS += -O0 -g3
+debug: CXXFLAGS += -O0 -g3
 debug: build
 
-release: export CXXFLAGS += -O3
+release: CXXFLAGS += -O3
 release: build
 
+build: export LDLIBS = $(shell PKG_CONFIG_PATH=$(subst $(eval) $(eval),:,$(LIBDIR)) pkg-config --static --libs-only-l glfw3)
 build:
-	@mkdir -p $$(find src -type d -printf obj/%P\ )
-	@$(MAKE) -Cobj $(MAKEFILE_LIST:%=-f../%) SRC="$$(find src -name \*.cpp -printf %P\ )" r3dVoxel.dso
-	@cp -fl obj/r3dVoxel.dso .
+	@mkdir -p bin obj
+	@$(MAKE) -Cobj $(addprefix -f$(CURDIR)/,$(MAKEFILE_LIST))
+	@$(MAKE) -Cbin $(addprefix -f$(CURDIR)/,$(MAKEFILE_LIST))
 
 clean:
 	@echo "Cleaning..."
 	@$(RM) -r obj
 
--include $(SRC:.cpp=.d)
-r3dVoxel.dso: $(SRC:.cpp=.o)
+else ifeq ($(notdir $(CURDIR)),obj)
+
+VPATH := $(SRCDIR)
+CXX = @echo "Compiling [$*.cpp]"; mkdir -p $(*D); g++
+build: $(OBJ)
+-include $(DEP)
+
+else ifeq ($(notdir $(CURDIR)),bin)
+
+VPATH := $(OBJDIR)
+CC = @echo "Linking..."; g++
+r3dVoxel.dso: $(OBJ)
+
+endif
