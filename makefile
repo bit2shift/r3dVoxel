@@ -1,33 +1,22 @@
-ifeq ($(MAKELEVEL),0)
+# Top-level makefile
 
-INCDIR := $(addprefix $(CURDIR)/,dep/glfw/deps dep/glfw/include inc)
-LIBDIR := $(addprefix $(CURDIR)/,dep/glfw/src)
+export CPPFLAGS = -I$(CURDIR)/inc -MMD -MP -DR3V_EXPORT
+export CXXFLAGS = -pedantic -std=c++17 -Wall -Wconversion -Werror -Wextra -fPIC -fvisibility=hidden -msse2 -mstackrealign
+export LDFLAGS = -shared
+export LDLIBS =
 
-export CPPFLAGS := $(addprefix -I,$(INCDIR)) -MMD -MP -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
-export CXXFLAGS := -pedantic -std=c++17 -Wall -Wconversion -Werror -Wextra -fPIC -fvisibility=hidden -msse2 -mstackrealign
-export LDFLAGS := $(addprefix -L,$(LIBDIR)) -shared
+pkg-config = $(shell PKG_CONFIG_PATH='$(PKG_CONFIG_PATH)' pkg-config --silence-errors $(1))
 
-export SRCDIR := $(CURDIR)/src
-export OBJDIR := $(CURDIR)/obj
+# These includes cannot be used directly.
+include dep/*.mk
 
-SRC := $(shell find $(SRCDIR) -name \*.cpp -printf %P\ )
-export DEP := $(SRC:.cpp=.d)
-export OBJ := $(SRC:.cpp=.o)
+.PHONY: all build clean cleanall debug release
 
-.PHONY: all build clean cleanall debug depbuild depclean release
+all:: debug
 
-all: depbuild debug
-
-cleanall: depclean clean
+cleanall: clean
+	@git submodule foreach 'git clean -dffqx; git reset --hard'
 	@$(RM) -r bin
-
-depbuild:
-	@printf "\033[36mBuilding GLFW\033[m\n"
-	@cmake -G"Unix Makefiles" -Hdep/glfw -Bdep/glfw -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=dep/glfw -DGLFW_BUILD_DOCS=OFF -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF
-	@$(MAKE) -Cdep/glfw all install
-
-depclean:
-	@git submodule foreach "git clean -dffqx; git reset --hard"
 
 debug: CXXFLAGS += -O0 -g3
 debug: build
@@ -35,27 +24,20 @@ debug: build
 release: CXXFLAGS += -O3
 release: build
 
-build: export LDLIBS = $(shell PKG_CONFIG_PATH=$(subst $(eval) $(eval),:,$(LIBDIR)) pkg-config --static --libs-only-l glfw3)
+build: SRC := $(shell find src -name \*.cpp -printf %P\ )
 build:
 	@mkdir -p bin obj
-	@$(MAKE) -Cobj $(addprefix -f$(CURDIR)/,$(MAKEFILE_LIST))
-	@$(MAKE) -Cbin $(addprefix -f$(CURDIR)/,$(MAKEFILE_LIST))
+	@$(MAKE) -Cobj                                                   \
+	         --eval='-include $(SRC:.cpp=.d)'                        \
+	         VPATH='$(CURDIR)/src'                                   \
+	         CXX='@echo "Compiling [$$*.cpp]"; mkdir -p $$(*D); g++' \
+	         $(SRC:.cpp=.o)
+	@$(MAKE) -Cbin                                 \
+	         --eval='r3dVoxel.dso: $(SRC:.cpp=.o)' \
+	         VPATH='$(CURDIR)/obj'                 \
+	         CC='@echo "Linking..."; g++'          \
+	         r3dVoxel.dso
 
 clean:
-	@echo "Cleaning..."
+	@echo 'Cleaning...'
 	@$(RM) -r obj
-
-else ifeq ($(notdir $(CURDIR)),obj)
-
-VPATH := $(SRCDIR)
-CXX = @echo "Compiling [$*.cpp]"; mkdir -p $(*D); g++
-build: $(OBJ)
--include $(DEP)
-
-else ifeq ($(notdir $(CURDIR)),bin)
-
-VPATH := $(OBJDIR)
-CC = @echo "Linking..."; g++
-r3dVoxel.dso: $(OBJ)
-
-endif
