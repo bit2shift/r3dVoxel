@@ -1,3 +1,6 @@
 # Output folders
 bin
 obj
+
+# Generated dependency configuration
+dep/*.cf
