@@ -1,16 +1,8 @@
 # Le makefile
 
-pkg-config := $(shell which pkg-config 2>/dev/null)
-
 # Check if pkg-config is installed.
-ifeq '$(.SHELLSTATUS)' '1'
+ifeq '$(shell which pkg-config 2>/dev/null)' ''
 $(error error: pkg-config is missing)
-endif
-
-# On MSYS2, abort if pkg-config is from /mingw(32|64)/bin.
-# We need the Unix variant (/usr/bin/pkg-config) which uses ':' instead of ';' as path separator.
-ifneq '$(findstring /mingw,$(pkg-config))' ''
-$(error error: The MinGW version of pkg-config uses ';' as path separator. That sucks for portability)
 endif
 
 # Gets appended in the piecewise makefiles.
