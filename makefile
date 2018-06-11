@@ -17,7 +17,7 @@ endif
 export PKG_CONFIG_PATH :=
 
 # Explicit GLFW include for its vulkan headers.
-export CPPFLAGS := -I$(CURDIR)/inc -I$(CURDIR)/dep/glfw/deps -MMD -MP -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
+export CPPFLAGS := -I$(CURDIR)/dep/glfw/deps -I$(CURDIR)/inc -MMD -MP -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
 export CXXFLAGS := -pedantic -std=c++17 -Wall -Wconversion -Werror -Wextra -fPIC -fvisibility=hidden -msse2 -mstackrealign
 export LDFLAGS := -shared
 export LDLIBS :=
