@@ -1,6 +1,4 @@
-# Only called from the top-level directory.
-
-all:: GLFW := $(CURDIR)/dep/glfw
+all:: GLFW := $(shell git rev-parse --show-toplevel)/dep/glfw
 all:: PKG_CONFIG_PATH += $(GLFW)/lib/pkgconfig
 all::
 	@printf "\033[36mBuilding GLFW\033[m\n"
