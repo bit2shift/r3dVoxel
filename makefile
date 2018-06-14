@@ -11,10 +11,10 @@ export CXXFLAGS := -pedantic -std=c++17 -Wall -Wconversion -Werror -Wextra -fPIC
 export LDFLAGS := -shared
 export LDLIBS :=
 
+.PHONY: all build clean cleanall debug release
+
 # Piecewise makefiles
 include dep/*.mk
-
-.PHONY: all build clean cleanall debug release
 
 all:: debug
 
