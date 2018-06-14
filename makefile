@@ -5,9 +5,6 @@ ifeq '$(shell which pkg-config 2>/dev/null)' ''
 $(error error: pkg-config is missing)
 endif
 
-# Gets appended in the piecewise makefiles.
-export PKG_CONFIG_PATH :=
-
 # Explicit GLFW include for its vulkan headers.
 export CPPFLAGS := -I$(CURDIR)/dep/glfw/deps -I$(CURDIR)/inc -MMD -MP -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
 export CXXFLAGS := -pedantic -std=c++17 -Wall -Wconversion -Werror -Wextra -fPIC -fvisibility=hidden -msse2 -mstackrealign
