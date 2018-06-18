@@ -30,7 +30,7 @@ build: PKGS = $(shell echo '$(PKG_CONFIG_PATH)' | sed 's/ /:/g')
 build: export CXXFLAGS += -std=c++17 -pedantic -Wall -Wconversion -Werror -Wextra -fPIC -fvisibility=hidden -msse2 -mstackrealign
 build: export CPPFLAGS  = $(shell PKG_CONFIG_PATH=$(PKGS) pkg-config --static --cflags $(DEPS)) -I$(r3dVoxel)/dep/glfw/deps -I$(r3dVoxel)/inc -MMD -MP -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
 build: export LDFLAGS   = $(shell PKG_CONFIG_PATH=$(PKGS) pkg-config --static --libs-only-L --libs-only-other $(DEPS)) -shared -fPIC
-build: export LDLIBS    = $(shell PKG_CONFIG_PATH=$(PKGS) pkg-config --static --libs-only-l $(DEPS))
+build: export LDLIBS    = $(shell PKG_CONFIG_PATH=$(PKGS) pkg-config --static --libs-only-l $(DEPS)) -lstdc++
 
 build: SRC := $(shell find src -name \*.cpp -printf %P\ )
 build:
@@ -39,13 +39,13 @@ build:
 		-Cobj\
 		--eval='-include $(SRC:.cpp=.d)'\
 		VPATH='$(r3dVoxel)/src'\
-		CXX='@echo "Compiling [$$*.cpp]"; mkdir -p $$(*D); g++'\
+		CXX='@echo "Compiling [$$*.cpp]"; mkdir -p $$(*D); $(CXX)'\
 		$(SRC:.cpp=.o)
 	@$(MAKE)\
 		-Cbin\
 		--eval='r3dVoxel.dso: $(SRC:.cpp=.o)'\
 		VPATH='$(r3dVoxel)/obj'\
-		CC='@echo "Linking..."; g++'\
+		CC='@echo "Linking..."; $(CC)'\
 		r3dVoxel.dso
 
 clean:
