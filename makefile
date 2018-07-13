@@ -20,10 +20,6 @@ LDLIBS   := -lstdc++
 # Piecewise makefiles
 include dep/*.mk
 
-# Piecewise-related
-DEPS != basename -s.mk dep/*.mk
-PKGS != sed 's/ /:/g' <<< '$(PKG_CONFIG_PATH)'
-
 all:: debug
 
 cleanall: clean
@@ -36,8 +32,8 @@ debug: build
 release: export CXXFLAGS += -O3
 release: build
 
-build: SRC != find src -name \*.cpp -printf '%P '
-build: pkg-config := PKG_CONFIG_PATH=$(PKGS) pkg-config $(DEPS)
+build: SRC != find src -name '*.cpp' -printf '%P '
+build: pkg-config := PKG_CONFIG_PATH=$(shell sed 's/ /:/g' <<< '$(PKG_CONFIG_PATH)') pkg-config $(shell basename -s.mk dep/*.mk)
 
 build: export CPPFLAGS += $(shell $(pkg-config) --static --cflags)
 build: export LDFLAGS  += $(shell $(pkg-config) --static --libs-only-L --libs-only-other)
