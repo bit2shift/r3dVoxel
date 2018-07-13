@@ -32,7 +32,7 @@ build: export CPPFLAGS  = $(shell PKG_CONFIG_PATH=$(PKGS) pkg-config --static --
 build: export LDFLAGS   = $(shell PKG_CONFIG_PATH=$(PKGS) pkg-config --static --libs-only-L --libs-only-other $(DEPS)) -shared -fPIC
 build: export LDLIBS    = $(shell PKG_CONFIG_PATH=$(PKGS) pkg-config --static --libs-only-l $(DEPS)) -lstdc++
 
-build: SRC != find src -name \*.cpp -printf %P\ 
+build: SRC != find src -name \*.cpp -printf %P\n
 build:
 	@mkdir -p bin obj
 	@$(MAKE)\
