@@ -12,6 +12,10 @@ r3dVoxel != git rev-parse --show-toplevel
 # Piecewise makefiles
 include dep/*.mk
 
+# Piecewise-related
+DEPS != basename -s.mk dep/*.mk
+PKGS != sed 's/ /:/g' <<< '$(PKG_CONFIG_PATH)'
+
 all:: debug
 
 cleanall: clean
@@ -23,9 +27,6 @@ debug: build
 
 release: CXXFLAGS = -O3
 release: build
-
-build: DEPS != basename -s.mk dep/*.mk
-build: PKGS != sed 's/ /:/g' <<< '$(PKG_CONFIG_PATH)'
 
 build: export CXXFLAGS += -std=c++17 -pedantic -Wall -Wconversion -Werror -Wextra -fPIC -fvisibility=hidden -msse2 -mstackrealign
 build: export CPPFLAGS  = $(shell PKG_CONFIG_PATH=$(PKGS) pkg-config --static --cflags $(DEPS)) -I$(r3dVoxel)/dep/glfw/deps -I$(r3dVoxel)/inc -MMD -MP -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
