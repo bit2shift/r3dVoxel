@@ -5,6 +5,7 @@ ifeq '' '$(shell pkg-config --version 2>/dev/null)'
 $(error error: pkg-config is missing)
 endif
 
+# Used instead of $(CURDIR)
 r3dVoxel != git rev-parse --show-toplevel
 
 # Build flags
@@ -34,11 +35,13 @@ debug: build
 release: export CXXFLAGS += -O3
 release: build
 
-build: export CPPFLAGS += $(shell PKG_CONFIG_PATH=$(PKGS) pkg-config --static --cflags $(DEPS))
-build: export LDFLAGS  += $(shell PKG_CONFIG_PATH=$(PKGS) pkg-config --static --libs-only-L --libs-only-other $(DEPS))
-build: export LDLIBS   += $(shell PKG_CONFIG_PATH=$(PKGS) pkg-config --static --libs-only-l $(DEPS))
-
 build: SRC != find src -name \*.cpp -printf %P\n
+build: pkg-config := PKG_CONFIG_PATH=$(PKGS) pkg-config $(DEPS)
+
+build: export CPPFLAGS += $(shell $(pkg-config) --static --cflags)
+build: export LDFLAGS  += $(shell $(pkg-config) --static --libs-only-L --libs-only-other)
+build: export LDLIBS   += $(shell $(pkg-config) --static --libs-only-l)
+
 build:
 	@mkdir -p bin obj
 	@$(MAKE)\
