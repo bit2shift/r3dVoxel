@@ -1,4 +1,4 @@
-GLFW := $(shell git rev-parse --show-toplevel)/dep/glfw
+GLFW := $(r3dVoxel)/dep/glfw
 PKG_CONFIG_PATH += $(GLFW)/lib/pkgconfig
 
 all::
