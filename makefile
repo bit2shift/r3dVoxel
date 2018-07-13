@@ -1,4 +1,5 @@
 # Le makefile
+SHELL := /bin/bash
 
 # Check if pkg-config is installed.
 ifeq '' '$(shell pkg-config --version 2>/dev/null)'
@@ -35,7 +36,7 @@ debug: build
 release: export CXXFLAGS += -O3
 release: build
 
-build: SRC != find src -name \*.cpp -printf %P\n
+build: SRC != find src -name \*.cpp -printf '%P '
 build: pkg-config := PKG_CONFIG_PATH=$(PKGS) pkg-config $(DEPS)
 
 build: export CPPFLAGS += $(shell $(pkg-config) --static --cflags)
