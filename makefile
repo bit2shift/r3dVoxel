@@ -7,6 +7,12 @@ endif
 
 r3dVoxel != git rev-parse --show-toplevel
 
+# Build flags
+CXXFLAGS := -std=c++17 -pedantic -Wall -Wconversion -Werror -Wextra -fPIC -fvisibility=hidden -msse2 -mstackrealign
+CPPFLAGS := -MMD -MP -I$(r3dVoxel)/dep/glfw/deps -I$(r3dVoxel)/inc -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
+LDFLAGS  := -fPIC -shared
+LDLIBS   := -lstdc++
+
 .PHONY: all build clean cleanall debug release
 
 # Piecewise makefiles
@@ -22,16 +28,15 @@ cleanall: clean
 	@git submodule foreach 'git clean -dffqx; git reset --hard'
 	@$(RM) -r bin
 
-debug: CXXFLAGS = -O0 -g3
+debug: export CXXFLAGS += -O0 -g3
 debug: build
 
-release: CXXFLAGS = -O3
+release: export CXXFLAGS += -O3
 release: build
 
-build: export CXXFLAGS += -std=c++17 -pedantic -Wall -Wconversion -Werror -Wextra -fPIC -fvisibility=hidden -msse2 -mstackrealign
-build: export CPPFLAGS  = $(shell PKG_CONFIG_PATH=$(PKGS) pkg-config --static --cflags $(DEPS)) -I$(r3dVoxel)/dep/glfw/deps -I$(r3dVoxel)/inc -MMD -MP -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
-build: export LDFLAGS   = $(shell PKG_CONFIG_PATH=$(PKGS) pkg-config --static --libs-only-L --libs-only-other $(DEPS)) -shared -fPIC
-build: export LDLIBS    = $(shell PKG_CONFIG_PATH=$(PKGS) pkg-config --static --libs-only-l $(DEPS)) -lstdc++
+build: export CPPFLAGS += $(shell PKG_CONFIG_PATH=$(PKGS) pkg-config --static --cflags $(DEPS))
+build: export LDFLAGS  += $(shell PKG_CONFIG_PATH=$(PKGS) pkg-config --static --libs-only-L --libs-only-other $(DEPS))
+build: export LDLIBS   += $(shell PKG_CONFIG_PATH=$(PKGS) pkg-config --static --libs-only-l $(DEPS))
 
 build: SRC != find src -name \*.cpp -printf %P\n
 build:
