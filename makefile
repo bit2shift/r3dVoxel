@@ -15,12 +15,12 @@ CPPFLAGS := -MMD -MP -I$(r3dVoxel)/dep/glfw/deps -I$(r3dVoxel)/inc -DGLFW_INCLUD
 LDFLAGS  := -fPIC -shared
 LDLIBS   := -lstdc++
 
-.PHONY: all build clean cleanall debug release
+.PHONY: all build clean cleanall debug depbuild release
+
+all: depbuild debug
 
 # Piecewise makefiles
 include dep/*.mk
-
-all:: debug
 
 cleanall: clean
 	@git submodule foreach 'git clean -dffqx; git reset --hard'
