@@ -1,4 +1,4 @@
-GLFW := $(r3dVoxel)/dep/glfw
+GLFW := $(CURDIR)/dep/glfw
 PKG_CONFIG_PATH += $(GLFW)/lib/pkgconfig
 
 depbuild::

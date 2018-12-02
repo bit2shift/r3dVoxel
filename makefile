@@ -6,12 +6,9 @@ ifeq '' '$(shell pkg-config --version 2>/dev/null)'
 $(error error: pkg-config is missing)
 endif
 
-# Used instead of $(CURDIR)
-r3dVoxel != git rev-parse --show-toplevel
-
 # Build flags
 CXXFLAGS := -std=c++17 -pedantic -Wall -Wconversion -Werror -Wextra -fPIC -fvisibility=hidden -msse2 -mstackrealign
-CPPFLAGS := -MMD -MP -I$(r3dVoxel)/dep/glfw/deps -I$(r3dVoxel)/inc -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
+CPPFLAGS := -MMD -MP -I$(CURDIR)/dep/glfw/deps -I$(CURDIR)/inc -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
 LDFLAGS  := -fPIC -shared
 LDLIBS   := -lstdc++
 
@@ -44,13 +41,13 @@ build:
 	@$(MAKE)\
 		-Cobj\
 		--eval='-include $(SRC:.cpp=.d)'\
-		VPATH='$(r3dVoxel)/src'\
+		VPATH='$(CURDIR)/src'\
 		CXX='@echo "Compiling [$$*.cpp]"; mkdir -p $$(*D); $(CXX)'\
 		$(SRC:.cpp=.o)
 	@$(MAKE)\
 		-Cbin\
 		--eval='r3dVoxel.dso: $(SRC:.cpp=.o)'\
-		VPATH='$(r3dVoxel)/obj'\
+		VPATH='$(CURDIR)/obj'\
 		CC='@echo "Linking..."; $(CC)'\
 		r3dVoxel.dso
 
