@@ -6,6 +6,9 @@ ifeq '' '$(shell pkg-config --version 2>/dev/null)'
 $(error error: pkg-config is missing)
 endif
 
+# Build target
+TARGET := r3dVoxel/r3dVoxel.dso
+
 # Build flags
 CXXFLAGS := -std=c++17 -pedantic -Wall -Wconversion -Werror -Wextra -fPIC -fvisibility=hidden -msse2 -mstackrealign
 CPPFLAGS := -MMD -MP -I$(CURDIR)/dep/glfw/deps -I$(CURDIR)/inc -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
@@ -46,10 +49,10 @@ build:
 		$(SRC:.cpp=.o)
 	@$(MAKE)\
 		-Cbin\
-		--eval='r3dVoxel.dso: $(SRC:.cpp=.o)'\
+		--eval='$(TARGET): $(SRC:.cpp=.o)'\
 		VPATH='$(CURDIR)/obj'\
-		CC='@echo "Linking..."; $(CC)'\
-		r3dVoxel.dso
+		CC='@echo "Linking..."; mkdir -p $$(*D); $(CC)'\
+		$(TARGET)
 
 clean:
 	@echo 'Cleaning...'
