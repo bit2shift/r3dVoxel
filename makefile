@@ -12,7 +12,7 @@ TARGET := r3dVoxel/r3dVoxel.dso
 # Build flags
 CXXFLAGS := -std=c++17 -pedantic -Wall -Wconversion -Werror -Wextra -fPIC -fvisibility=hidden -msse2 -mstackrealign
 CPPFLAGS := -MMD -MP -I$(CURDIR)/dep/glfw/deps -I$(CURDIR)/inc -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
-LDFLAGS  := -fPIC -shared
+LDFLAGS  := -shared
 LDLIBS   := -lstdc++
 
 .PHONY: all build clean cleanall debug depbuild release
