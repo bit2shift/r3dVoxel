@@ -26,6 +26,10 @@ cleanall: clean
 	@git submodule foreach 'git clean -dffqx; git reset --hard'
 	@$(RM) -r bin
 
+clean:
+	@echo 'Cleaning...'
+	@$(RM) -r obj
+
 debug: export CXXFLAGS += -O0 -g3
 debug: build
 
@@ -59,7 +63,3 @@ link: | bin
 
 bin obj:
 	@mkdir $@
-
-clean:
-	@echo 'Cleaning...'
-	@$(RM) -r obj
