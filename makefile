@@ -39,20 +39,26 @@ build: export CPPFLAGS += $(shell $(pkg-config) --static --cflags)
 build: export LDFLAGS  += $(shell $(pkg-config) --static --libs-only-L --libs-only-other)
 build: export LDLIBS   += $(shell $(pkg-config) --static --libs-only-l)
 
-build:
-	@mkdir -p bin obj
+build: compile link
+
+compile: | obj
 	@$(MAKE)\
 		-Cobj\
 		--eval='-include $(SRC:.cpp=.d)'\
 		VPATH='$(CURDIR)/src'\
 		CXX='@echo "Compiling [$$*.cpp]"; mkdir -p $$(*D); $(CXX)'\
 		$(SRC:.cpp=.o)
+
+link: | bin
 	@$(MAKE)\
 		-Cbin\
 		--eval='$(TARGET): $(SRC:.cpp=.o)'\
 		VPATH='$(CURDIR)/obj'\
 		CC='@echo "Linking..."; mkdir -p $$(*D); $(CC)'\
 		$(TARGET)
+
+bin obj:
+	@mkdir -p $@
 
 clean:
 	@echo 'Cleaning...'
