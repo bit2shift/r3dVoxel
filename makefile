@@ -58,7 +58,7 @@ link: | bin
 		$(TARGET)
 
 bin obj:
-	@mkdir -p $@
+	@mkdir $@
 
 clean:
 	@echo 'Cleaning...'
