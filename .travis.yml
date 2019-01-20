@@ -1,0 +1,10 @@
+language: cpp
+
+compiler:
+- gcc
+- clang
+
+#before_instal:
+#- sudo apt install -y
+
+script: make
