@@ -8,12 +8,9 @@ matrix:
    addons:
     apt:
      sources: ubuntu-toolchain-r-test
-     packages: g++-8
-
-addons:
- apt:
-  packages:
-  - xorg-dev
-  - libvulkan-dev
+     packages:
+     - g++-8
+     - xorg-dev
+     - libvulkan-dev
 
 script: make
