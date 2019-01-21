@@ -1,11 +1,9 @@
 language: cpp
 dist: xenial
 
-addons:
- apt:
-  packages: &deps
-  - xorg-dev
-  - libvulkan-dev
+dependencies: &deps
+- xorg-dev
+- libvulkan-dev
 
 matrix:
  include:
