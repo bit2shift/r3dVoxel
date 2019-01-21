@@ -1,13 +1,10 @@
 language: cpp
-
 dist: xenial
 
 matrix:
  include:
  - compiler: gcc-8
-   env:
-   - CC=gcc-8
-   - CXX=g++-8
+   env: MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
    addons:
     apt:
      sources: ubuntu-toolchain-r-test
@@ -16,4 +13,5 @@ matrix:
      - xorg-dev
      - libvulkan-dev
 
+before_install: eval "${MATRIX_EVAL}"
 script: make
