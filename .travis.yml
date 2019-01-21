@@ -8,16 +8,16 @@ dependencies: &deps
 matrix:
  include:
  - compiler: clang-8
-   env: MATRIX_EVAL="CC=clang-8 && CXX=clang++-8"
+   env: MATRIX_EVAL="CC=clang-8 && CXX='clang++-8 -stdlib=libc++'"
    addons:
     apt:
      sources:
      - sourceline: 'deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-8 main'
        key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
-     - ubuntu-toolchain-r-test
      packages:
      - clang-8
-     - libstdc++-8-dev
+     - libc++-8-dev
+     - libc++abi-8-dev
      - *deps
  - compiler: gcc-8
    env: MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
