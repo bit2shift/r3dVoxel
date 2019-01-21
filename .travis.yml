@@ -5,6 +5,9 @@ dist: xenial
 matrix:
  include:
  - compiler: gcc-8
+   env:
+   - CC=gcc-8
+   - CXX=g++-8
    addons:
     apt:
      sources: ubuntu-toolchain-r-test
