@@ -17,7 +17,7 @@ namespace r3dVoxel
 {
 	void CGameEngine::error_callback(int error, const char* description)
 	{
-		CLogger::r3v("CGameEngine").log(ELoggingLevel::SEVERE, "GLFW Error {0:X8} : {1}", error, description);
+		CLogger("CGameEngine")->log(ELoggingLevel::SEVERE, "GLFW Error {0:X8} : {1}", error, description);
 	}
 
 	void CGameEngine::monitor_callback(GLFWmonitor* monitor, int status)
@@ -68,7 +68,7 @@ namespace r3dVoxel
 	}
 	catch(std::exception& e)
 	{
-		CLogger::r3v("CGameEngine").log(ELoggingLevel::SEVERE, "{0}() : {1}", __func__, e.what());
+		CLogger("CGameEngine")->log(ELoggingLevel::SEVERE, "{0}() : {1}", __func__, e.what());
 		return {};
 	}
 

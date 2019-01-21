@@ -67,7 +67,7 @@ namespace r3dVoxel
 		}
 		catch(std::exception& e)
 		{
-			CLogger::r3v("CMonitor").log(ELoggingLevel::SEVERE, "{0}() : {1}", __func__, e.what());
+			CLogger("CMonitor")->log(ELoggingLevel::SEVERE, "{0}() : {1}", __func__, e.what());
 			return {};
 		}
 	}

@@ -19,9 +19,9 @@ namespace r3dVoxel
 	public:
 		CLogger(const char* name) noexcept : m_name{name} {}
 
-		static ILogger&& r3v(const char* name) noexcept
+		ILogger* operator->() noexcept
 		{
-			return static_cast<CLogger&&>(name);
+			return this;
 		}
 
 		///////////////////////////
