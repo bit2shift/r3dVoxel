@@ -1,6 +1,12 @@
 language: cpp
 dist: xenial
 
+addons:
+ apt:
+  packages: &deps
+  - xorg-dev
+  - libvulkan-dev
+
 matrix:
  include:
  - compiler: gcc-8
@@ -10,8 +16,7 @@ matrix:
      sources: ubuntu-toolchain-r-test
      packages:
      - g++-8
-     - xorg-dev
-     - libvulkan-dev
+     - *deps
 
 before_install: eval "${MATRIX_EVAL}"
 script: make
