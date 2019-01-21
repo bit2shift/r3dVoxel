@@ -17,7 +17,7 @@ matrix:
      - ubuntu-toolchain-r-test
      packages:
      - clang-8
-     - libstdc++-dev
+     - libstdc++-8-dev
      - *deps
  - compiler: gcc-8
    env: MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
