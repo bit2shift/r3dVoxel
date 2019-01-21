@@ -2,8 +2,8 @@ language: cpp
 
 dist: xenial
 
-before_instal:
-- sudo apt install -y libxrandr-dev
+before_install:
+- apt install -y xorg-dev
 
 compiler:
 - gcc
