@@ -10,7 +10,7 @@ addons:
 
 matrix:
  include:
- - compiler: clang
+ - compiler: gcc-8
  - addons:
     apt:
      sources: ubuntu-toolchain-r-test
