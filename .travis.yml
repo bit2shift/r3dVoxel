@@ -1,10 +1,12 @@
 language: cpp
 
-compiler:
-- gcc
-- clang
+dist: xenial
 
 before_instal:
 - sudo apt install -y libxrandr-dev
+
+compiler:
+- gcc
+- clang
 
 script: make
