@@ -4,7 +4,7 @@ dist: xenial
 
 matrix:
  include:
- - env: MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+ - compiler: gcc-8
    addons:
     apt:
      sources: ubuntu-toolchain-r-test
