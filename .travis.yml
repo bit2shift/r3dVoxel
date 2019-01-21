@@ -4,7 +4,7 @@ dist: xenial
 
 addons:
  apt:
-  update: true
+#  update: true
   packages:
   - xorg-dev
 
