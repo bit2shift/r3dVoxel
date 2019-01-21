@@ -3,6 +3,7 @@ language: cpp
 dist: xenial
 
 before_install:
+- sudo apt update
 - sudo apt install -y xorg-dev
 
 compiler:
