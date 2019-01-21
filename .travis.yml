@@ -8,6 +8,10 @@ dependencies: &deps
 matrix:
  include:
  - compiler: clang
+   addons:
+    apt:
+     packages:
+     - *deps
  - compiler: gcc-8
    env: MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
    addons:
