@@ -4,7 +4,21 @@
 		<extension point="org.eclipse.cdt.core.LanguageSettingsProvider">
 			<provider copy-of="extension" id="org.eclipse.cdt.ui.UserLanguageSettingsProvider"/>
 			<provider-reference id="org.eclipse.cdt.core.ReferencedProjectsLanguageSettingsProvider" ref="shared-provider"/>
-			<provider class="org.eclipse.cdt.core.language.settings.providers.LanguageSettingsGenericProvider" console="false" id="derp" keep-relative-paths="false" name="GCC C++17 Compiler Settings" parameter="${COMMAND} -std=c++17 ${FLAGS} -E -P -v -dD &quot;${INPUTS}&quot;" prefer-non-shared="true" store-entries-with-project="true">
+			<provider class="org.eclipse.cdt.core.language.settings.providers.LanguageSettingsGenericProvider" id="r3dVoxel" name="r3dVoxel Settings" store-entries-with-project="true">
+				<language-scope id="org.eclipse.cdt.core.g++"/>
+				<language id="org.eclipse.cdt.core.g++">
+					<entry kind="includePath" name="${workspace_loc:/r3dVoxel/dep/glfw/include}">
+						<flag value="BUILTIN|READONLY"/>
+					</entry>
+					<entry kind="includePath" name="${workspace_loc:/r3dVoxel/inc}">
+						<flag value="BUILTIN|READONLY"/>
+					</entry>
+					<entry kind="macro" name="GLFW_INCLUDE_VULKAN" value="1">
+						<flag value="BUILTIN|READONLY"/>
+					</entry>
+				</language>
+			</provider>
+			<provider class="org.eclipse.cdt.core.language.settings.providers.LanguageSettingsGenericProvider" id="gcc_cpp17" name="GCC C++17 Compiler Settings" store-entries-with-project="true">
 				<language-scope id="org.eclipse.cdt.core.gcc"/>
 				<language-scope id="org.eclipse.cdt.core.g++"/>
 				<language id="org.eclipse.cdt.core.gcc">
