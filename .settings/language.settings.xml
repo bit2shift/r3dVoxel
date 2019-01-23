@@ -5,7 +5,6 @@
 			<provider copy-of="extension" id="org.eclipse.cdt.ui.UserLanguageSettingsProvider"/>
 			<provider-reference id="org.eclipse.cdt.core.ReferencedProjectsLanguageSettingsProvider" ref="shared-provider"/>
 			<provider class="org.eclipse.cdt.core.language.settings.providers.LanguageSettingsGenericProvider" id="r3dVoxel" name="r3dVoxel Settings" store-entries-with-project="true">
-				<language-scope id="org.eclipse.cdt.core.g++"/>
 				<language id="org.eclipse.cdt.core.g++">
 					<entry kind="includePath" name="${workspace_loc:/r3dVoxel/dep/glfw/include}">
 						<flag value="BUILTIN|READONLY"/>
