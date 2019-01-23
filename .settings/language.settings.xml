@@ -6,15 +6,9 @@
 			<provider-reference id="org.eclipse.cdt.core.ReferencedProjectsLanguageSettingsProvider" ref="shared-provider"/>
 			<provider class="org.eclipse.cdt.core.language.settings.providers.LanguageSettingsGenericProvider" id="r3dVoxel" name="r3dVoxel Settings" store-entries-with-project="true">
 				<language id="org.eclipse.cdt.core.g++">
-					<entry kind="includePath" name="${workspace_loc:/r3dVoxel/dep/glfw/include}">
-						<flag value="BUILTIN|READONLY"/>
-					</entry>
-					<entry kind="includePath" name="${workspace_loc:/r3dVoxel/inc}">
-						<flag value="BUILTIN|READONLY"/>
-					</entry>
-					<entry kind="macro" name="GLFW_INCLUDE_VULKAN" value="1">
-						<flag value="BUILTIN|READONLY"/>
-					</entry>
+					<entry kind="includePath" name="${workspace_loc:/r3dVoxel/dep/glfw/include}"/>
+					<entry kind="includePath" name="${workspace_loc:/r3dVoxel/inc}"/>
+					<entry kind="macro" name="GLFW_INCLUDE_VULKAN" value="1"/>
 				</language>
 			</provider>
 			<provider class="org.eclipse.cdt.core.language.settings.providers.LanguageSettingsGenericProvider" id="gcc_cpp17" name="GCC C++17 Compiler Settings" store-entries-with-project="true">
