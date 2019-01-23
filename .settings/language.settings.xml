@@ -9,6 +9,7 @@
 					<entry kind="includePath" name="${workspace_loc:/r3dVoxel/dep/glfw/include}"/>
 					<entry kind="includePath" name="${workspace_loc:/r3dVoxel/inc}"/>
 					<entry kind="macro" name="GLFW_INCLUDE_VULKAN" value="1"/>
+					<entry kind="macro" name="R3V_EXPORT" value="1"/>
 				</language>
 			</provider>
 			<provider class="org.eclipse.cdt.core.language.settings.providers.LanguageSettingsGenericProvider" id="gcc_cpp17" name="GCC C++17 Compiler Settings" store-entries-with-project="true">
