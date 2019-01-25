@@ -56,7 +56,7 @@ compile: | obj
 link: | bin
 	@$(MAKE)\
 		-Cbin\
-		--eval='$(TARGET): $(SRC:.cpp=.o)'\
+		--eval='$(TARGET): $(filter $(dir $(TARGET))%,$(SRC:.cpp=.o))'\
 		VPATH='$(CURDIR)/obj'\
 		CC='@echo "Linking [$$@]"; mkdir -p $$(@D); $(CC)'\
 		$(TARGET)
