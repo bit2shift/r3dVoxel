@@ -43,8 +43,6 @@ build: export CPPFLAGS += $(shell $(pkg-config) --static --cflags)
 build: export LDFLAGS  += $(shell $(pkg-config) --static --libs-only-L --libs-only-other)
 build: export LDLIBS   += $(shell $(pkg-config) --static --libs-only-l)
 
-build: compile link
-
 compile: | obj
 	@$(MAKE)\
 		-Cobj\
@@ -53,7 +51,7 @@ compile: | obj
 		CXX='@echo "Compiling [$$@]"; mkdir -p $$(@D); $(CXX)'\
 		$(SRC:.cpp=.o)
 
-link: | bin
+build: compile | bin
 	@$(MAKE)\
 		-Cbin\
 		--eval='$(TARGET): $(filter $(dir $(TARGET))%,$(SRC:.cpp=.o))'\
