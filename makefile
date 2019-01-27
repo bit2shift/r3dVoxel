@@ -16,8 +16,9 @@ LDLIBS   := -lstdc++
 
 all: depbuild debug
 
-# Piecewise makefiles
+# Piecewise makefiles that append to PKG_CONFIG_PATH
 include dep/*.mk
+pkg-config := PKG_CONFIG_PATH=$(shell sed 's/ /:/g' <<< '$(PKG_CONFIG_PATH)') pkg-config $(shell basename -s.mk dep/*.mk)
 
 cleanall: clean
 	@git submodule foreach 'git clean -dffqx; git reset --hard'
@@ -33,22 +34,12 @@ debug: build
 release: export CXXFLAGS += -O3
 release: build
 
-build: SRC != find src -name '*.cpp' -printf '%P '
-build: pkg-config := PKG_CONFIG_PATH=$(shell sed 's/ /:/g' <<< '$(PKG_CONFIG_PATH)') pkg-config $(shell basename -s.mk dep/*.mk)
-
 build: export CPPFLAGS += $(shell $(pkg-config) --static --cflags)
 build: export LDFLAGS  += $(shell $(pkg-config) --static --libs-only-L --libs-only-other)
 build: export LDLIBS   += $(shell $(pkg-config) --static --libs-only-l)
 
+build: SRC != find src -name '*.cpp' -printf '%P '
 build: $(shell find src -name '*.mk')
-
-compile: | obj
-	@$(MAKE)\
-		-Cobj\
-		--eval='-include $(SRC:.cpp=.d)'\
-		VPATH='$(CURDIR)/src'\
-		CXX='@echo "Compiling [$$@]"; mkdir -p $$(@D); $(CXX)'\
-		$(SRC:.cpp=.o)
 
 src/%.mk: compile | bin
 	@$(MAKE)\
@@ -57,6 +48,14 @@ src/%.mk: compile | bin
 		VPATH='$(CURDIR)/obj'\
 		CC='@echo "Linking [$$@]"; mkdir -p $$(@D); $(CC)'\
 		OBJ='$(SRC:.cpp=.o)'
+
+compile: | obj
+	@$(MAKE)\
+		-Cobj\
+		--eval='-include $(SRC:.cpp=.d)'\
+		VPATH='$(CURDIR)/src'\
+		CXX='@echo "Compiling [$$@]"; mkdir -p $$(@D); $(CXX)'\
+		$(SRC:.cpp=.o)
 
 bin obj:
 	@mkdir $@
