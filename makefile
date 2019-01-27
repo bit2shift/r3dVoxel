@@ -6,13 +6,10 @@ ifeq '' '$(shell pkg-config --version 2>/dev/null)'
 $(error error: pkg-config is missing)
 endif
 
-# Build target
-TARGET := r3dVoxel/r3dVoxel.dso
-
 # Build flags
 CXXFLAGS := -std=c++17 -pedantic -Wall -Wconversion -Werror -Wextra -fPIC -fvisibility=hidden -msse2 -mstackrealign
 CPPFLAGS := -MMD -MP -I$(CURDIR)/dep/glfw/deps -I$(CURDIR)/inc -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
-LDFLAGS  := -shared
+LDFLAGS  :=
 LDLIBS   := -lstdc++
 
 .PHONY: all build clean cleanall compile debug depbuild release
@@ -43,6 +40,8 @@ build: export CPPFLAGS += $(shell $(pkg-config) --static --cflags)
 build: export LDFLAGS  += $(shell $(pkg-config) --static --libs-only-L --libs-only-other)
 build: export LDLIBS   += $(shell $(pkg-config) --static --libs-only-l)
 
+build: $(shell find src -name '*.mk')
+
 compile: | obj
 	@$(MAKE)\
 		-Cobj\
@@ -51,13 +50,13 @@ compile: | obj
 		CXX='@echo "Compiling [$$@]"; mkdir -p $$(@D); $(CXX)'\
 		$(SRC:.cpp=.o)
 
-build: compile | bin
+src/%.mk: compile | bin
 	@$(MAKE)\
 		-Cbin\
-		--eval='$(TARGET): $(filter $(dir $(TARGET))%,$(SRC:.cpp=.o))'\
+		-f'$(CURDIR)/$@'\
 		VPATH='$(CURDIR)/obj'\
 		CC='@echo "Linking [$$@]"; mkdir -p $$(@D); $(CC)'\
-		$(TARGET)
+		OBJ='$(SRC:.cpp=.o)'
 
 bin obj:
 	@mkdir $@
