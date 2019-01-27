@@ -15,7 +15,7 @@ CPPFLAGS := -MMD -MP -I$(CURDIR)/dep/glfw/deps -I$(CURDIR)/inc -DGLFW_INCLUDE_VU
 LDFLAGS  := -shared
 LDLIBS   := -lstdc++
 
-.PHONY: all build clean cleanall debug depbuild release
+.PHONY: all build clean cleanall compile debug depbuild release
 
 all: depbuild debug
 
