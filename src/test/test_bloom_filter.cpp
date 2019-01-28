@@ -1,11 +1,9 @@
-#include "bloom_filter.hpp"
-
-#include <r3dVoxel/r3vABI.hpp>
+#include "../r3dVoxel/util/bloom_filter.hpp"
 
 #include <iostream>
 #include <map>
 
-R3VAPI void test_bloom_filter()
+int main()
 {
 	r3dVoxel::util::bloom_filter<std::map<char, const char*>> filter;
 
