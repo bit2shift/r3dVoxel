@@ -14,22 +14,22 @@
 			</provider>
 			<provider class="org.eclipse.cdt.core.language.settings.providers.LanguageSettingsGenericProvider" id="gcc_cpp17" name="GCC C++17 Compiler Settings" store-entries-with-project="true">
 				<language id="org.eclipse.cdt.core.g++">
-					<entry kind="includePath" name="C:/msys2/mingw64/include/c++/8.2.1">
+					<entry kind="includePath" name="C:/msys2/mingw64/include/c++/8.3.0">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
-					<entry kind="includePath" name="C:/msys2/mingw64/include/c++/8.2.1/x86_64-w64-mingw32">
+					<entry kind="includePath" name="C:/msys2/mingw64/include/c++/8.3.0/x86_64-w64-mingw32">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
-					<entry kind="includePath" name="C:/msys2/mingw64/include/c++/8.2.1/backward">
+					<entry kind="includePath" name="C:/msys2/mingw64/include/c++/8.3.0/backward">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
-					<entry kind="includePath" name="C:/msys2/mingw64/lib/gcc/x86_64-w64-mingw32/8.2.1/include">
+					<entry kind="includePath" name="C:/msys2/mingw64/lib/gcc/x86_64-w64-mingw32/8.3.0/include">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
 					<entry kind="includePath" name="C:/msys2/mingw64/include">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
-					<entry kind="includePath" name="C:/msys2/mingw64/lib/gcc/x86_64-w64-mingw32/8.2.1/include-fixed">
+					<entry kind="includePath" name="C:/msys2/mingw64/lib/gcc/x86_64-w64-mingw32/8.3.0/include-fixed">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
 					<entry kind="includePath" name="C:/msys2/mingw64/x86_64-w64-mingw32/include">
@@ -530,10 +530,10 @@
 					<entry kind="macro" name="__GCC_IEC_559_COMPLEX" value="2">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
-					<entry kind="macro" name="__GNUC_MINOR__" value="2">
+					<entry kind="macro" name="__GNUC_MINOR__" value="3">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
-					<entry kind="macro" name="__GNUC_PATCHLEVEL__" value="1">
+					<entry kind="macro" name="__GNUC_PATCHLEVEL__" value="0">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
 					<entry kind="macro" name="__GNUC_STDC_INLINE__" value="1">
@@ -1013,7 +1013,7 @@
 					<entry kind="macro" name="__USER_LABEL_PREFIX__" value="">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
-					<entry kind="macro" name="__VERSION__" value="&quot;8.2.1 20181214&quot;">
+					<entry kind="macro" name="__VERSION__" value="&quot;8.3.0&quot;">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
 					<entry kind="macro" name="__WCHAR_MAX__" value="0xffff">
@@ -1127,6 +1127,9 @@
 					<entry kind="macro" name="__cpp_generic_lambdas" value="201304">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
+					<entry kind="macro" name="__cpp_guaranteed_copy_elision" value="201606">
+						<flag value="BUILTIN|READONLY"/>
+					</entry>
 					<entry kind="macro" name="__cpp_hex_float" value="201603">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
@@ -1158,6 +1161,9 @@
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
 					<entry kind="macro" name="__cpp_nontype_template_args" value="201411">
+						<flag value="BUILTIN|READONLY"/>
+					</entry>
+					<entry kind="macro" name="__cpp_nontype_template_parameter_auto" value="201606">
 						<flag value="BUILTIN|READONLY"/>
 					</entry>
 					<entry kind="macro" name="__cpp_nsdmi" value="200809">
