@@ -7,10 +7,10 @@ $(error error: pkg-config is missing)
 endif
 
 # Build flags
-CXXFLAGS := -std=c++17 -pedantic -Wall -Wconversion -Werror -Wextra -fPIC -fvisibility=hidden -msse2 -mstackrealign
-CPPFLAGS := -MMD -MP -I$(CURDIR)/dep/glfw/deps -I$(CURDIR)/inc -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
-LDFLAGS  :=
-LDLIBS   := -lstdc++
+CXXFLAGS += -std=c++17 -pedantic -Wall -Wconversion -Werror -Wextra -fPIC -fvisibility=hidden -msse2 -mstackrealign
+CPPFLAGS += -MMD -MP -I$(CURDIR)/dep/glfw/deps -I$(CURDIR)/inc -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
+LDFLAGS  +=
+LDLIBS   ?= -lstdc++
 
 .PHONY: all build clean cleanall compile debug depbuild release
 
