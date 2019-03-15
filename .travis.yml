@@ -13,7 +13,7 @@ dependencies: &deps
 - libvulkan-dev
 
 env:
-- secure: "B03w88/DZVLYuR8joNFSjiEJix68zx/ApU/ildqHu/0V6FszPVVKAciEdBlyxm/Bb/6XduMQGkN1bbs7mfkKd+HJnHWb8jpvOJl6JqWj02OmikDY9xNc4IM3GI7MYbMYEpQnI00MNzp1d0k/Fy3UnRkJe0GOlbRO98ZBoxWfaNXiZaI8hvsD91Uj1qdUVPqGvpPJi3hDgOAzVqvSmeKZgzRqvS8XRylslL6zDdlfDIB2RWPeajuBuLf1W7wcRSK82+o7R2PQn191TVpy+mkoxf2FMr44XET/Q7l929sTSBu0GaKJ2i3u6rnQXa7Ij9M9JP8tCBYrbjLte7yIQWMl885ZIxQbzNuJzAYWtC48nQlAA/9Bte2xMLJnim7IbxK6o3PzZkgaeYoycf3L2ZfygcjsHvm8Y3O6jiFezctenX4ekdxhmRnvGqyZrHbYcW9YyBeMG9CTMdlNkrfTc+np3qdt6wX/I3TEP3AsPNCLRsZc09wSyeeNYWKc76jpRywjVbmWD7T3nQx4L69SlyYELm6sLFao+cQNmXJEU4CBromTobySkK1yBV7J02rDlghAx/GByAnHgYLnwcMxh9kmA8jBWy62U4L5++O7YwK1BjuvF51/rbkOuMbMPl16NvFuQUAsRnNnY2wrWOLxb+3h0XmYgK5wVrdtuJPgyntkLtA="
+- secure: "NKLlSVmxck4AU2fmpv+6LhyE70Rm6UENacrBKtnoK/cOec0CnqnC3yX16e2P7AfF/5RDpFrAjQEtfASWQlKHh2llJZYTX5v1Far4wQn38llrMpdwCzRPBiNjMHewcxKygSFoFAwOHWm6yP8TTNvSagMp56/HsEG2YGV7KDW4GRM7PVzMcwtF+O+mYiY5KyJ5yKI9Pm1SvQfz8ptwEM9QLC5dgqGnz+Xx80fxFW8x+omAokDkYPuokpQKJmt7asfeeLSjj3tuDE7uFOW4AWuVhIF2o2emZi5dWKBl/rgyS/2wV9x9oh5tHq8Ho7TgTnWyT7tT8ticSi+bWt3dyVS5TLXxlHkwvhZPr33E30rK4eb1FuvZ2SEhaZUf4YZLbFzJNTnQUx27eyBbazksKRuKuvsa0GgH+PYED777iY1Ln5Wf9M6ZYllzjgHacDL5wp6HnuOTIaOIBFHZFYjlvXCz0zh6k0vKH4yasGVinLqtH+wozCNlF5FmELv7KtfmHSSv7m+nUdS9mR/aMM5VkbN5QLzomVzrfh0YvYBDSw70dMiSkJaZoCiLSHHOKWqN2jgaqz2cCbBOQTnntk3f0gkVyqZDHDH11nSEaqEqFa1P9EztpFwlG4qqCGTf5R3kTV3GR4wkDdNkW2oFwOxNClExLZGXLZhMj6wPh4iv8I6h7Nw="
 
 matrix:
  include:
@@ -29,5 +29,5 @@ matrix:
    - CC=gcc-8
 
 script:
-- curl -sL -A bit2shift --oauth2-bearer $TOKEN https://api.github.com/repos/bit2shift/docker-r3v-toolchain-$COMPILER/releases/latest
+- curl -sL -A bit2shift --oauth2-bearer $TOKEN "https://api.github.com/repos/bit2shift/docker-r3v-toolchain-$COMPILER/releases/latest"
 #- 'docker import $(curl -sL -H "User-Agent: bit2shift" -H "Authorization: token $TOKEN" "https://api.github.com/repos/bit2shift/docker-r3v-toolchain-$COMPILER/releases/latest" | jq -r ".assets[0].browser_download_url")'
