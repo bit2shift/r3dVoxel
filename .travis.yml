@@ -13,8 +13,7 @@ dependencies: &deps
 - libvulkan-dev
 
 env:
-- secure: "lRenF3X9U6pcIiTL13zLLAWl2URdF5qhtUonK5QbP5Nj9qediS8MhvtYsNrCsZXdVghPnrexSv0Vi5ZqjrxVBIwlJSSeFKUg62/raV1ZdMk0aTAcGUHcBthSNf+CU6WKv3agX82eRc/+yfEhcM0fHoaUhI5zvFjYFbfmuAqQ+sshOQBIPKbk425zPd8IR1J8NgeJ1Bu5iFCdovcTlH9d2pC22ExMkm1nL+L1qHN/dCOyJ1gCVEoaH3XOAH/hADex4nPpvc/a+uxJ/rZl8rt+bZDOzb95qPSZ72XA2V7E2mFZ2wH/tA3g6cALpGoI8pGmQvwRhopmV+CqRO1GzA4Y8NU2y1LwCQ1zf8D4Z2MhvRP7v7UoMVRpilxCQ/+nWi7le9vGkhZkMu0G87+4Jg+aIVV/rLPdflpBMk7PadxMeyIQHM+907FHZ+HzQ4Zbx/V7BjpGCc28lTbxDaIO+BWkR+ToqAktngxKWPdr8GEdj+Ke1gl6pBlo5ekkuNpBymYbZtvgsuA1lpk4aY3CWtcYzKujvslPW+wAtdazCZs8mJNfOqquGyGoBrjdB4Z0/uDAMuhrcfLBN3dcohhtfhDTamOLGGMiM+uaTWeINCyan5LJB8PC65Qq/BeqR2AvsLHFP7mVo7wfN6pojgGrILeAA4nRTK98HVHl7/k2Ua7ugTY="
-  secure: "MBxhjpq3WdoOpBpZv+pwj4EjHp8poiwzc3wu/I0SzR5CL2z/Ql3/YMlLrOPbY6ZAIIWw+QCdXBP+8Gk44USJwCHd2xWptcAt/huxvG8ptff5OzqgkRYgXelqy/38CRtcUdHub4s3KCBG/ksAEBQCTI/POMNvyKdHhaCtY2UhMGHpwsFP2QpvlUbcED6wTxTUI2CKuMPdtbYe7sZT/b6M9U5nt8GhQZPjTDXnFvghAtGaGrHPjzXjtwvSfNB2xCC41d0bA2ABRAs5EwpZ0zGOic3qyAvz2hjbwLlHhfCnGtoJwt2p3PE1UUtn2gib/PFrOIKdOvroHQfa626Sx2lMxHVKfdixXlrxBr/qyAlUWONSZkdl1jODSLQoun71fzq0NCQqQDTqRzm1fPZSNwzZYCz0pjKu0H4/9dU3AZCu/22qXmi8uBF0uUOt24f5tbCv4s7aPbiiDktDX8oCsqE78zVZuM3Q1N+0WeOlkngbOE6252hM9xzNHqfWRj8vWuVHpXbMYeEnA9+zRqI0Jp83YW7xPnk186qO1VzeZs6ZVuN7IzoVH5rBkUFCmthH5JWJLaFzPO1NtAExkWYWNNbfmO1J3tR91UAwxCOr13bEChT3g9HpIIj3E+Akkg2dMUvPR3TNCCuKGcgh853qo0KANlgvYeHR7Yw6l8eGqDtmg9M="
+- secure: "bahiF0wYoFBZJXyIrBnoLM/4MUg4e5CY32haTNtS78dPbFBme9xS6lKtpkdMnfvmoWbtj2veAii0V+m2BvWkjHHUP/9k6WPWkzB2S7QwllnWjLadid9UAOE6AaFgwT2Dj15GILJnjtiwGPyZHdAsT/6Mnw+QifaYP4kIcMskyFlD7HNDvfKOZpcfGoDDH8UEy7HFkzHSDwy8XR6EKvavCqTdG5CS6DDinm/hDU81A1v1G49S4/LIAU3LgsxJKu1TOVtj1iILOFl9g/jC/yng9mFocWYGOa1gUw2lZkfWE7gETZGedTmI1eJyKmSdHxV8bt/DiZJM1Xd2KMcoFP1snpNNRdM+N/W1GCHNhinxov2wp/p/bcFwH/PZ2e+i1PGeLjCWIFEv6FYieIMQwBDc8jt0zZN3Iy/hZC502bechpovlCkqHpiEuZwmBq/uHKaLiXNvjXGbstczTe8rO5PO3+xJN9hXr+EF8UwaRLwf7odYON3p3mzQrOj1WHRGkdAG3tg7QP23Wf84pDPxhY8+72qWeQSe2pTjvtv19FC8p6QmixiII3wqjAfdPt5O3Wz5fRZ3uZvOZdftnu2/um1h4JSLMLm0IHGhst7uWiT343qZ2U9dW+Pcequvy4Xbgib1MFt1saNapj8mVGaEesTk9fqYQPwzyZ5e6UHBMvOcrtQ="
 
 matrix:
  include:
@@ -30,6 +29,4 @@ matrix:
    - CC=gcc-8
 
 script:
-- echo $DERP | hexdump -Cv
-- curl -sL -A bit2shift --oauth2-bearer "$TOKEN" "https://api.github.com/repos/bit2shift/docker-r3v-toolchain-$COMPILER/releases/latest"
-#- 'docker import $(curl -sL -H "User-Agent: bit2shift" -H "Authorization: token $TOKEN" "https://api.github.com/repos/bit2shift/docker-r3v-toolchain-$COMPILER/releases/latest" | jq -r ".assets[0].browser_download_url")'
+- docker import $(curl -sL -A bit2shift --oauth2-bearer "$TOKEN" "https://api.github.com/repos/bit2shift/docker-r3v-toolchain-$COMPILER/releases/latest" | jq -r ".assets[0].browser_download_url")
