@@ -7,8 +7,7 @@ dependencies: &deps
 
 matrix:
  include:
- - compiler: clang-8
-   env: MATRIX_EVAL='CXX=clang++-8 CC=clang-8 CXXFLAGS=-stdlib=libc++ LDLIBS=-lc++'
+ - env: MATRIX_EVAL='CXX=clang++-8 CC=clang-8 CXXFLAGS=-stdlib=libc++ LDLIBS=-lc++'
    addons:
     apt:
      sources:
@@ -19,8 +18,7 @@ matrix:
      - libc++-8-dev
      - libc++abi-8-dev
      - *deps
- - compiler: gcc-8
-   env: MATRIX_EVAL='CXX=g++-8 CC=gcc-8'
+ - env: MATRIX_EVAL='CXX=g++-8 CC=gcc-8'
    addons:
     apt:
      sources: ubuntu-toolchain-r-test
