@@ -2,6 +2,12 @@ dist: xenial
 services: docker
 language: minimal
 
+addons:
+ apt:
+  packages:
+  - curl
+  - jq
+
 dependencies: &deps
 - xorg-dev
 - libvulkan-dev
@@ -9,28 +15,15 @@ dependencies: &deps
 matrix:
  include:
  - env:
+   - COMPILER=clang
    - CXX=clang++-8
    - CC=clang-8
    - CXXFLAGS=-stdlib=libc++
    - LDLIBS=-lc++
-   addons:
-    apt:
-     sources:
-     - sourceline: 'deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-8 main'
-       key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
-     packages:
-     - clang-8
-     - libc++-8-dev
-     - libc++abi-8-dev
-     - *deps
  - env:
+   - COMPILER=gcc
    - CXX=g++-8
    - CC=gcc-8
-   addons:
-    apt:
-     sources: ubuntu-toolchain-r-test
-     packages:
-     - g++-8
-     - *deps
 
-script: make
+script:
+- docker import $(curl -sL https://api.github.com/repos/bit2shift/docker-r3v-toolchain-$COMPILER/releases/latest | jq -r .assets[0].browser_download_url)
