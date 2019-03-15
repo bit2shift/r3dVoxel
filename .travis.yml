@@ -1,5 +1,6 @@
-language: cpp
 dist: xenial
+services: docker
+language: minimal
 
 dependencies: &deps
 - xorg-dev
