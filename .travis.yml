@@ -12,6 +12,9 @@ dependencies: &deps
 - xorg-dev
 - libvulkan-dev
 
+env:
+- secure: "B03w88/DZVLYuR8joNFSjiEJix68zx/ApU/ildqHu/0V6FszPVVKAciEdBlyxm/Bb/6XduMQGkN1bbs7mfkKd+HJnHWb8jpvOJl6JqWj02OmikDY9xNc4IM3GI7MYbMYEpQnI00MNzp1d0k/Fy3UnRkJe0GOlbRO98ZBoxWfaNXiZaI8hvsD91Uj1qdUVPqGvpPJi3hDgOAzVqvSmeKZgzRqvS8XRylslL6zDdlfDIB2RWPeajuBuLf1W7wcRSK82+o7R2PQn191TVpy+mkoxf2FMr44XET/Q7l929sTSBu0GaKJ2i3u6rnQXa7Ij9M9JP8tCBYrbjLte7yIQWMl885ZIxQbzNuJzAYWtC48nQlAA/9Bte2xMLJnim7IbxK6o3PzZkgaeYoycf3L2ZfygcjsHvm8Y3O6jiFezctenX4ekdxhmRnvGqyZrHbYcW9YyBeMG9CTMdlNkrfTc+np3qdt6wX/I3TEP3AsPNCLRsZc09wSyeeNYWKc76jpRywjVbmWD7T3nQx4L69SlyYELm6sLFao+cQNmXJEU4CBromTobySkK1yBV7J02rDlghAx/GByAnHgYLnwcMxh9kmA8jBWy62U4L5++O7YwK1BjuvF51/rbkOuMbMPl16NvFuQUAsRnNnY2wrWOLxb+3h0XmYgK5wVrdtuJPgyntkLtA="
+
 matrix:
  include:
  - env:
@@ -26,7 +29,4 @@ matrix:
    - CC=gcc-8
 
 script:
-- printenv COMPILER CXX CC
-- curl -sL "https://api.github.com/repos/bit2shift/docker-r3v-toolchain-${COMPILER}/releases/latest"
-- curl -sL "https://api.github.com/repos/bit2shift/docker-r3v-toolchain-${COMPILER}/releases/latest" | jq -r ".assets[].browser_download_url"
-- docker import $(curl -sL "https://api.github.com/repos/bit2shift/docker-r3v-toolchain-${COMPILER}/releases/latest" | jq -r ".assets[].browser_download_url")
+- docker import $(curl -sL -H "User-Agent: bit2shift" -H "Authorization: token $TOKEN" "https://api.github.com/repos/bit2shift/docker-r3v-toolchain-$COMPILER/releases/latest" | jq -r ".assets[0].browser_download_url")
