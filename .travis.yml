@@ -15,19 +15,9 @@ dependencies: &deps
 env:
  global:
  - secure: "R6z4r+FWg47EH8jf3wDjDwe2tFWnvFKkbktZne7Tz71pYcNElZIe3nv88KQ1r69rN8LCbXMMIk0KQd7c+hyI/djC8qjoMdMsp1iKETdsscybBZjlQvwT3xVYee9NQP4tSsTwr5bmvneB1H6WZhcpTaH3cux3T7YTmLRDLGmXjRSEnm9lWVo0tJ4upLnKkMH8x9ABs9E8WsQd5B73lau/aPe0+fWgwCiEBtNRyTmNV4feqANaf02jWB6qP3FHyw1VFkoB8Pnk/RWUzD+BpAo52gq2vzoFAgKojOGM+qHmTZ55r7IW83zhF8PUMLdZuwJyw8KQaC+op6RiLy+6PW1+o1HkG4tlxHjfvOMei0JMMmXTLSY/9KtQQBWWDDP2WN4aYzcPxfNyqfvTYXqLvrnDl4iySyR6K+rCwXygL9ial45OBJKoDh7ozF7lgOv+w0E7infK/phMLu57cVeUT0mfTuad0vO9K0aEt5I+KELW7nSJ6TenRWXGCk37LeXdIW7V2NLp4b3pJn2BvZ1TrQhDW336d+pJHgfDz9tUcUb+u3n2xWSgwxn2ayKDCbAVoL7QOcRSL+O/h0Z/pRrnsRxwNkIiudNOd5IBxRloKVehrzRSND1molgj37FMC0o1W/JDVKA4dJGbDCtJYi3XRJbflJvqxGZlveD4LR8mY9laCn0="
-
-matrix:
- include:
- - env:
-   - COMPILER=clang
-   - CXX=clang++-8
-   - CC=clang-8
-   - CXXFLAGS=-stdlib=libc++
-   - LDLIBS=-lc++
- - env:
-   - COMPILER=gcc
-   - CXX=g++-8
-   - CC=gcc-8
+ matrix:
+ - COMPILER=clang CC=clang-8 CXX=clang++-8 CXXFLAGS=-stdlib=libc++ LDLIBS=-lc++
+ - COMPILER=gcc   CC=gcc-8   CXX=g++-8
 
 script:
 - curl -IL "https://api.github.com/repos/bit2shift/docker-r3v-toolchain-$COMPILER/releases/latest?access_token=$TOKEN"
