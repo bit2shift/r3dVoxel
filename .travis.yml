@@ -21,4 +21,4 @@ env:
 
 script:
 - docker import $(curl -sL "https://api.github.com/repos/bit2shift/docker-r3v-toolchain-$COMPILER/releases/latest?access_token=$TOKEN" | jq -r ".assets[0].browser_download_url") r3v-toolchain
-- docker run --env COMPILER --env CC --env CXX --env CXXFLAGS --env LDLIBS --name r3v-build --rm r3v-toolchain /bin/bash
+- docker run --env COMPILER --env CC --env CXX --env CXXFLAGS --env LDLIBS --name r3v-build --rm r3v-toolchain bin/bash
