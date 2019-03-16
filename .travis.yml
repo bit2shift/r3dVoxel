@@ -29,4 +29,4 @@ matrix:
    - CC=gcc-8
 
 script:
-- docker import $(curl -sL -A bit2shift --oauth2-bearer $TOKEN "https://api.github.com/repos/bit2shift/docker-r3v-toolchain-$COMPILER/releases/latest" | jq -r ".assets[0].browser_download_url")
+- docker import $(curl -sL -A bit2shift --oauth2-bearer "$TOKEN" "https://api.github.com/repos/bit2shift/docker-r3v-toolchain-$COMPILER/releases/latest" | jq -r ".assets[0].browser_download_url")
