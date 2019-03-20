@@ -21,5 +21,5 @@ env:
 
 script:
 - docker import $(curl -sL "https://api.github.com/repos/bit2shift/docker-r3v-toolchain/releases/latest?access_token=$TOKEN" | jq -r ".assets[].browser_download_url | select(contains(\"$COMPILER\"))") r3v-toolchain-$COMPILER
-- docker run -d -e COMPILER -e CC -e CXX -e CXXFLAGS -e LDLIBS --name r3v-build --rm -v $(pwd):/r3dVoxel -w /r3dVoxel r3v-toolchain-$COMPILER bash
+- docker run -d -e COMPILER -e CC -e CXX -e CXXFLAGS -e LDLIBS --name r3v-build --rm -t -v $(pwd):/r3dVoxel -w /r3dVoxel r3v-toolchain-$COMPILER bash
 - docker exec r3v-build apt-get update
