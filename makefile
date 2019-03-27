@@ -21,9 +21,13 @@ CPPFLAGS += -MMD -MP -I$(CURDIR)/dep/glfw/deps -I$(CURDIR)/inc -DGLFW_INCLUDE_VU
 .PHONY: all build clean cleanall compile debug depbuild release
 
 all: depbuild debug
+depbuild:
+	$(file >dep/makefile,all:)
+	@jq -r '.dep | to_entries | map("\t@printf \("\u001B[36mBuilding \(.key)\u001B[m\\n" | @sh)\n\t@\(["cd \(.value.path)"] + .value.build | join(" && "))") | join("\n\n")' über.json >>dep/makefile
+	@$(MAKE) -Cdep
 
 # Piecewise makefiles that append to PKG_CONFIG_PATH
-include dep/*.mk
+#include dep/*.mk
 pkg-config := PKG_CONFIG_PATH=$(shell sed 's/ /:/g' <<< '$(PKG_CONFIG_PATH)') pkg-config $(shell basename -s.mk dep/*.mk)
 
 cleanall: clean
