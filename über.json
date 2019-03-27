@@ -1,0 +1,17 @@
+{
+	"flags": {
+		"common": {},
+		"debug": {},
+		"release": {}
+	},
+	"dep": {
+		"glfw3": {
+			"path": "glfw",
+			"pkgconfig": "lib/pkgconfig",
+			"build": [
+				"cmake -G'Unix Makefiles' -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=. -DGLFW_BUILD_DOCS=OFF -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF .",
+				"make all install"
+			]
+		}
+	}
+}
