@@ -29,6 +29,7 @@ all: depbuild debug
 depbuild:
 	@jq -r '"all:", (.dep | to_entries | map("\t@printf \("\u001B[36mBuilding \(.key)\u001B[m\\n" | @sh)\n\t@\(["cd \(.value.path)"] + .value.build | join(" && "))") | join("\n\n"))' über.json >dep/makefile
 	@$(MAKE) -Cdep
+	@$(RM) dep/makefile
 
 # Piecewise makefiles that append to PKG_CONFIG_PATH
 #include dep/*.mk
