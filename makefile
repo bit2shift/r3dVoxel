@@ -1,6 +1,11 @@
 # Le makefile
 SHELL := /bin/bash
 
+# Check if jq is installed.
+ifeq '' '$(shell jq --version 2>/dev/null)'
+$(error error: jq is missing)
+endif
+
 # Check if pkg-config is installed.
 ifeq '' '$(shell pkg-config --version 2>/dev/null)'
 $(error error: pkg-config is missing)
