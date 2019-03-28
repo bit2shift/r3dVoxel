@@ -4,7 +4,8 @@
 		"debug": {},
 		"release": {}
 	},
-	"dep": {
+	"dep": ["vulkan"],
+	"depbuild": {
 		"glfw3": {
 			"path": "glfw",
 			"pkgconfig": "lib/pkgconfig",

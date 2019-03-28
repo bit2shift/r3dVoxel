@@ -27,7 +27,7 @@ CPPFLAGS += -MMD -MP -I$(CURDIR)/dep/glfw/deps -I$(CURDIR)/inc -DGLFW_INCLUDE_VU
 
 all: depbuild debug
 depbuild:
-	@jq -r '"all:", (.dep | to_entries | map("\t@printf \("\u001B[36mBuilding \(.key)\u001B[m\\n" | @sh)\n\t@\(["cd \(.value.path)"] + .value.build | join(" && "))") | join("\n\n"))' über.json >dep/makefile
+	@jq -r '"all:", (.depbuild | to_entries | map("\t@printf \("\u001B[36mBuilding \(.key)\u001B[m\\n" | @sh)\n\t@\(["cd \(.value.path)"] + .value.build | join(" && "))") | join("\n\n"))' über.json >dep/makefile
 	@$(MAKE) -Cdep
 	@$(RM) dep/makefile
 
