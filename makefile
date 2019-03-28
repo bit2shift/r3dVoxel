@@ -31,8 +31,6 @@ depbuild:
 	@$(MAKE) -Cdep
 	@$(RM) dep/makefile
 
-# Piecewise makefiles that append to PKG_CONFIG_PATH
-#include dep/*.mk
 pkg-config := PKG_CONFIG_PATH=$(shell sed 's/ /:/g' <<< '$(PKG_CONFIG_PATH)') pkg-config $(shell jq -r '.dep + (.depbuild | to_entries | map(.key)) | join(" ")' über.json)
 
 cleanall: clean
