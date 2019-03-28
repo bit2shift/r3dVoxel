@@ -31,7 +31,7 @@ depbuild:
 	@$(MAKE) -Cdep
 	@$(RM) dep/makefile
 
-pkg-config := PKG_CONFIG_PATH=$(shell jq -r '.depbuild | to_entries | map(.value.path + "/" + .value.pkgconfig) | join(":")' über.json) pkg-config $(shell jq -r '.dep + (.depbuild | to_entries | map(.key)) | join(" ")' über.json)
+pkg-config := PKG_CONFIG_PATH=$(shell jq -r '.depbuild | to_entries | map("dep/\(.value.path)/\(.value.pkgconfig)") | join(":")' über.json) pkg-config $(shell jq -r '.dep + (.depbuild | to_entries | map(.key)) | join(" ")' über.json)
 
 cleanall: clean
 	@git submodule foreach 'git clean -dffqx; git reset --hard'
