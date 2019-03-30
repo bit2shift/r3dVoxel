@@ -2,12 +2,12 @@
 SHELL := /bin/bash
 
 # Check if jq is installed.
-ifeq '' '$(shell jq --version 2>/dev/null)'
+ifeq '' '$(shell jq --version 2> /dev/null)'
 $(error error: jq is missing)
 endif
 
 # Check if pkg-config is installed.
-ifeq '' '$(shell pkg-config --version 2>/dev/null)'
+ifeq '' '$(shell pkg-config --version 2> /dev/null)'
 $(error error: pkg-config is missing)
 endif
 
@@ -27,7 +27,7 @@ CPPFLAGS += -MMD -MP -I$(CURDIR)/dep/glfw/deps -I$(CURDIR)/inc -DGLFW_INCLUDE_VU
 
 all: depbuild debug
 depbuild:
-	@jq -r '"all:", (.depbuild | to_entries | map("\t@printf \("\u001B[36mBuilding \(.key)\u001B[m\\n" | @sh)\n\t@\(["cd \(.value.path)"] + .value.build | join(" && "))") | join("\n\n"))' über.json >dep/makefile
+	@jq -r '"all:", (.depbuild | to_entries | map("\t@printf \("\u001B[36mBuilding \(.key)\u001B[m\\n" | @sh)\n\t@\(["cd \(.value.path)"] + .value.build | join(" &&\\\n\t "))") | join("\n\n"))' über.json > dep/makefile
 	@$(MAKE) -Cdep
 	@$(RM) dep/makefile
 
