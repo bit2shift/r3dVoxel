@@ -19,9 +19,8 @@ else ifneq '' '$(findstring g++,$(CXX))'
 LDLIBS   = -lstdc++
 endif
 
-# Build flags
-CXXFLAGS += -std=c++17 -pedantic -Wall -Wconversion -Werror -Wextra -fPIC -fvisibility=hidden -msse2 -mstackrealign
-CPPFLAGS += -MMD -MP -I$(CURDIR)/dep/glfw/deps -I$(CURDIR)/inc -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT
+# Common build flags
+$(eval $(shell jq -r '.flags.common | to_entries | map("$$(eval \(.key)=\(.value))") | .[]' über.json))
 
 .PHONY: all build clean cleanall compile debug depbuild release
 
