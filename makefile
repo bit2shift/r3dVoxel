@@ -1,4 +1,4 @@
-# Le makefile
+# Le makefile.
 SHELL := /bin/bash
 
 # Check if jq is installed.
@@ -22,6 +22,7 @@ endif
 .PHONY: all build clean cleanall compile debug depbuild release
 
 all: depbuild debug
+
 depbuild:
 	@jq -r '"all:", (.depbuild | to_entries | map("\t@printf \("\u001B[36mBuilding \(.key)\u001B[m\\n" | @sh)\n\t@\(["cd \(.value.path)"] + .value.build | join(" &&\\\n\t "))") | join("\n\n"))' über.json > dep/makefile
 	@$(MAKE) -Cdep
@@ -35,25 +36,26 @@ clean:
 	@echo 'Cleaning...'
 	@$(RM) -r obj
 
-# Common build flags
+# Common build flags.
 $(eval $(shell jq -r '.flags.common | to_entries | map("$$(eval \(.key)+=\(.value))") | .[]' über.json))
 
-# Debug build flags
+# Debug build flags.
 $(eval $(shell jq -r '.flags.debug | to_entries | map("$$(eval debug: export \(.key)+=\(.value))") | .[]' über.json))
 debug: build
 
-# Release build flags
+# Release build flags.
 $(eval $(shell jq -r '.flags.release | to_entries | map("$$(eval release: export \(.key)+=\(.value))") | .[]' über.json))
 release: build
 
-# Precompiled pkg-config invocation
+# Precompiled pkg-config invocation.
 pkg-config := PKG_CONFIG_PATH=$(shell jq -r '.depbuild | to_entries | map("$(CURDIR)/dep/\(.value.path)/\(.value.pkgconfig)") | join(":")' über.json) pkg-config $(shell jq -r '.dep + (.depbuild | to_entries | map(.key)) | join(" ")' über.json)
 
-# Dependency flags
+# Dependency flags.
 build: export CPPFLAGS += $(shell $(pkg-config) --static --cflags)
 build: export LDFLAGS  += $(shell $(pkg-config) --static --libs-only-L --libs-only-other)
 build: export LDLIBS   += $(shell $(pkg-config) --static --libs-only-l)
 
+# Le build.
 build: export CPPFLAGS += -MMD -MP
 build: SRC != find src -name '*.cpp' -printf '%P '
 build: $(shell find src -name '*.mk')
