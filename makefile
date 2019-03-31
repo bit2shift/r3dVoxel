@@ -20,7 +20,7 @@ LDLIBS   = -lstdc++
 endif
 
 # Common build flags
-$(eval $(shell jq -r '.flags.common | to_entries | map("$$(eval \(.key)=\(.value))") | .[]' über.json))
+$(eval $(shell jq -r '.flags.common | to_entries | map("$$(eval \(.key)+=\(.value))") | .[]' über.json))
 
 .PHONY: all build clean cleanall compile debug depbuild release
 
