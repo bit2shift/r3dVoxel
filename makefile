@@ -27,8 +27,6 @@ depbuild:
 	@$(MAKE) -Cdep
 	@$(RM) dep/makefile
 
-pkg-config := PKG_CONFIG_PATH=$(shell jq -r '.depbuild | to_entries | map("$(CURDIR)/dep/\(.value.path)/\(.value.pkgconfig)") | join(":")' über.json) pkg-config $(shell jq -r '.dep + (.depbuild | to_entries | map(.key)) | join(" ")' über.json)
-
 cleanall: clean
 	@git submodule foreach 'git clean -dffqx; git reset --hard'
 	@$(RM) -r bin
@@ -48,6 +46,9 @@ debug: build
 $(eval $(shell jq -r '.flags.release | to_entries | map("$$(eval release: export \(.key)+=\(.value))") | .[]' über.json))
 release: build
 
+pkg-config := PKG_CONFIG_PATH=$(shell jq -r '.depbuild | to_entries | map("$(CURDIR)/dep/\(.value.path)/\(.value.pkgconfig)") | join(":")' über.json) pkg-config $(shell jq -r '.dep + (.depbuild | to_entries | map(.key)) | join(" ")' über.json)
+
+# Dependency flags
 build: export CPPFLAGS += $(shell $(pkg-config) --static --cflags)
 build: export LDFLAGS  += $(shell $(pkg-config) --static --libs-only-L --libs-only-other)
 build: export LDLIBS   += $(shell $(pkg-config) --static --libs-only-l)
