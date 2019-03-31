@@ -44,7 +44,8 @@ clean:
 $(eval $(shell jq -r '.flags.debug | to_entries | map("$$(eval debug: export \(.key)+=\(.value))") | .[]' über.json))
 debug: build
 
-release: export CXXFLAGS += -O3
+# Release build flags
+$(eval $(shell jq -r '.flags.release | to_entries | map("$$(eval release: export \(.key)+=\(.value))") | .[]' über.json))
 release: build
 
 build: export CPPFLAGS += $(shell $(pkg-config) --static --cflags)
