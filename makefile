@@ -13,10 +13,10 @@ endif
 
 # Detect if CXX is clang++ or g++.
 ifneq '' '$(findstring clang++,$(CXX))'
-CXXFLAGS = -stdlib=libc++
-LDLIBS   = -lc++
+CXXFLAGS += -stdlib=libc++
+LDLIBS   += -lc++
 else ifneq '' '$(findstring g++,$(CXX))'
-LDLIBS   = -lstdc++
+LDLIBS   += -lstdc++
 endif
 
 .PHONY: all build clean cleanall compile debug depbuild release
