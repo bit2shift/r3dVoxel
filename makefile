@@ -40,7 +40,8 @@ clean:
 	@echo 'Cleaning...'
 	@$(RM) -r obj
 
-debug: export CXXFLAGS += -O0 -g3
+# Debug build flags
+$(eval $(shell jq -r '.flags.debug | to_entries | map("$$(eval debug: export \(.key)+=\(.value))") | .[]' über.json))
 debug: build
 
 release: export CXXFLAGS += -O3
