@@ -11,7 +11,9 @@
 			"CXXFLAGS": "-O3"
 		}
 	},
-	"dep": ["vulkan"],
+	"dep": [
+		"vulkan"
+	],
 	"depbuild": {
 		"glfw3": {
 			"path": "glfw",
