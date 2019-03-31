@@ -46,6 +46,7 @@ debug: build
 $(eval $(shell jq -r '.flags.release | to_entries | map("$$(eval release: export \(.key)+=\(.value))") | .[]' über.json))
 release: build
 
+# Precompiled pkg-config invocation
 pkg-config := PKG_CONFIG_PATH=$(shell jq -r '.depbuild | to_entries | map("$(CURDIR)/dep/\(.value.path)/\(.value.pkgconfig)") | join(":")' über.json) pkg-config $(shell jq -r '.dep + (.depbuild | to_entries | map(.key)) | join(" ")' über.json)
 
 # Dependency flags
