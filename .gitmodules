@@ -1,4 +1,4 @@
-[submodule "dep/glfw"]
+[submodule "glfw3"]
 	url = https://github.com/glfw/glfw.git
 	branch = latest
 	path = dep/glfw
