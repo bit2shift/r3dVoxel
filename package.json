@@ -5,6 +5,6 @@
 	"license": "LGPL-3.0-only",
 	"repository": "github:bit2shift/r3dVoxel",
 	"devDependencies": {
-		"glfw3": "glfw/glfw\/latest"
+		"glfw3": "glfw/glfw#latest"
 	}
 }
