@@ -1,0 +1,27 @@
+{
+	"flags": {
+		"common": {
+			"CXXFLAGS": "-std=c++17 -pedantic -Wall -Wconversion -Werror -Wextra -fPIC -fvisibility=hidden -msse2 -mstackrealign",
+			"CPPFLAGS": "-I$(CURDIR)/dep/glfw/deps -I$(CURDIR)/inc -DGLFW_INCLUDE_VULKAN -DR3V_EXPORT"
+		},
+		"debug": {
+			"CXXFLAGS": "-O0 -g3"
+		},
+		"release": {
+			"CXXFLAGS": "-O3"
+		}
+	},
+	"dep": [
+		"vulkan"
+	],
+	"depbuild": {
+		"glfw3": {
+			"path": "glfw",
+			"pkgconfig": "lib/pkgconfig",
+			"build": [
+				"cmake -G'Unix Makefiles' -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=. -DGLFW_BUILD_DOCS=OFF -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF .",
+				"make all install"
+			]
+		}
+	}
+}
