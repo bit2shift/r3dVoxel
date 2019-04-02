@@ -24,9 +24,7 @@ endif
 all: depbuild debug
 
 depbuild:
-	@jq -r '"all:", (.depbuild | to_entries | map("\t@printf \("\u001B[36mBuilding \(.key)\u001B[m\\n" | @sh)\n\t@\(["cd \(.value.path)"] + .value.build | join(" &&\\\n\t "))") | join("\n\n"))' über.json > dep/makefile
-	@$(MAKE) -Cdep
-	@$(RM) dep/makefile
+	@git submodule foreach 'jq -r ".depbuild.$$name.build | arrays, strings | @sh" $$toplevel/über.json | xargs -rn1 sh -c'
 
 cleanall: clean
 	@git submodule foreach 'git clean -dffqx; git reset --hard'
