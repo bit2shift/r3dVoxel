@@ -46,7 +46,7 @@ $(eval $(shell jq -r '.flags.release | to_entries | map("$$(eval release: export
 release: build
 
 # Precompiled pkg-config invocation.
-pkg-config := PKG_CONFIG_PATH+=$(shell find $(CURDIR) -name '*.pc' -printf ':%h') pkg-config $(shell jq -r '.dependencies | to_entries | map(.key) | @sh' über.json)
+pkg-config = $(eval pkg-config := PKG_CONFIG_PATH+=$(shell find $(CURDIR) -name '*.pc' -printf ':%h') pkg-config $(shell jq -r '.dependencies | to_entries | map(.key) | @sh' über.json))$(pkg-config)
 
 # Dependency flags.
 build: export CPPFLAGS += $(shell $(pkg-config) --static --cflags)
