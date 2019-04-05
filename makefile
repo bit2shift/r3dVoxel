@@ -24,7 +24,7 @@ endif
 all: depbuild debug
 
 depbuild:
-	@git submodule foreach 'jq -r ".dependencies.$$name | arrays, strings | @sh" $$toplevel/über.json | xargs -rn1 $(SHELL) -c'
+	@git submodule foreach 'jq -r ".dependencies.$$name.build | arrays, strings | @sh" $$toplevel/über.json | xargs -rn1 $(SHELL) -c'
 
 cleanall: clean
 	@git submodule foreach 'git clean -dffqx; git reset --hard'
