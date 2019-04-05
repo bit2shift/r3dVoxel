@@ -46,12 +46,12 @@ $(eval $(shell jq -r '.flags.release // {} | to_entries | map("$$(eval release: 
 release: build
 
 # Precompiled pkg-config invocation.
-pkg-config = $(eval pkg-config := PKG_CONFIG_PATH+=$(shell find $(CURDIR) -name '*.pc' -printf ':%h') pkg-config $(shell jq -r '.dependencies // {} | to_entries | map(.key) | @sh' über.json))$(pkg-config)
+pkg-config != jq -r '.dependencies // {} | to_entries | .[] | [(select(.value.static) | "--static"), .key] | "$$(shell PKG_CONFIG_PATH+=$(shell find $(CURDIR) -name '*.pc' -printf ':%h') pkg-config $$(1) \(join(" ")))"' über.json
 
 # Dependency flags.
-build: export CPPFLAGS += $(shell $(pkg-config) --static --cflags)
-build: export LDFLAGS  += $(shell $(pkg-config) --static --libs-only-L --libs-only-other)
-build: export LDLIBS   += $(shell $(pkg-config) --static --libs-only-l)
+build: export CPPFLAGS += $(call pkg-config,--cflags)
+build: export LDFLAGS  += $(call pkg-config,--libs-only-L --libs-only-other)
+build: export LDLIBS   += $(call pkg-config,--libs-only-l)
 
 # Le build.
 build: export CPPFLAGS += -MMD -MP
