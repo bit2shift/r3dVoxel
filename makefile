@@ -24,7 +24,7 @@ endif
 all: depbuild debug
 
 depbuild:
-	@git submodule foreach 'jq -r ".depbuild.$$name.build | arrays, strings | @sh" $$toplevel/über.json | xargs -rn1 sh -c'
+	@git submodule foreach 'jq -r ".dependencies.$$name | arrays, strings | @sh" $$toplevel/über.json | xargs -rn1 sh -c'
 
 cleanall: clean
 	@git submodule foreach 'git clean -dffqx; git reset --hard'
@@ -46,7 +46,7 @@ $(eval $(shell jq -r '.flags.release | to_entries | map("$$(eval release: export
 release: build
 
 # Precompiled pkg-config invocation.
-pkg-config := PKG_CONFIG_PATH+=$(shell find $(CURDIR) -name '*.pc' -printf ':%h') pkg-config $(shell jq -r '.dep + (.depbuild | to_entries | map(.key)) | join(" ")' über.json)
+pkg-config := PKG_CONFIG_PATH+=$(shell find $(CURDIR) -name '*.pc' -printf ':%h') pkg-config $(shell jq -r '.dependencies | to_entries | map(.key) | @sh' über.json)
 
 # Dependency flags.
 build: export CPPFLAGS += $(shell $(pkg-config) --static --cflags)
