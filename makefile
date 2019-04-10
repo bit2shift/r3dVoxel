@@ -35,14 +35,14 @@ clean:
 	@$(RM) -r obj
 
 # Common build flags.
-$(eval $(shell jq -r '.flags.common // {} | to_entries | map("$$(eval \(.key)+=\(.value))") | .[]' über.json))
+$(eval $(shell jq -r '.flags.common // {} | to_entries | .[] | "$$(eval \(.key)+=\(.value))"' über.json))
 
 # Debug build flags.
-$(eval $(shell jq -r '.flags.debug // {} | to_entries | map("$$(eval debug: export \(.key)+=\(.value))") | .[]' über.json))
+$(eval $(shell jq -r '.flags.debug // {} | to_entries | .[] | "$$(eval debug: export \(.key)+=\(.value))"' über.json))
 debug: build
 
 # Release build flags.
-$(eval $(shell jq -r '.flags.release // {} | to_entries | map("$$(eval release: export \(.key)+=\(.value))") | .[]' über.json))
+$(eval $(shell jq -r '.flags.release // {} | to_entries | .[] | "$$(eval release: export \(.key)+=\(.value))"' über.json))
 release: build
 
 # Precompiled pkg-config invocation.
@@ -57,7 +57,7 @@ build: export LDLIBS   += $(call pkg-config,--libs-only-l)
 # Le build.
 build: export CPPFLAGS += -MMD -MP
 build: SRC != find src -name '*.cpp' -printf '%P '
-build: $(shell jq -r '.targets | to_entries | map("bin/\(.key)") | join(" ")' über.json)
+build: $(shell jq -r '.targets | to_entries | .[] | "bin/\(.key)"' über.json)
 
 bin/%: compile | bin
 	@$(MAKE)\
