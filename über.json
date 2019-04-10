@@ -11,6 +11,21 @@
 			"CXXFLAGS": "-O3"
 		}
 	},
+	"targets": {
+		"r3dVoxel/r3dVoxel.dso": {
+			"flags": {
+				"LDFLAGS": "-shared",
+				"DERP": "derp",
+				"BLAH": "blah",
+				"FOO": "foo"
+			},
+			"objects": "r3dVoxel/%"
+		},
+		"test/test_bloom_filter": {
+			"flags": {},
+			"objects": "test/test_bloom_filter.o"
+		}
+	},
 	"dependencies": {
 		"vulkan": {
 			"static": false

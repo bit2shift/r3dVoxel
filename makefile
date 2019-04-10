@@ -57,15 +57,17 @@ build: export LDLIBS   += $(call pkg-config,--libs-only-l)
 # Le build.
 build: export CPPFLAGS += -MMD -MP
 build: SRC != find src -name '*.cpp' -printf '%P '
-build: $(shell find src -name '*.mk')
+build: $(shell jq -r '.targets | to_entries | map("bin/\(.key)") | join(" ")' über.json)
 
-src/%.mk: compile | bin
+bin/%: compile | bin
 	@$(MAKE)\
 		-Cbin\
-		-f'$(CURDIR)/$@'\
+		$(shell jq -r '.targets."$*".flags // {} | to_entries | .[] | @sh "--eval=\("$*: \(.key)+=\(.value)")"' über.json)\
+		--eval='$*: $(shell jq -r '.targets."$*".objects | (arrays | join(" ")), strings | "$$(filter \(.),$$(OBJ))"' über.json)'\
 		VPATH='$(CURDIR)/obj'\
 		CC='@echo "Linking [$$@]"; mkdir -p $$(@D); $(CC)'\
-		OBJ='$(SRC:.cpp=.o)'
+		OBJ='$(SRC:.cpp=.o)'\
+		$*
 
 compile: | obj
 	@$(MAKE)\
