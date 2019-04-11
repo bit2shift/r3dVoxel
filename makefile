@@ -62,7 +62,7 @@ build: $(shell jq -r '.targets | to_entries | .[] | "bin/\(.key)"' über.json)
 bin/%: compile | bin
 	@$(MAKE)\
 		-Cbin\
-		$(shell jq -r '.targets."$*" | (.flags // {} | to_entries | .[] | "\(.key)+=\(.value)"), "$$(filter \(.objects | (arrays | join(" ")), strings),$$(OBJ))" | "$*: \(.)" | "--eval=\(@sh)"' über.json)\
+		$(shell jq -r '.targets."$*" | (.flags // {} | to_entries | .[] | "\(.key)+=\(.value)"), "$$(filter \(.objects | (arrays | join(" ")), strings),$$(OBJ))" | @sh "--eval=\("$*: \(.)")"' über.json)\
 		VPATH='$(CURDIR)/obj'\
 		CC='@echo "Linking [$$@]"; mkdir -p $$(@D); $(CC)'\
 		OBJ='$(SRC:.cpp=.o)'\
