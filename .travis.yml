@@ -12,9 +12,9 @@ env:
  global:
  - secure: "VprrbfxHNduBrYbNX72jA9MiFXfxzZQEN953UJReslL9qKvMCarvNmzwcrDMow8tEsH38I9o3acYq/+QMMDWlg4UTW78rg+JDKo1VtuWdDyPxWG4Yl89hceh3Rr9bORDVjapPDH5OeIUudkB7S6qyBrwo+bQdlg5kcYd03WN9fp2NYRxCkxPuEEe52p/tNKRMdnrtwlUnpEXI4Fc6ti8+sdsoYTmo+JUFE7sqfEuJaO68JuTMpzgcIE/PWEH7gIGKzAl8m5ucTawAJjGpSgmsi6ZyHPqnTldYRJrEfUZ6qdYydqEmD86CEDZPnZHmLhcNwW4JHYA14SsRVbTikZ3LG+ijnZUuBV+eA+I7gaYtIBN+abqjCgFC5TT5bvCPAoe0tEtpspZEn0i4URx2gmNCVdhWMfUv735zFVxGaEjzgMn32fbVCLJKKFjxZQiqhrku+2Gd3ge/jt8DtZ+Z6/5Lgd5+HpzPh7GV3aR3OnaVA0pY4GSvwxRkCaqlk0MA/KZBr4FFC4t31HXx9NcZHpN2PEYtM3S9MQ1UzodtBD9r3RSoTtHkJzr7Ayz5z3ZK/cDW+0LWINc/o7sDBR+KtZsUMCXHEWZzeD+AvwxmCPTG/U3sZvdcNXTiL1uQaTDP0aO17rtTHaXUGsEYJYKuFEMfPDjXExJOuq+VnwRqk3JePY="
  matrix:
- - COMPILER=clang CC=clang-8 CXX=clang++-8
- - COMPILER=gcc   CC=gcc-8   CXX=g++-8
+ - TOOLCHAIN=clang CC=clang-8 CXX=clang++-8
+ - TOOLCHAIN=gcc   CC=gcc-8   CXX=g++-8
 
 script:
-- docker import $(curl -sL "https://api.github.com/repos/bit2shift/docker-r3v-toolchain/releases/latest?access_token=$TOKEN" | jq -r ".assets[].browser_download_url | select(contains(\"$COMPILER\"))") r3v-toolchain-$COMPILER
-- docker run -e CC -e CXX --rm -v $(pwd):/r3dVoxel -w /r3dVoxel r3v-toolchain-$COMPILER make
+- docker import $(curl -sL "https://api.github.com/repos/bit2shift/docker-r3v-toolchain/releases/latest?access_token=$TOKEN" | jq -r ".assets[].browser_download_url | select(contains(\"$TOOLCHAIN\"))") r3v-toolchain-$TOOLCHAIN
+- docker run -e CC -e CXX --rm -v $(pwd):/r3dVoxel -w /r3dVoxel r3v-toolchain-$TOOLCHAIN make devall
