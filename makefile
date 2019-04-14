@@ -19,9 +19,10 @@ else ifneq '' '$(findstring g++,$(CXX))'
 LDLIBS   += -lstdc++
 endif
 
-.PHONY: all build clean cleanall compile debug depbuild release
+.PHONY: all build clean cleanall compile debug depbuild devall release
 
-all: depbuild debug
+all: depbuild release
+devall: depbuild debug
 
 depbuild:
 	@git submodule foreach 'jq -r ".dependencies.$$name.build | arrays, strings | @sh" $$toplevel/über.json | xargs -rn1 $(SHELL) -c'
