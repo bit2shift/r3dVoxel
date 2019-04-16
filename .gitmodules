@@ -1,11 +1,11 @@
-[submodule "glfw3"]
-	url = https://github.com/glfw/glfw.git
-	branch = latest
-	path = dep/glfw
-	ignore = all
-
 [submodule "über.mk"]
 	url = https://github.com/bit2shift/uber.mk
 	branch = avelã
 	path = über.mk
+	ignore = all
+
+[submodule "glfw3"]
+	url = https://github.com/glfw/glfw.git
+	branch = latest
+	path = dep/glfw
 	ignore = all
