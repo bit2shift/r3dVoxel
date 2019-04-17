@@ -23,9 +23,6 @@
 		}
 	},
 	"dependencies": {
-		"vulkan": {
-			"static": false
-		},
 		"glfw3": {
 			"static": true,
 			"build": [
