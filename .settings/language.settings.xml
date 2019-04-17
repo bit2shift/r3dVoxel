@@ -6,7 +6,6 @@
 			<provider-reference id="org.eclipse.cdt.core.ReferencedProjectsLanguageSettingsProvider" ref="shared-provider"/>
 			<provider class="org.eclipse.cdt.core.language.settings.providers.LanguageSettingsGenericProvider" id="r3dVoxel" name="r3dVoxel Settings" store-entries-with-project="true">
 				<language id="org.eclipse.cdt.core.g++">
-					<entry kind="includePath" name="${workspace_loc:/r3dVoxel/dep/glfw/include}"/>
 					<entry kind="includePath" name="${workspace_loc:/r3dVoxel/inc}"/>
 					<entry kind="macro" name="GLFW_INCLUDE_VULKAN" value="1"/>
 					<entry kind="macro" name="R3V_EXPORT" value="1"/>
