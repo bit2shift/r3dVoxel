@@ -5,6 +5,7 @@
 #include <r3dVoxel/ILogger.hpp>
 #include <r3dVoxel/r3vABI.hpp>
 
+#include <vulkan/vulkan.hpp>
 #include <GLFW/glfw3.h>
 
 R3VAPI void* r3vMalloc(std::size_t size) noexcept
